@@ -26,4 +26,8 @@ public class HostParams {
     public Map<String, RouterOptions> getRoutes() {
         return _routes;
     }
+
+    public String getHost() {
+        return host;
+    }
 }

@@ -109,7 +109,7 @@ public class Router {
             hostParams = hosts.get(uri.getPath());
         } else {
             hostParams = new HostParams(uri.getHost());
-            hosts.put(uri.getPath(), hostParams);
+            hosts.put(hostParams.getHost(), hostParams);
         }
         hostParams.setRoute(uri.getPath(), options);
     }
@@ -321,8 +321,6 @@ public class Router {
      * each of the parameters (like ":id") has been parsed.
      */
     private RouterParams paramsForUrl(String url) {
-        final String cleanedUrl = cleanUrl(url);
-
         Uri parsedUri = Uri.parse(url);
 
         String urlPath = parsedUri.getPath().substring(1);
@@ -372,7 +370,7 @@ public class Router {
             routerParams.openParams.put(key, parsedUri.getQueryParameter(key));
         }
 
-        this._cachedRoutes.put(cleanedUrl, routerParams);
+        this._cachedRoutes.put(url, routerParams);
         return routerParams;
     }
 
