@@ -22,7 +22,7 @@ public class RouterUtils {
 
             if (routerPart.charAt(0) == ':') {
                 String key = routerPart.substring(1, routerPart.length());
-                if (TextUtils.equals(":symbol", routerPart)) {
+                if (TextUtils.equals(":string", routerPart)) {
                     formatParams.put(key, givenPart);
                     continue;
                 }

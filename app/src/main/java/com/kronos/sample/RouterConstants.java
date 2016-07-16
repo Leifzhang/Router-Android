@@ -8,5 +8,6 @@ import com.kronos.router.Router;
 public class RouterConstants {
     public static void init() {
         Router.sharedRouter().map("https://github.com/leifzhang", TestActivity.class);
+        Router.sharedRouter().map("https://wwww.baidu.com/:string", TestActivity.class);
     }
 }

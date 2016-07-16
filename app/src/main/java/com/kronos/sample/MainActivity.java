@@ -2,6 +2,7 @@ package com.kronos.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.kronos.router.Router;
 
@@ -21,5 +22,17 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.routerTesting)
     public void onClick() {
         Router.sharedRouter().open("https://github.com/leifzhang", this);
+    }
+
+    @OnClick({R.id.routerTesting, R.id.routerBaidu})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.routerTesting:
+                Router.sharedRouter().open("https://github.com/leifzhang", this);
+                break;
+            case R.id.routerBaidu:
+                Router.sharedRouter().open("https://wwww.baidu.com/hellobaidu", this);
+                break;
+        }
     }
 }
