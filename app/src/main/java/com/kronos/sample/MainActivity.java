@@ -19,11 +19,6 @@ public class MainActivity extends AppCompatActivity {
         RouterConstants.init();
     }
 
-    @OnClick(R.id.routerTesting)
-    public void onClick() {
-        Router.sharedRouter().open("https://github.com/leifzhang", this);
-    }
-
     @OnClick({R.id.routerTesting, R.id.routerBaidu})
     public void onClick(View view) {
         switch (view.getId()) {
