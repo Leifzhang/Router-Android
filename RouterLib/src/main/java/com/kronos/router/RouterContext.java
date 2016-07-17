@@ -19,23 +19,14 @@ public class RouterContext {
         _context = context;
     }
 
-    /**
-     * Returns the route parameters as specified by the configured route
-     */
     public Map<String, String> getParams() {
         return _params;
     }
 
-    /**
-     * Returns the extras supplied with the route
-     */
     public Bundle getExtras() {
         return _extras;
     }
 
-    /**
-     * Returns the Android Context that should be used to open the route
-     */
     public Context getContext() {
         return _context;
     }

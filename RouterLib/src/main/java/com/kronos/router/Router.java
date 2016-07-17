@@ -23,13 +23,8 @@ import java.util.Map.Entry;
 
 public class Router {
 
-
     private static Router _router;
 
-    /**
-     * A globally accessible Router instance that will work for
-     * most use cases.
-     */
     public static Router sharedRouter() {  // 第一次检查
         if (_router == null) {
             synchronized (Router.class) {
@@ -42,8 +37,6 @@ public class Router {
         return _router;
     }
 
-
-    private String _rootUrl = null;
     private final Map<String, RouterParams> _cachedRoutes = new HashMap<String, RouterParams>();
     private Context _context;
     private final Map<String, HostParams> hosts = new HashMap<>();
@@ -61,42 +54,20 @@ public class Router {
         this._context = context;
     }
 
-    /**
-     * @return The context for the router
-     */
     public Context getContext() {
         return this._context;
     }
 
-    /**
-     * Map a URL to a callback
-     *
-     * @param url      The URL being mapped; for example, "users/:id" or "groups/:id/topics/:topic_id"
-     * @param callback {@link RouterCallback} instance which contains the code to execute when the URL is opened
-     */
     public void map(String url, RouterCallback callback) {
         RouterOptions options = new RouterOptions();
         options.setCallback(callback);
         this.map(url, null, options);
     }
 
-    /**
-     * Map a URL to open an {@link Activity}
-     *
-     * @param url   The URL being mapped; for example, "users/:id" or "groups/:id/topics/:topic_id"
-     * @param klass The {@link Activity} class to be opened with the URL
-     */
     public void map(String url, Class<? extends Activity> klass) {
         this.map(url, klass, null);
     }
 
-    /**
-     * Map a URL to open an {@link Activity}
-     *
-     * @param url     The URL being mapped; for example, "users/:id" or "groups/:id/topics/:topic_id"
-     * @param klass   The {@link Activity} class to be opened with the URL
-     * @param options The {@link RouterOptions} to be used for more granular and customized options for when the URL is opened
-     */
     public void map(String url, Class<? extends Activity> klass, RouterOptions options) {
         if (options == null) {
             options = new RouterOptions();
@@ -142,42 +113,18 @@ public class Router {
         context.startActivity(intent);
     }
 
-    /**
-     * Open a map'd URL set using {@link #map(String, Class)} or {@link #map(String, RouterCallback)}
-     *
-     * @param url The URL; for example, "users/16" or "groups/5/topics/20"
-     */
     public void open(String url) {
         this.open(url, this._context);
     }
 
-    /**
-     * Open a map'd URL set using {@link #map(String, Class)} or {@link #map(String, RouterCallback)}
-     *
-     * @param url    The URL; for example, "users/16" or "groups/5/topics/20"
-     * @param extras The {@link Bundle} which contains the extras to be assigned to the generated {@link Intent}
-     */
     public void open(String url, Bundle extras) {
         this.open(url, extras, this._context);
     }
 
-    /**
-     * Open a map'd URL set using {@link #map(String, Class)} or {@link #map(String, RouterCallback)}
-     *
-     * @param url     The URL; for example, "users/16" or "groups/5/topics/20"
-     * @param context The context which is used in the generated {@link Intent}
-     */
     public void open(String url, Context context) {
         this.open(url, null, context);
     }
 
-    /**
-     * Open a map'd URL set using {@link #map(String, Class)} or {@link #map(String, RouterCallback)}
-     *
-     * @param url     The URL; for example, "users/16" or "groups/5/topics/20"
-     * @param extras  The {@link Bundle} which contains the extras to be assigned to the generated {@link Intent}
-     * @param context The context which is used in the generated {@link Intent}
-     */
     public void open(String url, Bundle extras, Context context) {
         if (context == null) {
             throw new ContextNotProvided(
@@ -221,10 +168,7 @@ public class Router {
         }
     }
 
-    /**
-     * @param url The URL; for example, "users/16" or "groups/5/topics/20"
-     * @return The {@link Intent} for the url
-     */
+
     public Intent intentFor(String url) {
         RouterParams params = this.paramsForUrl(url);
 
@@ -245,21 +189,14 @@ public class Router {
         return intent;
     }
 
-    /**
-     * @param url The URL to check
-     * @return Whether or not the URL refers to an anonymous callback function
-     */
+
     public boolean isCallbackUrl(String url) {
         RouterParams params = this.paramsForUrl(url);
         RouterOptions options = params.routerOptions;
         return options.getCallback() != null;
     }
 
-    /**
-     * @param context The context which is spawning the intent
-     * @param url     The URL; for example, "users/16" or "groups/5/topics/20"
-     * @return The {@link Intent} for the url, with the correct {@link Activity} set, or null.
-     */
+
     public Intent intentFor(Context context, String url) {
         RouterParams params = this.paramsForUrl(url);
 
@@ -278,10 +215,7 @@ public class Router {
         return intent;
     }
 
-    /*
-     * Takes a url (i.e. "/users/16/hello") and breaks it into a {@link RouterParams} instance where
-     * each of the parameters (like ":id") has been parsed.
-     */
+
     private RouterParams paramsForUrl(String url) {
         Uri parsedUri = Uri.parse(url);
 
@@ -337,12 +271,6 @@ public class Router {
     }
 
 
-    /**
-     * Clean up url
-     *
-     * @param url
-     * @return cleaned url
-     */
     private String cleanUrl(String url) {
         if (url.startsWith("/")) {
             return url.substring(1, url.length());

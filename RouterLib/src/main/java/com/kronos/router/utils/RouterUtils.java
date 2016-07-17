@@ -9,11 +9,7 @@ import java.util.Map;
  * Created by zhangyang on 16/7/16.
  */
 public class RouterUtils {
-    /**
-     * @param givenUrlSegments  An array representing the URL path attempting to be opened (i.e. ["users", "42"])
-     * @param routerUrlSegments An array representing a possible URL match for the router (i.e. ["users", ":id"])
-     * @return A map of URL parameters if it's a match (i.e. {"id" => "42"}) or null if there is no match
-     */
+
     public static Map<String, String> urlToParamsMap(String[] givenUrlSegments, String[] routerUrlSegments) {
         Map<String, String> formatParams = new HashMap<String, String>();
         for (int index = 0; index < routerUrlSegments.length; index++) {
