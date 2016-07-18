@@ -21,6 +21,15 @@ allprojects {
     }
 }
 
+def supportVersion = "23.4.0"
+
+ext {
+    supportV4 = "com.android.support:support-v4:${supportVersion}"
+    recyclerview = "com.android.support:recyclerview-v7:${supportVersion}"
+    appcompat = "com.android.support:appcompat-v7:${supportVersion}"
+    supportV13 = "com.android.support:support-v13:${supportVersion}"
+    design = "com.android.support:design:${supportVersion}"
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

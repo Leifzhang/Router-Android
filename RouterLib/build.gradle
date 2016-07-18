@@ -24,6 +24,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile rootProject.ext.supportV4
 }
 
 def siteUrl = 'https://github.com/Leifzhang/AndroidRouter' // 项目的主页

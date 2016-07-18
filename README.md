@@ -1,5 +1,5 @@
 # AndroidRouter
-###It's an Android Route Library.
+It's an Android Route Library.
 ## Usage
 Add this line to your `build.gradle` file under your module directory. 
 ```
