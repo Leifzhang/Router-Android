@@ -76,7 +76,7 @@ public class Router {
         options.setOpenClass(klass);
         HostParams hostParams;
         if (hosts.containsKey(uri.getHost())) {
-            hostParams = hosts.get(uri.getPath());
+            hostParams = hosts.get(uri.getHost());
         } else {
             hostParams = new HostParams(uri.getHost());
             hosts.put(hostParams.getHost(), hostParams);
