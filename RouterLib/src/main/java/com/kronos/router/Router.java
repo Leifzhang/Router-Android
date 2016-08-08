@@ -179,9 +179,7 @@ public class Router {
         RouterOptions options = params.routerOptions;
         Intent intent = new Intent();
         if (options.getDefaultParams() != null) {
-            for (Entry<String, String> entry : options.getDefaultParams().entrySet()) {
-                intent.putExtra(entry.getKey(), entry.getValue());
-            }
+            intent.putExtras(options.getDefaultParams());
         }
         for (Entry<String, String> entry : params.openParams.entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());

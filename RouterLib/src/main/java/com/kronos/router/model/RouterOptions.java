@@ -1,10 +1,9 @@
 package com.kronos.router.model;
 
 import android.app.Activity;
+import android.os.Bundle;
 
 import com.kronos.router.RouterCallback;
-
-import java.util.Map;
 
 /**
  * Created by zhangyang on 16/7/16.
@@ -12,7 +11,7 @@ import java.util.Map;
 public class RouterOptions {
     Class<? extends Activity> _activityClass;
     RouterCallback _callback;
-    Map<String, String> _defaultParams;
+    Bundle _defaultParams;
 
     public RouterOptions() {
 
@@ -22,11 +21,11 @@ public class RouterOptions {
         this.setOpenClass(klass);
     }
 
-    public RouterOptions(Map<String, String> defaultParams) {
+    public RouterOptions(Bundle defaultParams) {
         this.setDefaultParams(defaultParams);
     }
 
-    public RouterOptions(Map<String, String> defaultParams, Class<? extends Activity> klass) {
+    public RouterOptions(Bundle defaultParams, Class<? extends Activity> klass) {
         this.setDefaultParams(defaultParams);
         this.setOpenClass(klass);
     }
@@ -47,11 +46,11 @@ public class RouterOptions {
         this._callback = callback;
     }
 
-    public void setDefaultParams(Map<String, String> defaultParams) {
+    public void setDefaultParams(Bundle defaultParams) {
         this._defaultParams = defaultParams;
     }
 
-    public Map<String, String> getDefaultParams() {
+    public Bundle getDefaultParams() {
         return this._defaultParams;
     }
 }
