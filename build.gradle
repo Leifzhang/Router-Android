@@ -22,7 +22,7 @@ allprojects {
     }
 }
 
-def supportVersion = "23.4.0"
+def supportVersion = "24.2.0"
 
 ext {
     supportV4 = "com.android.support:support-v4:${supportVersion}"

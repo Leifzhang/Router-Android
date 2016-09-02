@@ -15,7 +15,9 @@ public class RouterUtils {
         for (int index = 0; index < routerUrlSegments.length; index++) {
             String routerPart = routerUrlSegments[index];
             String givenPart = givenUrlSegments[index];
-
+            if (TextUtils.equals(routerPart, givenPart)) {
+                continue;
+            }
             if (routerPart.charAt(0) == ':') {
                 String key = routerPart.substring(1, routerPart.length());
                 if (TextUtils.equals(":string", routerPart)) {

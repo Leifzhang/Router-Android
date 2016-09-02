@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.kronos.router.exception.ContextNotProvided;
@@ -64,16 +66,29 @@ public class Router {
         this.map(url, null, options);
     }
 
-    public void map(String url, Class<? extends Activity> klass) {
-        this.map(url, klass, null);
+    public void map(String url, Class<? extends Activity> mClass) {
+        this.map(url, mClass, new RouterOptions());
     }
 
-    public void map(String url, Class<? extends Activity> klass, RouterOptions options) {
+    public void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment) {
+        this.map(url, mClass, targetFragment, null);
+    }
+
+    public void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment,
+                    Bundle bundle) {
+        RouterOptions options = new RouterOptions(bundle);
+        assert targetFragment != null;
+        options.putParams("target", targetFragment.getName());
+        this.map(url, mClass, options);
+    }
+
+
+    public void map(String url, Class<? extends Activity> mClass, RouterOptions options) {
         if (options == null) {
             options = new RouterOptions();
         }
         Uri uri = Uri.parse(url);
-        options.setOpenClass(klass);
+        options.setOpenClass(mClass);
         HostParams hostParams;
         if (hosts.containsKey(uri.getHost())) {
             hostParams = hosts.get(uri.getHost());
@@ -218,8 +233,8 @@ public class Router {
     private RouterParams paramsForUrl(String url) {
         Uri parsedUri = Uri.parse(url);
 
-        String urlPath = parsedUri.getPath().substring(1);
-
+        String urlPath = TextUtils.isEmpty(parsedUri.getPath()) ? "" : parsedUri.
+                getPath().substring(1);
         if (this._cachedRoutes.get(url) != null) {
             return this._cachedRoutes.get(url);
         }

@@ -14,7 +14,9 @@ public class RouterOptions {
     Bundle _defaultParams;
 
     public RouterOptions() {
-
+        if (_defaultParams == null) {
+            _defaultParams = new Bundle();
+        }
     }
 
     public RouterOptions(Class<? extends Activity> klass) {
@@ -47,7 +49,17 @@ public class RouterOptions {
     }
 
     public void setDefaultParams(Bundle defaultParams) {
-        this._defaultParams = defaultParams;
+        if (_defaultParams == null) {
+            _defaultParams = new Bundle();
+        }
+        if (defaultParams != null) {
+            _defaultParams.putAll(defaultParams);
+        }
+    }
+
+
+    public void putParams(String key, String value) {
+        _defaultParams.putString(key, value);
     }
 
     public Bundle getDefaultParams() {
