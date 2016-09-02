@@ -159,6 +159,7 @@ public class Router {
         context.startActivity(intent);
     }
 
+
     /*
      * Allows Intents to be spawned regardless of what context they were opened with.
      */
@@ -226,6 +227,9 @@ public class Router {
         String[] givenParts = urlPath.split("/");
         List<RouterParams> params = new ArrayList<>();
         HostParams hostParams = hosts.get(parsedUri.getHost());
+        if (hostParams == null) {
+            throw new RouteNotFoundException("No route found for url " + url);
+        }
         for (Entry<String, RouterOptions> entry : hostParams.getRoutes().entrySet()) {
             RouterParams routerParams = null;
             String routerUrl = cleanUrl(entry.getKey());
