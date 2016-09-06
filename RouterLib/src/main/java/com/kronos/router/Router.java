@@ -254,12 +254,15 @@ public class Router {
             if (routerParts.length != givenParts.length) {
                 continue;
             }
-
-            Map<String, String> givenParams = RouterUtils.urlToParamsMap(givenParts, routerParts);
+            Map<String, String> givenParams = null;
+            try {
+                givenParams = RouterUtils.urlToParamsMap(givenParts, routerParts);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (givenParams == null) {
                 continue;
             }
-
             routerParams = new RouterParams();
             routerParams.url = entry.getKey();
             routerParams.openParams = givenParams;

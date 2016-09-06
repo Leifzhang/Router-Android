@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class RouterUtils {
 
-    public static Map<String, String> urlToParamsMap(String[] givenUrlSegments, String[] routerUrlSegments) {
+    public static Map<String, String> urlToParamsMap(String[] givenUrlSegments, String[] routerUrlSegments) throws Exception {
         Map<String, String> formatParams = new HashMap<String, String>();
         for (int index = 0; index < routerUrlSegments.length; index++) {
             String routerPart = routerUrlSegments[index];
@@ -24,14 +24,9 @@ public class RouterUtils {
                     formatParams.put(key, givenPart);
                     continue;
                 }
-                try {
-                    long i = Long.parseLong(givenPart);
-                    formatParams.put(key, givenPart);
-                    continue;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
+                Long.parseLong(givenPart);
+                formatParams.put(key, givenPart);
+                continue;
             }
 
             if (!routerPart.equals(givenPart)) {
