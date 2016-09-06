@@ -282,7 +282,7 @@ public class Router {
         for (String key : parsedUri.getQueryParameterNames()) {
             routerParams.openParams.put(key, parsedUri.getQueryParameter(key));
         }
-
+        routerParams.openParams.put("targetUrl", url);
         this._cachedRoutes.put(url, routerParams);
         return routerParams;
     }
