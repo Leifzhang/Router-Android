@@ -24,9 +24,13 @@ public class RouterInject {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for (Fragment fragment : fragments) {
+            if (fragment == null) {
+                continue;
+            }
             IFragmentInject fragmentInject = Inject(fragment, target);
             if (fragmentInject != null) {
                 fragmentInject.Inject(bundle);
+                break;
             }
         }
     }
