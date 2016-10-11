@@ -200,6 +200,7 @@ public class Router {
         for (Entry<String, String> entry : params.openParams.entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
+        intent.setClass(getContext(), params.routerOptions.getOpenClass());
         return intent;
     }
 
