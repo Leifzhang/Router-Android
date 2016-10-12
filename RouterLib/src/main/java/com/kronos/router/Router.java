@@ -184,13 +184,6 @@ public class Router {
         }
     }
 
-
-    public Intent intentFor(String url) {
-        RouterParams params = this.paramsForUrl(url);
-
-        return intentFor(params);
-    }
-
     private Intent intentFor(RouterParams params) {
         RouterOptions options = params.routerOptions;
         Intent intent = new Intent();
@@ -200,8 +193,7 @@ public class Router {
         for (Entry<String, String> entry : params.openParams.entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
-        intent.setClass(getContext(), params.routerOptions.getOpenClass());
-        return intent;
+     return intent;
     }
 
 
