@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.kronos.router.BindRouter;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by zhangyang on 16/7/16.
  */
+@BindRouter({"https://wwww.baidu.com"})
 public class TestActivity extends Activity {
     @BindView(R.id.testTv)
     TextView testTv;
@@ -22,4 +25,5 @@ public class TestActivity extends Activity {
         String name = getIntent().getStringExtra("string");
         testTv.setText(name);
     }
+
 }

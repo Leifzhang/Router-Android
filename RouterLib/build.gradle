@@ -24,6 +24,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':RouterAnnotation')
     compile rootProject.ext.supportV4
 }
 

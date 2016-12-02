@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidRouter.iml" filepath="$PROJECT_DIR$/AndroidRouter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RouterAnnotation/RouterAnnotation.iml" filepath="$PROJECT_DIR$/RouterAnnotation/RouterAnnotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/RouterLib/RouterLib.iml" filepath="$PROJECT_DIR$/RouterLib/RouterLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/compiler/compiler.iml" filepath="$PROJECT_DIR$/compiler/compiler.iml" />
     </modules>
   </component>
 </project>

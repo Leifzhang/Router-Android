@@ -1,1 +1,1 @@
-include ':app', ':RouterLib'
+include ':app', ':RouterLib', ':RouterAnnotation', ':compiler'

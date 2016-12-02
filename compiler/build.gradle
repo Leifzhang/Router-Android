@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+dependencies {
+    compile 'com.google.auto.service:auto-service:1.0-rc2'
+    compile 'com.squareup:javapoet:1.6.1'
+    compile project(':RouterAnnotation')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
