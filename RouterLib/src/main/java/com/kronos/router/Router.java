@@ -39,12 +39,12 @@ public class Router {
         return _router;
     }
 
-    private final Map<String, RouterParams> _cachedRoutes = new HashMap<String, RouterParams>();
+    private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
     private Context _context;
-    private final Map<String, HostParams> hosts = new HashMap<>();
+    private static final Map<String, HostParams> hosts = new HashMap<>();
 
     private Router() {
-
+        RouterInit.init();
     }
 
     private Router(Context context) {
@@ -60,30 +60,30 @@ public class Router {
         return this._context;
     }
 
-    public void map(String url, RouterCallback callback) {
+    public static void map(String url, RouterCallback callback) {
         RouterOptions options = new RouterOptions();
         options.setCallback(callback);
-        this.map(url, null, options);
+        map(url, null, options);
     }
 
-    public void map(String url, Class<? extends Activity> mClass) {
-        this.map(url, mClass, new RouterOptions());
+    public static void map(String url, Class<? extends Activity> mClass) {
+        map(url, mClass, new RouterOptions());
     }
 
-    public void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment) {
-        this.map(url, mClass, targetFragment, null);
+    public static void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment) {
+        map(url, mClass, targetFragment, null);
     }
 
-    public void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment,
-                    Bundle bundle) {
+    public static void map(String url, Class<? extends Activity> mClass, @Nullable Class<? extends Fragment> targetFragment,
+                           Bundle bundle) {
         RouterOptions options = new RouterOptions(bundle);
         assert targetFragment != null;
         options.putParams("target", targetFragment.getName());
-        this.map(url, mClass, options);
+        map(url, mClass, options);
     }
 
 
-    public void map(String url, Class<? extends Activity> mClass, RouterOptions options) {
+    public static void map(String url, Class<? extends Activity> mClass, RouterOptions options) {
         if (options == null) {
             options = new RouterOptions();
         }
