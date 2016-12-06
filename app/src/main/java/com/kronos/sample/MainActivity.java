@@ -2,12 +2,12 @@ package com.kronos.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.kronos.router.Router;
+import com.kronos.router.RouterBind;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        RouterBind.bind(com.kronos.secondmoudle.Moudle.class);
+        RouterBind.bind(Moudle.class);
         // RouterConstants.init();
-        imageView.getViewTreeObserver().addOnGlobalLayoutListener(() -> Log.i("MTag", "onGlobalLayout"));
     }
 
     @OnClick({R.id.routerTesting, R.id.routerBaidu})

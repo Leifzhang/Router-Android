@@ -1,1 +1,1 @@
-include ':app', ':RouterLib', ':RouterAnnotation', ':compiler', ':stub'
+include ':app', ':RouterLib', ':RouterAnnotation', ':compiler', ':secondmoudle'

@@ -42,15 +42,9 @@ public class Router {
     private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
     private Context _context;
     private static final Map<String, HostParams> hosts = new HashMap<>();
-
     private Router() {
-        RouterInit.init();
-    }
 
-    private Router(Context context) {
-        this.setContext(context);
     }
-
 
     public void setContext(Context context) {
         this._context = context;

@@ -40,6 +40,7 @@ public class RouterProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> ret = new HashSet<>();
         ret.add(BindRouter.class.getCanonicalName());
+        ret.add(BindModule.class.getCanonicalName());
         return ret;
     }
 
@@ -52,6 +53,17 @@ public class RouterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindModule.class);
+        String name = "";
+        for (Element e : elements) {
+            BindModule annotation = e.getAnnotation(BindModule.class);
+            name = annotation.value();
+            initRouter(name, roundEnv);
+        }
+        return true;
+    }
+
+    private void initRouter(String name, RoundEnvironment roundEnv) {
         MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindRouter.class);
@@ -60,6 +72,7 @@ public class RouterProcessor extends AbstractProcessor {
             //检查element类型
             //field type
             BindRouter router = element.getAnnotation(BindRouter.class);
+
             ClassName className;
             Name methodName = null;
             if (element.getKind() == ElementKind.CLASS) {
@@ -76,18 +89,17 @@ public class RouterProcessor extends AbstractProcessor {
                 initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);
             }
         }
-        String moduleName = "RouterInit";
+        String moduleName = "RouterInit_" + name;
         TypeSpec routerMapping = TypeSpec.classBuilder(moduleName)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addMethod(initMethod.build())
                 .build();
         try {
-            JavaFile.builder("com.kronos.router", routerMapping)
+            JavaFile.builder("com.kronos.router.init", routerMapping)
                     .build()
                     .writeTo(filer);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
     }
 }
