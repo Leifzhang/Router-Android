@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.kronos.router.Router;
 import com.kronos.router.RouterBind;
+import com.kronos.secondmoudle.Module;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        RouterBind.bind(com.kronos.secondmoudle.Moudle.class);
+        RouterBind.bind(Module.class);
         RouterBind.bind(Moudle.class);
         // RouterConstants.init();
     }

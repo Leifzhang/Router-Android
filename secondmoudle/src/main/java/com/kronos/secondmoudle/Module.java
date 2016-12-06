@@ -7,5 +7,5 @@ import com.kronos.router.BindModule;
  * Email leifzhanggithub@gmail.com
  */
 @BindModule("second")
-public class Moudle {
+public class Module {
 }
