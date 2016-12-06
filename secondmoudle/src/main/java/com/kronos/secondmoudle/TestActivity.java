@@ -8,7 +8,7 @@ import com.kronos.router.BindRouter;
 /**
  * Created by zhangyang on 16/7/16.
  */
-@BindRouter({"https://wwww.wallstreetcn.com"})
+@BindRouter(urls = {"https://wwww.wallstreetcn.com"})
 public class TestActivity extends Activity {
     //  TextView testTv;
 

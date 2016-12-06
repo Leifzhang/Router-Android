@@ -72,7 +72,6 @@ public class RouterProcessor extends AbstractProcessor {
             //检查element类型
             //field type
             BindRouter router = element.getAnnotation(BindRouter.class);
-
             ClassName className;
             Name methodName = null;
             if (element.getKind() == ElementKind.CLASS) {
@@ -84,9 +83,34 @@ public class RouterProcessor extends AbstractProcessor {
                 throw new IllegalArgumentException("unknow type");
             }
             //class type
-            String[] id = router.value();
+            String[] id = router.urls();
+            int count = 0;
             for (String format : id) {
-                initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);
+                String[] keys = router.keys();
+                String[] values = router.values();
+                if (router.isRunnable()) {
+                    String callbackName = "callBack" + count;
+                    initMethod.addStatement(className + " " + callbackName + "=new " + className + "()");
+                    initMethod.addStatement("com.kronos.router.Router.map($S, " + callbackName + ")", format);
+                    count++;
+                    continue;
+                }
+                if (!keys[0].equals("")) {
+                    String bundleName = "bundle" + count;
+                    initMethod.addStatement("android.os.Bundle " + bundleName + "=new android.os.Bundle();");
+                    for (int i = 0; i < keys.length; i++) {
+                        if (i > values.length) {
+                            break;
+                        }
+                        initMethod.addStatement(bundleName + ".putString($S,$S)", keys[i], values[i]);
+                    }
+                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class,new com.kronos.router.model.RouterOptions("
+                                    + bundleName + "))",
+                            format, className);
+                } else {
+                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);
+                }
+                count++;
             }
         }
         String moduleName = "RouterInit_" + name;

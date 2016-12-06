@@ -13,5 +13,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.CLASS)
 public @interface BindRouter {
-    String[] value();
+    String[] urls();
+
+    boolean isRunnable() default false;
+
+    String[] keys() default "";
+
+    String[] values() default "";
 }
