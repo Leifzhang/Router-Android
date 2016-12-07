@@ -13,8 +13,8 @@ buildscript {
 }
 
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.3.1'
-    apt "com.github.leifzhang:compiler:0.3.1"
+    compile 'com.github.leifzhang:routerLib:0.3.2'
+    apt "com.github.leifzhang:compiler:0.3.2"
 }
 ```
 # First Step

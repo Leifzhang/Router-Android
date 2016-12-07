@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 dependencies {
     compile 'com.google.auto.service:auto-service:1.0-rc2'
     compile 'com.squareup:javapoet:1.8.0'
-    compile 'com.github.leifzhang:RouterAnnotation:0.3.1'
+    compile 'com.github.leifzhang:RouterAnnotation:0.3.2'
 }
 
 sourceCompatibility = "1.7"
@@ -45,6 +45,20 @@ install {
             }
         }
     }
+}
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
