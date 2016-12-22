@@ -68,6 +68,7 @@ public class RouterProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindRouter.class);
         //一、收集信息
+        int count = 0;
         for (Element element : elements) {
             //检查element类型
             //field type
@@ -84,7 +85,6 @@ public class RouterProcessor extends AbstractProcessor {
             }
             //class type
             String[] id = router.urls();
-            int count = 0;
             for (String format : id) {
                 String[] keys = router.keys();
                 String[] values = router.values();
