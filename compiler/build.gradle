@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 dependencies {
     compile 'com.google.auto.service:auto-service:1.0-rc2'
     compile 'com.squareup:javapoet:1.8.0'
-    compile 'com.github.leifzhang:RouterAnnotation:0.3.2'
+    compile project(':RouterAnnotation')
 }
 
 sourceCompatibility = "1.7"
