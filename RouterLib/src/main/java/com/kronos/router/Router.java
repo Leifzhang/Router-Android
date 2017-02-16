@@ -41,7 +41,7 @@ public class Router {
 
     private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
     private Context _context;
-    private static final Map<String, HostParams> hosts = new HashMap<>();
+    private final Map<String, HostParams> hosts = new HashMap<>();
     private Router() {
 
     }
@@ -84,11 +84,11 @@ public class Router {
         Uri uri = Uri.parse(url);
         options.setOpenClass(mClass);
         HostParams hostParams;
-        if (hosts.containsKey(uri.getHost())) {
-            hostParams = hosts.get(uri.getHost());
+        if (sharedRouter().hosts.containsKey(uri.getHost())) {
+            hostParams = sharedRouter().hosts.get(uri.getHost());
         } else {
             hostParams = new HostParams(uri.getHost());
-            hosts.put(hostParams.getHost(), hostParams);
+            sharedRouter().hosts.put(hostParams.getHost(), hostParams);
         }
         hostParams.setRoute(uri.getPath(), options);
     }
