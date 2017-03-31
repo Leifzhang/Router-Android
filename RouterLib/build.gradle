@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 version = PROJ_VERSION
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '25.0.0'
     resourcePrefix "routerLib__"
 
     defaultConfig {

@@ -25,7 +25,7 @@ allprojects {
     }
 }
 
-def supportVersion = "24.2.0"
+def supportVersion = "25.0.1"
 
 ext {
     supportV4 = "com.android.support:support-v4:${supportVersion}"
