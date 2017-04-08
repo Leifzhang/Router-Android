@@ -3,18 +3,9 @@ It's an Android Route Library. You can just add some Annotation to add you route
 ## Usage
 Add this line to your `build.gradle` file under your module directory. 
 ```
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    }
-}
-
 dependencies {
     compile 'com.github.leifzhang:routerLib:0.3.2'
-    apt "com.github.leifzhang:compiler:0.3.2"
+    annotationProcessor "com.github.leifzhang:compiler:0.3.2"
 }
 ```
 # First Step
