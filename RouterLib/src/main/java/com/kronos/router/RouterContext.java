@@ -9,9 +9,9 @@ import java.util.Map;
  * Created by zhangyang on 16/7/16.
  */
 public class RouterContext {
-    Map<String, String> _params;
-    Bundle _extras;
-    Context _context;
+    private Map<String, String> _params;
+    private Bundle _extras;
+    private Context _context;
 
     public RouterContext(Map<String, String> params, Bundle extras, Context context) {
         _params = params;

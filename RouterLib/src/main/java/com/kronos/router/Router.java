@@ -2,6 +2,7 @@ package com.kronos.router;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,15 +43,21 @@ public class Router {
     private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
     private Context _context;
     private final Map<String, HostParams> hosts = new HashMap<>();
+    private RouterLoader loader;
+
     private Router() {
 
     }
 
-    public void setContext(Context context) {
+    public void attachApplication(Application context) {
         this._context = context;
+        if (loader == null) {
+            loader = new RouterLoader();
+            loader.attach(context);
+        }
     }
 
-    public Context getContext() {
+    private Context getContext() {
         return this._context;
     }
 
@@ -136,15 +143,12 @@ public class Router {
 
     public void open(String url, Bundle extras, Context context) {
         if (context == null) {
-            throw new ContextNotProvided(
-                    "You need to supply a context for Router "
-                            + this.toString());
+            throw new ContextNotProvided("You need to supply a context for Router " + this.toString());
         }
         RouterParams params = this.paramsForUrl(url);
         RouterOptions options = params.routerOptions;
         if (options.getCallback() != null) {
             RouterContext routeContext = new RouterContext(params.openParams, extras, context);
-
             options.getCallback().run(routeContext);
             return;
         }
@@ -156,7 +160,6 @@ public class Router {
             return;
         }
         if (extras != null) {
-            /* 路由进入 */
             intent.putExtras(extras);
         } else {
             Bundle bundle = new Bundle();

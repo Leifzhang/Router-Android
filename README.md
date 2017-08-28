@@ -4,8 +4,8 @@ It's an Android Route Library. You can just add some Annotation to add you route
 Add this line to your `build.gradle` file under your module directory. 
 ```
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.3.2'
-    annotationProcessor "com.github.leifzhang:compiler:0.3.2"
+    compile 'com.github.leifzhang:routerLib:0.3.6'
+    annotationProcessor "com.github.leifzhang:compiler:0.3.6"
 }
 ```
 # First Step
@@ -41,11 +41,6 @@ public class Module {
 
 }
 ```
-Then just call in you application.
-```java
-   RouterBind.bind(Module.class);
-```
-`Remember each module need a BindModule.`
 
 # Last Step
 ##How to use
@@ -53,3 +48,4 @@ You just should easy use you code just like this.
 ```java
     Router.sharedRouter().open("https://github.com/leifzhang", this);
 ```
+

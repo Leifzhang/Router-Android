@@ -8,12 +8,8 @@ import java.lang.reflect.Method;
  */
 
 public class RouterBind {
-    public static void bind(Class t) {
+    public static void bind(String className) {
         try {
-            t.newInstance();
-            BindModule bindModule = (BindModule) t.getAnnotation(BindModule.class);
-            String value = bindModule.value();
-            String className = String.format("com.kronos.router.init.RouterInit_%s", value);
             Class routerInit = Class.forName(className);
             Method method = routerInit.getMethod("init");
             method.invoke(null);

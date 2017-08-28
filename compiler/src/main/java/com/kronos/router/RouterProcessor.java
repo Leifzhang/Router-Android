@@ -27,12 +27,14 @@ import javax.lang.model.element.TypeElement;
 public class RouterProcessor extends AbstractProcessor {
     private Filer filer;
     private Messager messager;
+    private String moduleName = null;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
+
     }
 
 

@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.kronos.router.Router;
-import com.kronos.router.RouterBind;
-import com.kronos.secondmoudle.Module;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,10 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Router.sharedRouter().attachApplication(getApplication());
         ButterKnife.bind(this);
-        RouterBind.bind(Module.class);
-        RouterBind.bind(Moudle.class);
-        // RouterConstants.init();
     }
 
     @OnClick({R.id.routerTesting, R.id.routerBaidu})

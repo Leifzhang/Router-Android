@@ -11,7 +11,7 @@ import java.util.Map;
 public class RouterUtils {
 
     public static Map<String, String> urlToParamsMap(String[] givenUrlSegments, String[] routerUrlSegments) throws Exception {
-        Map<String, String> formatParams = new HashMap<String, String>();
+        Map<String, String> formatParams = new HashMap<>();
         for (int index = 0; index < routerUrlSegments.length; index++) {
             String routerPart = routerUrlSegments[index];
             String givenPart = givenUrlSegments[index];
