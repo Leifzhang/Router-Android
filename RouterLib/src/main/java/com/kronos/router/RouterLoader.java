@@ -11,25 +11,17 @@ import java.util.List;
  * Email leifzhanggithub@gmail.com
  */
 
-class RouterLoader implements Runnable {
+class RouterLoader {
 
     private final String RouterPathPackage = "com.kronos.router.init";
-    private Application app;
-    private Thread loaderThread;
 
     RouterLoader() {
-        loaderThread = new Thread(this);
+
     }
 
     void attach(Application context) {
-        this.app = context;
-        loaderThread.start();
-    }
-
-    @Override
-    public void run() {
         try {
-            List<String> classFileNames = ClassUtils.getFileNameByPackageName(app, RouterPathPackage);
+            List<String> classFileNames = ClassUtils.getFileNameByPackageName(context, RouterPathPackage);
             for (String className : classFileNames) {
                 RouterBind.bind(className);
             }
@@ -37,4 +29,6 @@ class RouterLoader implements Runnable {
             e.printStackTrace();
         }
     }
+
+
 }

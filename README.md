@@ -4,8 +4,8 @@ It's an Android Route Library. You can just add some Annotation to add you route
 Add this line to your `build.gradle` file under your module directory. 
 ```
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.3.6'
-    annotationProcessor "com.github.leifzhang:compiler:0.3.6"
+    compile 'com.github.leifzhang:routerLib:0.3.7'
+    annotationProcessor "com.github.leifzhang:compiler:0.3.7"
 }
 ```
 # First Step
