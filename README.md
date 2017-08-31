@@ -43,7 +43,6 @@ public class Module {
 ```
 
 # Last Step
-##How to use
 You just should easy use you code just like this.
 ```java
     Router.sharedRouter().open("https://github.com/leifzhang", this);
