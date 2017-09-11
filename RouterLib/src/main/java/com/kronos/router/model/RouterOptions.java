@@ -9,9 +9,9 @@ import com.kronos.router.RouterCallback;
  * Created by zhangyang on 16/7/16.
  */
 public class RouterOptions {
-    Class<? extends Activity> _activityClass;
-    RouterCallback _callback;
-    Bundle _defaultParams;
+    private Class<? extends Activity> _activityClass;
+    private RouterCallback _callback;
+    private Bundle _defaultParams;
 
     public RouterOptions() {
         if (_defaultParams == null) {

@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.kronos.router.exception.ContextNotProvided;
+import com.kronos.router.exception.NotInitException;
 import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterOptions;
@@ -46,15 +47,12 @@ public class Router {
     private RouterLoader loader;
 
     private Router() {
-
+        loader = new RouterLoader();
     }
 
     public void attachApplication(Application context) {
         this._context = context;
-        if (loader == null) {
-            loader = new RouterLoader();
-            loader.attach(context);
-        }
+        loader.attach(context);
     }
 
     private Context getContext() {
@@ -117,8 +115,7 @@ public class Router {
 
     public void openExternal(String url, Bundle extras, Context context) {
         if (context == null) {
-            throw new ContextNotProvided(
-                    "You need to supply a context for Router "
+            throw new ContextNotProvided("You need to supply a context for Router "
                             + this.toString());
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -203,7 +200,6 @@ public class Router {
 
     public Intent intentFor(Context context, String url) {
         RouterParams params = this.paramsForUrl(url);
-
         return intentFor(context, params);
     }
 
@@ -221,6 +217,9 @@ public class Router {
 
 
     private RouterParams paramsForUrl(String url) {
+        if (!loader.isLoadingFinish()) {
+            throw new NotInitException("You need to wait init finish " + this.toString());
+        }
         Uri parsedUri = Uri.parse(url);
 
         String urlPath = TextUtils.isEmpty(parsedUri.getPath()) ? "" : parsedUri.

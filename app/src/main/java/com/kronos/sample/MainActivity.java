@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import com.kronos.router.Router;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
 
