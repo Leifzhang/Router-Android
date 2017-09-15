@@ -287,5 +287,8 @@ public class Router {
         return url;
     }
 
+    public boolean isLoadingFinish() {
+        return loader.isLoadingFinish();
+    }
 
 }
