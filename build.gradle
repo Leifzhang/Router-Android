@@ -3,13 +3,17 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
         // NOTE: Do not place your application dependencies here;elong
         // in the individual module build.gradle files
     }
@@ -21,10 +25,11 @@ allprojects {
         maven {
             url 'https://dl.bintray.com/leifzhang/maven'
         }
+        google()
     }
 }
 
-def supportVersion = "25.0.1"
+def supportVersion = "27.0.2"
 
 ext {
     supportV4 = "com.android.support:support-v4:${supportVersion}"
