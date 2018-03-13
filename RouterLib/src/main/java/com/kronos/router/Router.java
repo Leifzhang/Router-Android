@@ -20,6 +20,8 @@ import com.kronos.router.model.RouterParams;
 import com.kronos.router.utils.RouterUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -254,6 +256,7 @@ public class Router {
             }
             routerParams = new RouterParams();
             routerParams.url = entry.getKey();
+            routerParams.setWeight(entry.getValue().getWeight());
             routerParams.openParams = givenParams;
             routerParams.routerOptions = routerOptions;
             params.add(routerParams);
@@ -266,6 +269,15 @@ public class Router {
                     routerParams = param;
                     break;
                 }
+            }
+            if (routerParams == null) {
+                Collections.sort(params, new Comparator<RouterParams>() {
+                    @Override
+                    public int compare(RouterParams o1, RouterParams o2) {
+                        return o1.getWeight().compareTo(o2.getWeight());
+                    }
+                });
+                routerParams = params.get(0);
             }
         }
         if (routerParams == null) {

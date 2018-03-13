@@ -23,9 +23,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.1.0'
     testCompile 'junit:junit:4.12'
-    annotationProcessor "com.github.leifzhang:compiler:0.3.8"
+    annotationProcessor project(':compiler')
     compile project(':RouterLib')
     compile project(':RouterAnnotation')
 }

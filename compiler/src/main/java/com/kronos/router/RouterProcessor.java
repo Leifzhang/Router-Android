@@ -88,8 +88,7 @@ public class RouterProcessor extends AbstractProcessor {
             //class type
             String[] id = router.urls();
             for (String format : id) {
-                String[] keys = router.keys();
-                String[] values = router.values();
+                int weight = router.weight();
                 if (router.isRunnable()) {
                     String callbackName = "callBack" + count;
                     initMethod.addStatement(className + " " + callbackName + "=new " + className + "()");
@@ -97,17 +96,14 @@ public class RouterProcessor extends AbstractProcessor {
                     count++;
                     continue;
                 }
-                if (!keys[0].equals("")) {
+                if (weight > 0) {
                     String bundleName = "bundle" + count;
                     initMethod.addStatement("android.os.Bundle " + bundleName + "=new android.os.Bundle();");
-                    for (int i = 0; i < keys.length; i++) {
-                        if (i > values.length) {
-                            break;
-                        }
-                        initMethod.addStatement(bundleName + ".putString($S,$S)", keys[i], values[i]);
-                    }
-                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class,new com.kronos.router.model.RouterOptions("
-                                    + bundleName + "))",
+                    String optionsName = "options" + count;
+                    initMethod.addStatement("com.kronos.router.model.RouterOptions " + optionsName + "=new com.kronos.router.model.RouterOptions("
+                            + bundleName + ")");
+                    initMethod.addStatement(optionsName + ".setWeight(" + weight + ")");
+                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class," + optionsName+")",
                             format, className);
                 } else {
                     initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 Router.sharedRouter().open("https://github.com/leifzhang", this);
                 break;
             case R.id.routerBaidu:
-                Router.sharedRouter().open("https://wwww.baidu.com", this);
+                Router.sharedRouter().open("https://wwww.baidu.com/test/12345", this);
                 break;
         }
     }

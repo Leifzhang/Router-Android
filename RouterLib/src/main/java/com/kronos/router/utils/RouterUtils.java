@@ -1,9 +1,12 @@
 package com.kronos.router.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zhangyang on 16/7/16.
@@ -20,12 +23,16 @@ public class RouterUtils {
             }
             if (routerPart.charAt(0) == ':') {
                 String key = routerPart.substring(1, routerPart.length());
-                if (TextUtils.equals(":string", routerPart)) {
+                String parser = parseUnit(key);
+                key = key.replace(parser, "");
+                Log.i("RouterUtils", parser);
+                if (TextUtils.equals("{string}", parser)) {
                     formatParams.put(key, givenPart);
                     continue;
+                } else {
+                    Long.parseLong(givenPart);
+                    formatParams.put(key, givenPart);
                 }
-                Long.parseLong(givenPart);
-                formatParams.put(key, givenPart);
                 continue;
             }
 
@@ -33,8 +40,17 @@ public class RouterUtils {
                 return null;
             }
         }
-
         return formatParams;
+    }
+
+
+    private static String parseUnit(String key) {
+        Pattern p = Pattern.compile("\\{(.*)\\}");
+        Matcher matcher = p.matcher(key);
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+        return "{long}";
     }
 
 }

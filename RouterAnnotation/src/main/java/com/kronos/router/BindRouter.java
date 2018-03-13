@@ -17,7 +17,5 @@ public @interface BindRouter {
 
     boolean isRunnable() default false;
 
-    String[] keys() default "";
-
-    String[] values() default "";
+    int weight() default 0;
 }

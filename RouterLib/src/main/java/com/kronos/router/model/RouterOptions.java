@@ -12,12 +12,15 @@ public class RouterOptions {
     private Class<? extends Activity> _activityClass;
     private RouterCallback _callback;
     private Bundle _defaultParams;
+    private int weight = 0;
+
 
     public RouterOptions() {
         if (_defaultParams == null) {
             _defaultParams = new Bundle();
         }
     }
+
 
     public RouterOptions(Class<? extends Activity> klass) {
         this.setOpenClass(klass);
@@ -55,6 +58,14 @@ public class RouterOptions {
         if (defaultParams != null) {
             _defaultParams.putAll(defaultParams);
         }
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
 
