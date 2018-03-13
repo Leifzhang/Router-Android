@@ -27,11 +27,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':secondmoudle')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'io.reactivex:rxandroid:1.2.1'
-    annotationProcessor project(':compiler')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

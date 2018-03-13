@@ -1,11 +1,12 @@
 # AndroidRouter
 It's an Android Route Library. You can just add some Annotation to add you router path.
 ## Usage
-Add this line to your `build.gradle` file under your module directory. 
+Add this line to your `build.gradle` file under your module directory.
+
 ```
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.3.8'
-    annotationProcessor "com.github.leifzhang:compiler:0.3.8"
+    compile 'com.github.leifzhang:routerLib:0.3.9'
+    annotationProcessor "com.github.leifzhang:compiler:0.3.9"
 }
 ```
 # First Step
@@ -18,7 +19,7 @@ public class TestActivity extends Activity {
 ```
 If you need just urls and add some params.You can  just  add like this.
 ```java
- @BindRouter(urls = { "https://github.com/leifzhang"}, keys = {"test"}, values = {"value"})
+ @BindRouter(urls = { "https://github.com/leifzhang"}, weight=10)
  public class TestActivity extends Activity {
 
  }
