@@ -11,6 +11,15 @@ public class RouterParams {
     public RouterOptions routerOptions;
     public Map<String, String> openParams;
 
+    public String getRealPath() {
+        try {
+            return url.substring(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public Integer getWeight() {
         return weight;
     }

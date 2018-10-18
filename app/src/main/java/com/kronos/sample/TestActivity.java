@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by zhangyang on 16/7/16.
  */
 
-@BindRouter(urls = {"https://wwww.baidu.com/test/:nid{12345}"}, weight = 10)
+@BindRouter(urls = {"https://wwww.baidu.com/test"}, weight = 10)
 public class TestActivity extends Activity {
     @BindView(R.id.testTv)
     TextView testTv;

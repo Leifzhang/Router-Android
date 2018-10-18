@@ -5,8 +5,8 @@ Add this line to your `build.gradle` file under your module directory.
 
 ```
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.3.9'
-    annotationProcessor "com.github.leifzhang:compiler:0.3.9"
+    compile 'com.github.leifzhang:routerLib:0.4.1'
+    annotationProcessor "com.github.leifzhang:compiler:0.4.1"
 }
 ```
 # First Step

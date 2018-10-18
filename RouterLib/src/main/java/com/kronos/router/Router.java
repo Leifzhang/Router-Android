@@ -265,7 +265,7 @@ public class Router {
         RouterParams routerParams = params.size() == 1 ? params.get(0) : null;
         if (params.size() > 1) {
             for (RouterParams param : params) {
-                if (TextUtils.equals(param.url, urlPath)) {
+                if (TextUtils.equals(param.getRealPath(), urlPath)) {
                     routerParams = param;
                     break;
                 }
