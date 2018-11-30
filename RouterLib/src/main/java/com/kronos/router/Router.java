@@ -43,8 +43,9 @@ public class Router {
         return _router;
     }
 
+
     private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
-    private Context _context;
+    private Application _context;
     private final Map<String, HostParams> hosts = new HashMap<>();
     private RouterLoader loader;
 
@@ -57,7 +58,7 @@ public class Router {
         loader.attach(context);
     }
 
-    private Context getContext() {
+    private Application getContext() {
         return this._context;
     }
 
@@ -118,7 +119,7 @@ public class Router {
     public void openExternal(String url, Bundle extras, Context context) {
         if (context == null) {
             throw new ContextNotProvided("You need to supply a context for Router "
-                            + this.toString());
+                    + this.toString());
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         this.addFlagsToIntent(intent, context);
@@ -170,10 +171,6 @@ public class Router {
         context.startActivity(intent);
     }
 
-
-    /*
-     * Allows Intents to be spawned regardless of what context they were opened with.
-     */
     private void addFlagsToIntent(Intent intent, Context context) {
         if (context == this._context) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -189,7 +186,7 @@ public class Router {
         for (Entry<String, String> entry : params.openParams.entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
-     return intent;
+        return intent;
     }
 
 
@@ -237,29 +234,10 @@ public class Router {
             throw new RouteNotFoundException("No route found for url " + url);
         }
         for (Entry<String, RouterOptions> entry : hostParams.getRoutes().entrySet()) {
-            RouterParams routerParams = null;
-            String routerUrl = cleanUrl(entry.getKey());
-            RouterOptions routerOptions = entry.getValue();
-            String[] routerParts = routerUrl.split("/");
-
-            if (routerParts.length != givenParts.length) {
-                continue;
+            RouterParams routerParams = getRouterParams(entry, givenParts);
+            if (routerParams != null) {
+                params.add(routerParams);
             }
-            Map<String, String> givenParams = null;
-            try {
-                givenParams = RouterUtils.urlToParamsMap(givenParts, routerParts);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (givenParams == null) {
-                continue;
-            }
-            routerParams = new RouterParams();
-            routerParams.url = entry.getKey();
-            routerParams.setWeight(entry.getValue().getWeight());
-            routerParams.openParams = givenParams;
-            routerParams.routerOptions = routerOptions;
-            params.add(routerParams);
         }
 
         RouterParams routerParams = params.size() == 1 ? params.get(0) : null;
@@ -288,6 +266,31 @@ public class Router {
         }
         routerParams.openParams.put("targetUrl", url);
         this._cachedRoutes.put(url, routerParams);
+        return routerParams;
+    }
+
+    private RouterParams getRouterParams(Entry<String, RouterOptions> entry, String[] givenParts) {
+        RouterParams routerParams;
+        String routerUrl = cleanUrl(entry.getKey());
+        RouterOptions routerOptions = entry.getValue();
+        String[] routerParts = routerUrl.split("/");
+        if (routerParts.length != givenParts.length) {
+            return null;
+        }
+        Map<String, String> givenParams = null;
+        try {
+            givenParams = RouterUtils.urlToParamsMap(givenParts, routerParts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (givenParams == null) {
+            return null;
+        }
+        routerParams = new RouterParams();
+        routerParams.url = entry.getKey();
+        routerParams.setWeight(entry.getValue().getWeight());
+        routerParams.openParams = givenParams;
+        routerParams.routerOptions = routerOptions;
         return routerParams;
     }
 

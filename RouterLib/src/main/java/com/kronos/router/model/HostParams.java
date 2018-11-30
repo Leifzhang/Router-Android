@@ -8,12 +8,11 @@ import java.util.Map;
  */
 public class HostParams {
     private String host;
+    private final Map<String, RouterOptions> _routes = new HashMap<String, RouterOptions>();
 
     public HostParams(String host) {
         this.host = host;
     }
-
-    private final Map<String, RouterOptions> _routes = new HashMap<String, RouterOptions>();
 
     public void setRoute(String path, RouterOptions options) {
         _routes.put(path, options);

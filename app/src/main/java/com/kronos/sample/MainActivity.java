@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.routerTesting:
-                Router.sharedRouter().open("https://wwww.baidu.com/test", this);
+                Router.sharedRouter().open("https://www.baidu.com/test", this);
                 break;
             case R.id.routerBaidu:
-                Router.sharedRouter().open("https://wwww.baidu.com/test/12345", this);
+                Router.sharedRouter().open("https://www.baidu.com/test/12345", this);
                 break;
         }
     }

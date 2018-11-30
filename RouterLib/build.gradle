@@ -4,13 +4,13 @@ apply plugin: 'com.jfrog.bintray'
 
 version = PROJ_VERSION
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     resourcePrefix "routerLib__"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -23,9 +23,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':RouterAnnotation')
-    provided rootProject.ext.supportV4
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':RouterAnnotation')
+    compileOnly rootProject.ext.supportV4
 }
 
 def siteUrl = 'https://github.com/Leifzhang/AndroidRouter' // 项目的主页
@@ -67,16 +67,7 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
 artifacts {
-    archives javadocJar
     archives sourcesJar
 }
 Properties properties = new Properties()
