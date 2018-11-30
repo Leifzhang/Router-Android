@@ -8,5 +8,4 @@ import android.os.Bundle;
  */
 public interface IFragmentInject {
     void Inject(Bundle bundle);
-
 }
