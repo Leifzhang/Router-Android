@@ -146,9 +146,9 @@ public class Router {
             throw new ContextNotProvided("You need to supply a context for Router " + this.toString());
         }
         RouterParams params = this.paramsForUrl(url);
-        RouterOptions options = params.routerOptions;
+        RouterOptions options = params.getRouterOptions();
         if (options.getCallback() != null) {
-            RouterContext routeContext = new RouterContext(params.openParams, extras, context);
+            RouterContext routeContext = new RouterContext(params.getOpenParams(), extras, context);
             options.getCallback().run(routeContext);
             return;
         }
@@ -178,12 +178,12 @@ public class Router {
     }
 
     private Intent intentFor(RouterParams params) {
-        RouterOptions options = params.routerOptions;
+        RouterOptions options = params.getRouterOptions();
         Intent intent = new Intent();
         if (options.getDefaultParams() != null) {
             intent.putExtras(options.getDefaultParams());
         }
-        for (Entry<String, String> entry : params.openParams.entrySet()) {
+        for (Entry<String, String> entry : params.getOpenParams().entrySet()) {
             intent.putExtra(entry.getKey(), entry.getValue());
         }
         return intent;
@@ -192,7 +192,7 @@ public class Router {
 
     public boolean isCallbackUrl(String url) {
         RouterParams params = this.paramsForUrl(url);
-        RouterOptions options = params.routerOptions;
+        RouterOptions options = params.getRouterOptions();
         return options.getCallback() != null;
     }
 
@@ -203,7 +203,7 @@ public class Router {
     }
 
     private Intent intentFor(Context context, RouterParams params) {
-        RouterOptions options = params.routerOptions;
+        RouterOptions options = params.getRouterOptions();
         if (options.getCallback() != null) {
             return null;
         }
@@ -262,9 +262,9 @@ public class Router {
             throw new RouteNotFoundException("No route found for url " + url);
         }
         for (String key : parsedUri.getQueryParameterNames()) {
-            routerParams.openParams.put(key, parsedUri.getQueryParameter(key));
+            routerParams.getOpenParams().put(key, parsedUri.getQueryParameter(key));
         }
-        routerParams.openParams.put("targetUrl", url);
+        routerParams.getOpenParams().put("targetUrl", url);
         this._cachedRoutes.put(url, routerParams);
         return routerParams;
     }
@@ -287,10 +287,10 @@ public class Router {
             return null;
         }
         routerParams = new RouterParams();
-        routerParams.url = entry.getKey();
+        routerParams.setUrl(entry.getKey());
         routerParams.setWeight(entry.getValue().getWeight());
-        routerParams.openParams = givenParams;
-        routerParams.routerOptions = routerOptions;
+        routerParams.setOpenParams(givenParams);
+        routerParams.setRouterOptions(routerOptions);
         return routerParams;
     }
 
