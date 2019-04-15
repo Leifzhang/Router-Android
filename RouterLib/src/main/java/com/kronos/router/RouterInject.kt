@@ -2,9 +2,8 @@ package com.kronos.router
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.text.TextUtils
+import androidx.fragment.app.FragmentActivity
 
 /**
  * Created by zhangyang on 16/7/18.
@@ -29,13 +28,13 @@ object RouterInject {
         }
     }
 
-    fun inject(fragment: Fragment, bundle: Bundle?) {
+    fun inject(fragment: androidx.fragment.app.Fragment, bundle: Bundle?) {
         val target = bundle?.getString("target")
         val inject = deal(fragment, target)
         inject?.inject(bundle!!)
     }
 
-    private fun inject(fragment: Fragment, target: String?): IFragmentInject? {
+    private fun inject(fragment: androidx.fragment.app.Fragment, target: String?): IFragmentInject? {
         return deal(fragment, target)
     }
 

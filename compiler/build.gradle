@@ -4,8 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 
 dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc3'
-    implementation 'com.squareup:javapoet:1.9.0'
-    implementation project(':RouterAnnotation')
+    implementation 'com.squareup:javapoet:1.10.0'
 }
 
 sourceCompatibility = "1.7"

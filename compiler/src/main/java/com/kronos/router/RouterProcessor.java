@@ -12,7 +12,6 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -26,15 +25,11 @@ import javax.lang.model.element.TypeElement;
 @AutoService(Processor.class)
 public class RouterProcessor extends AbstractProcessor {
     private Filer filer;
-    private Messager messager;
-    private String moduleName = null;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
-
     }
 
 
@@ -103,7 +98,7 @@ public class RouterProcessor extends AbstractProcessor {
                     initMethod.addStatement("com.kronos.router.model.RouterOptions " + optionsName + "=new com.kronos.router.model.RouterOptions("
                             + bundleName + ")");
                     initMethod.addStatement(optionsName + ".setWeight(" + weight + ")");
-                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class," + optionsName+")",
+                    initMethod.addStatement("com.kronos.router.Router.map($S,$T.class," + optionsName + ")",
                             format, className);
                 } else {
                     initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);
