@@ -25,8 +25,9 @@ public class RealCall {
     private RouterParams getParamsWithInterceptorChain(String url) throws RouteNotFoundException {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(new TestInterceptor());
+        interceptors.add(new CacheInterceptor(cachedRoutes));
         interceptors.add(new RouterInterceptor());
-        Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, cachedRoutes, hostMap, 0);
+        Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, hostMap, 0);
         return chain.proceed(url);
     }
 

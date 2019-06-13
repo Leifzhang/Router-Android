@@ -62,10 +62,6 @@ public class Router {
         loader.attach(context);
     }
 
-    private Application getContext() {
-        return this._context;
-    }
-
     public static void map(String url, RouterCallback callback) {
         RouterOptions options = new RouterOptions();
         options.setCallback(callback);

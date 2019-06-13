@@ -20,17 +20,13 @@ public class RouterInterceptor implements Interceptor {
 
     @Override
     public RouterParams intercept(Chain chain) throws RouteNotFoundException {
-        return getParams(chain.url(), chain.getCacheRouter(), chain.getHostParams());
+        return getParams(chain.url(), chain.getHostParams());
     }
 
-    private RouterParams getParams(String url, Map<String, RouterParams> _cachedRoutes, Map<String, HostParams> hosts) {
+    private RouterParams getParams(String url, Map<String, HostParams> hosts) throws RouteNotFoundException {
         Uri parsedUri = Uri.parse(url);
         String urlPath = TextUtils.isEmpty(parsedUri.getPath()) ? "" : parsedUri.
                 getPath().substring(1);
-        if (_cachedRoutes.get(url) != null) {
-            return _cachedRoutes.get(url);
-        }
-
         String[] givenParts = urlPath.split("/");
         List<RouterParams> params = new ArrayList<>();
         HostParams hostParams = hosts.get(parsedUri.getHost());
@@ -43,7 +39,6 @@ public class RouterInterceptor implements Interceptor {
                 params.add(routerParams);
             }
         }
-
         RouterParams routerParams = params.size() == 1 ? params.get(0) : null;
         if (params.size() > 1) {
             for (RouterParams param : params) {
@@ -69,8 +64,6 @@ public class RouterInterceptor implements Interceptor {
             routerParams.getOpenParams().put(key, parsedUri.getQueryParameter(key));
         }
         routerParams.getOpenParams().put("targetUrl", url);
-        _cachedRoutes.put(url, routerParams);
-
         Log.i("TestInterceptor", "真实处理的地方");
         return routerParams;
     }

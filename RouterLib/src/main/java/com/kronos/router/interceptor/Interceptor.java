@@ -14,7 +14,6 @@ public interface Interceptor {
 
         RouterParams proceed(String url) throws RouteNotFoundException;
 
-        Map<String, RouterParams> getCacheRouter();
 
         Map<String, HostParams> getHostParams();
     }
