@@ -7,13 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.text.TextUtils;
 
 import com.kronos.router.exception.ContextNotProvided;
 import com.kronos.router.exception.NotInitException;
 import com.kronos.router.exception.RouteNotFoundException;
+import com.kronos.router.interceptor.RealCall;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterOptions;
 import com.kronos.router.model.RouterParams;
@@ -145,7 +148,7 @@ public class Router {
         if (context == null) {
             throw new ContextNotProvided("You need to supply a context for Router " + this.toString());
         }
-        RouterParams params = this.paramsForUrl(url);
+        RouterParams params = new RealCall(url, _cachedRoutes, hosts).getParamsWithInterceptorChain();
         RouterOptions options = params.getRouterOptions();
         if (options.getCallback() != null) {
             RouterContext routeContext = new RouterContext(params.getOpenParams(), extras, context);
@@ -297,7 +300,7 @@ public class Router {
 
     private String cleanUrl(String url) {
         if (url.startsWith("/")) {
-            return url.substring(1, url.length());
+            return url.substring(1);
         }
         return url;
     }

@@ -1,6 +1,8 @@
 package com.kronos.router;
 
 import com.google.auto.service.AutoService;
+import com.google.common.collect.ImmutableSet;
+import com.kronos.router.utils.Logger;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -12,6 +14,7 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -23,13 +26,18 @@ import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
+@SuppressWarnings("NullAway")
 public class RouterProcessor extends AbstractProcessor {
     private Filer filer;
+    private Logger logger;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+        Messager messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
+        logger = new Logger(messager);
+        logger.info("start processor");
     }
 
 
@@ -41,6 +49,11 @@ public class RouterProcessor extends AbstractProcessor {
         return ret;
     }
 
+    @Override
+    public Set<String> getSupportedOptions() {
+        return ImmutableSet.of("com.kronos.router.BindRouter",
+                "com.kronos.router.BindModule");
+    }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
@@ -51,10 +64,11 @@ public class RouterProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindModule.class);
-        String name = "";
+        String name;
         for (Element e : elements) {
             BindModule annotation = e.getAnnotation(BindModule.class);
             name = annotation.value();
+            logger.info("BindModule:" + name);
             initRouter(name, roundEnv);
         }
         return true;

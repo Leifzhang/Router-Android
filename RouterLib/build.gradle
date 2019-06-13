@@ -23,7 +23,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    compileOnly 'androidx.appcompat:appcompat:1.1.0-beta01'
+    api 'com.github.leifzhang:RouterAnnotation:0.4.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

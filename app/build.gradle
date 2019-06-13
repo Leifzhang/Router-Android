@@ -32,10 +32,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':secondmoudle')
     testImplementation 'junit:junit:4.12'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
     implementation 'com.jakewharton:butterknife:10.0.0'
-    implementation 'io.reactivex:rxandroid:1.2.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
+    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha06"
+    implementation project(':RouterLib')
     kapt project(':compiler')
+    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
 }
