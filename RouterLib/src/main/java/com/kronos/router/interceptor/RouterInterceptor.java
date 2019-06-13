@@ -2,6 +2,7 @@ package com.kronos.router.interceptor;
 
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.model.HostParams;
@@ -69,6 +70,8 @@ public class RouterInterceptor implements Interceptor {
         }
         routerParams.getOpenParams().put("targetUrl", url);
         _cachedRoutes.put(url, routerParams);
+
+        Log.i("TestInterceptor", "真实处理的地方");
         return routerParams;
     }
 

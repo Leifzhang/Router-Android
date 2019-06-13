@@ -25,7 +25,6 @@ class RouterOptions {
             }
         }
 
-
     constructor() {
         if (_defaultParams == null) {
             _defaultParams = Bundle()
@@ -33,17 +32,8 @@ class RouterOptions {
     }
 
 
-    constructor(klass: Class<out Activity>) {
-        this.openClass = klass
-    }
-
     constructor(defaultParams: Bundle) {
         this.defaultParams = defaultParams
-    }
-
-    constructor(defaultParams: Bundle, klass: Class<out Activity>) {
-        this.defaultParams = defaultParams
-        this.openClass = klass
     }
 
 

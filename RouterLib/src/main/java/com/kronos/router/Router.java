@@ -47,13 +47,14 @@ public class Router {
     }
 
 
-    private final Map<String, RouterParams> _cachedRoutes = new HashMap<>();
     private Application _context;
     private final Map<String, HostParams> hosts = new HashMap<>();
     private RouterLoader loader;
+    private RealCall realCall;
 
     private Router() {
         loader = new RouterLoader();
+        realCall = new RealCall(hosts);
     }
 
     public void attachApplication(Application context) {
@@ -148,14 +149,13 @@ public class Router {
         if (context == null) {
             throw new ContextNotProvided("You need to supply a context for Router " + this.toString());
         }
-        RouterParams params = new RealCall(url, _cachedRoutes, hosts).getParamsWithInterceptorChain();
+        RouterParams params = realCall.open(url);
         RouterOptions options = params.getRouterOptions();
         if (options.getCallback() != null) {
             RouterContext routeContext = new RouterContext(params.getOpenParams(), extras, context);
             options.getCallback().run(routeContext);
             return;
         }
-
 
         Intent intent = this.intentFor(context, params);
         if (intent == null) {
@@ -183,6 +183,7 @@ public class Router {
     private Intent intentFor(RouterParams params) {
         RouterOptions options = params.getRouterOptions();
         Intent intent = new Intent();
+        assert options != null;
         if (options.getDefaultParams() != null) {
             intent.putExtras(options.getDefaultParams());
         }
@@ -194,14 +195,14 @@ public class Router {
 
 
     public boolean isCallbackUrl(String url) {
-        RouterParams params = this.paramsForUrl(url);
+        RouterParams params = realCall.open(url);
         RouterOptions options = params.getRouterOptions();
         return options.getCallback() != null;
     }
 
 
     public Intent intentFor(Context context, String url) {
-        RouterParams params = this.paramsForUrl(url);
+        RouterParams params = realCall.open(url);
         return intentFor(context, params);
     }
 
@@ -217,93 +218,6 @@ public class Router {
         return intent;
     }
 
-
-    private RouterParams paramsForUrl(String url) {
-        if (!loader.isLoadingFinish()) {
-            throw new NotInitException("You need to wait init finish " + this.toString());
-        }
-        Uri parsedUri = Uri.parse(url);
-
-        String urlPath = TextUtils.isEmpty(parsedUri.getPath()) ? "" : parsedUri.
-                getPath().substring(1);
-        if (this._cachedRoutes.get(url) != null) {
-            return this._cachedRoutes.get(url);
-        }
-
-        String[] givenParts = urlPath.split("/");
-        List<RouterParams> params = new ArrayList<>();
-        HostParams hostParams = hosts.get(parsedUri.getHost());
-        if (hostParams == null) {
-            throw new RouteNotFoundException("No route found for url " + url);
-        }
-        for (Entry<String, RouterOptions> entry : hostParams.getRoutes().entrySet()) {
-            RouterParams routerParams = getRouterParams(entry, givenParts);
-            if (routerParams != null) {
-                params.add(routerParams);
-            }
-        }
-
-        RouterParams routerParams = params.size() == 1 ? params.get(0) : null;
-        if (params.size() > 1) {
-            for (RouterParams param : params) {
-                if (TextUtils.equals(param.getRealPath(), urlPath)) {
-                    routerParams = param;
-                    break;
-                }
-            }
-            if (routerParams == null) {
-                Collections.sort(params, new Comparator<RouterParams>() {
-                    @Override
-                    public int compare(RouterParams o1, RouterParams o2) {
-                        return o1.getWeight().compareTo(o2.getWeight());
-                    }
-                });
-                routerParams = params.get(0);
-            }
-        }
-        if (routerParams == null) {
-            throw new RouteNotFoundException("No route found for url " + url);
-        }
-        for (String key : parsedUri.getQueryParameterNames()) {
-            routerParams.getOpenParams().put(key, parsedUri.getQueryParameter(key));
-        }
-        routerParams.getOpenParams().put("targetUrl", url);
-        this._cachedRoutes.put(url, routerParams);
-        return routerParams;
-    }
-
-    private RouterParams getRouterParams(Entry<String, RouterOptions> entry, String[] givenParts) {
-        RouterParams routerParams;
-        String routerUrl = cleanUrl(entry.getKey());
-        RouterOptions routerOptions = entry.getValue();
-        String[] routerParts = routerUrl.split("/");
-        if (routerParts.length != givenParts.length) {
-            return null;
-        }
-        Map<String, String> givenParams = null;
-        try {
-            givenParams = RouterUtils.urlToParamsMap(givenParts, routerParts);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (givenParams == null) {
-            return null;
-        }
-        routerParams = new RouterParams();
-        routerParams.setUrl(entry.getKey());
-        routerParams.setWeight(entry.getValue().getWeight());
-        routerParams.setOpenParams(givenParams);
-        routerParams.setRouterOptions(routerOptions);
-        return routerParams;
-    }
-
-
-    private String cleanUrl(String url) {
-        if (url.startsWith("/")) {
-            return url.substring(1);
-        }
-        return url;
-    }
 
     public boolean isLoadingFinish() {
         return loader.isLoadingFinish();

@@ -15,8 +15,8 @@ public class RealInterceptorChain implements Interceptor.Chain {
     private final int index;
 
 
-    public RealInterceptorChain(List<Interceptor> interceptors, String url, Map<String, RouterParams> cachedRoutes,
-                                Map<String, HostParams> hosts, int index) {
+    RealInterceptorChain(List<Interceptor> interceptors, String url, Map<String, RouterParams> cachedRoutes,
+                         Map<String, HostParams> hosts, int index) {
         this.interceptors = interceptors;
         this.url = url;
         this.cachedRoutes = cachedRoutes;
