@@ -44,14 +44,13 @@ public class RealInterceptorChain implements Interceptor.Chain {
         RealInterceptorChain next = new RealInterceptorChain(interceptors, request, hostMap,
                 index + 1);
         Interceptor interceptor = interceptors.get(index);
-        RouterParams response = interceptor.intercept(next);
-
+        RouterParams routerParams = interceptor.intercept(next);
 
         // Confirm that the intercepted response isn't null.
-        if (response == null) {
+        if (routerParams == null) {
             throw new RouteNotFoundException("No route found for url " + url);
         }
 
-        return response;
+        return routerParams;
     }
 }

@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AutoRegister" />
             <option value="$PROJECT_DIR$/RouterAnnotation" />
             <option value="$PROJECT_DIR$/RouterLib" />
             <option value="$PROJECT_DIR$/app" />

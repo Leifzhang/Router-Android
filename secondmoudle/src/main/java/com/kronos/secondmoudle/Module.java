@@ -8,4 +8,5 @@ import com.kronos.router.BindModule;
  */
 @BindModule("second")
 public class Module {
+
 }
