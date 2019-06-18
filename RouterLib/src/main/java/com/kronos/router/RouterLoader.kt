@@ -27,6 +27,14 @@ internal class RouterLoader {
 
     }
 
+    init {
+        injectInit()
+    }
+
+    private fun injectInit() {
+
+    }
+
     companion object {
 
         private const val RouterPathPackage = "com.kronos.router.init"

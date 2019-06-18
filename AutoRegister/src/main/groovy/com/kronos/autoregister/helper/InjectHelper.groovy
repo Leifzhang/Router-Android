@@ -22,9 +22,9 @@ class InjectHelper {
     }
 
 
-    static byte[] modifyClass(byte[] srcClass) throws IOException {
+    private byte[] modifyClass(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS)
-        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter)
+        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, classItems)
         ClassReader cr = new ClassReader(srcClass)
         cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG)
         return classWriter.toByteArray()
@@ -33,17 +33,17 @@ class InjectHelper {
 
     File modifyJarFile(File tempDir) {
         /** 设置输出到的jar */
-        def hexName = DigestUtils.md5Hex(jarFile.absolutePath).substring(0, 8);
+        def hexName = DigestUtils.md5Hex(jarFile.absolutePath).substring(0, 8)
         def optJar = new File(tempDir, hexName + jarFile.name)
-        JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJar));
+        JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJar))
         /**
          * 读取原jar
          */
         def file = new JarFile(jarFile);
         Enumeration enumeration = file.entries();
         while (enumeration.hasMoreElements()) {
-            JarEntry jarEntry = (JarEntry) enumeration.nextElement();
-            InputStream inputStream = file.getInputStream(jarEntry);
+            JarEntry jarEntry = (JarEntry) enumeration.nextElement()
+            InputStream inputStream = file.getInputStream(jarEntry)
 
             String entryName = jarEntry.getName()
             String className
@@ -58,7 +58,6 @@ class InjectHelper {
                 className = AutoRegisterTransform.path2Classname(entryName)
                 if (checkRouterInitClassName(className)) {
                     try {
-                        Log.info("className:" + className)
                         modifiedClassBytes = modifyClass(sourceClassBytes)
                     } catch (Exception e) {
                         e.printStackTrace()
@@ -68,6 +67,7 @@ class InjectHelper {
             if (modifiedClassBytes == null) {
                 jarOutputStream.write(sourceClassBytes)
             } else {
+                Log.info("modify:RouterLoader")
                 jarOutputStream.write(modifiedClassBytes)
             }
             jarOutputStream.closeEntry()
@@ -78,7 +78,7 @@ class InjectHelper {
     }
 
     static boolean checkRouterInitClassName(String className) {
-        String dexClassName = "com.kronos.router.init.RouterLoader"
+        String dexClassName = "com.kronos.router.RouterLoader"
         return dexClassName.equals(className)
     }
 }

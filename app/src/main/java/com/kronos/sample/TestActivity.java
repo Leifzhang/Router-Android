@@ -26,9 +26,13 @@ public class TestActivity extends Activity {
         try {
             String name = getIntent().getStringExtra("string");
             testTv.setText(name);
+            init();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private static final void init() {
+
+    }
 }

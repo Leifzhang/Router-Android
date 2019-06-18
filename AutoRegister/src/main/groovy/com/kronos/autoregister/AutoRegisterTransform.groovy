@@ -45,8 +45,11 @@ class AutoRegisterTransform extends Transform {
         def inputs = transformInvocation.getInputs()
         def outputProvider = transformInvocation.outputProvider
         def context = transformInvocation.context
+        HashSet<String> items = new HashSet<>()
         inputs.each { TransformInput input ->
-            HashSet<String> items = new HashSet<>()
+            input.jarInputs.each { JarInput jarInput ->
+                addJarInitList(jarInput.file, items)
+            }
             input.directoryInputs.each {
                 DirectoryInput directoryInput ->
                     File dest = outputProvider.getContentLocation(directoryInput.name,
@@ -61,14 +64,15 @@ class AutoRegisterTransform extends Transform {
                                     String className = path2Classname(absolutePath)
                                     if (checkClassName(className)) {
                                         //key为相对路径
-                                        items.add(className)
+                                        items.add(absolutePath)
                                     }
                             }
                         }
                         FileUtils.copyDirectory(directoryInput.file, dest)
                     }
             }
-
+        }
+        inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->
                 String destName = jarInput.file.name
                 /** 重名名输出文件,因为可能同名,会覆盖*/
@@ -78,18 +82,14 @@ class AutoRegisterTransform extends Transform {
                 }
                 /** 获得输出文件*/
                 File dest = outputProvider.getContentLocation(destName + "_" + hexName, jarInput.contentTypes, jarInput.scopes, Format.JAR)
-                def modifiedJar = null
+                def modifiedJar = jarInput.file
                 if (isJarNeedModify(jarInput.file)) {
-                    addJarInitList(jarInput.file, items)
+                    Log.info("isJarNeedModify:" + dest)
                     InjectHelper helper = new InjectHelper(jarInput.file, items)
                     modifiedJar = helper.modifyJarFile(context.temporaryDir)
                 }
-                if (modifiedJar == null) {
-                    modifiedJar = jarInput.file
-                }
                 FileUtils.copyFile(modifiedJar, dest)
             }
-
         }
     }
 
@@ -103,14 +103,18 @@ class AutoRegisterTransform extends Transform {
             return false
         }
         String packageList = "com.kronos.router.init"
-        boolean result = className.contains(packageList)
-        return result
+        return className.contains(packageList)
     }
 
     static boolean checkRouterInitClassName(String className) {
-        String dexClassName = "com.kronos.router"
+        String dexClassName = "com.kronos.router.RouterLoader"
         Log.info("className:" + className)
-        return className.contains(dexClassName)
+        return dexClassName == className
+    }
+
+    static boolean checkPackage(String className) {
+        String packageName = "com.kronos.router"
+        return className.contains(packageName)
     }
 
 
@@ -133,8 +137,11 @@ class AutoRegisterTransform extends Transform {
                 String className
                 if (entryName.endsWith(".class")) {
                     className = entryName.replace("/", ".").replace(".class", "")
+                    if (!checkPackage(className)) {
+                        return false
+                    }
                     if (checkClassName(className)) {
-                        items.add(className)
+                        items.add(entryName)
                         modified = true
                         break
                     }
@@ -165,7 +172,13 @@ class AutoRegisterTransform extends Transform {
                 if (entryName.endsWith(".class")) {
                     className = entryName.replace("/", ".")
                             .replace(".class", "")
-                    return checkRouterInitClassName(className)
+                    if (!checkPackage(className)) {
+                        return false
+                    }
+                    if (checkRouterInitClassName(className)) {
+                        modified = true
+                        break
+                    }
                 }
             }
             file.close()

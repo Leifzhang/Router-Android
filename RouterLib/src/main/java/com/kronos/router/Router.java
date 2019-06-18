@@ -59,7 +59,6 @@ public class Router {
 
     public void attachApplication(Application context) {
         this._context = context;
-        loader.attach(context);
     }
 
     public static void map(String url, RouterCallback callback) {
