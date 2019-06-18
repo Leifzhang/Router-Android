@@ -45,6 +45,7 @@ class AutoRegisterTransform extends Transform {
         def inputs = transformInvocation.getInputs()
         def outputProvider = transformInvocation.outputProvider
         def context = transformInvocation.context
+        def jarFile
         HashSet<String> items = new HashSet<>()
         inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->

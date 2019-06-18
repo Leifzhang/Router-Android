@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.kronos.router.BindRouter;
+import com.kronos.router.RouterBind;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,13 +27,13 @@ public class TestActivity extends Activity {
         try {
             String name = getIntent().getStringExtra("string");
             testTv.setText(name);
-            init();
+            String[] array = {"abc", "ccc"};
+            for (String text : array) {
+                RouterBind.INSTANCE.bind(text);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static final void init() {
-
-    }
 }

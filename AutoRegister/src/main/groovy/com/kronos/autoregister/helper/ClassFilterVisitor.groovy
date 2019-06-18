@@ -14,15 +14,15 @@ class ClassFilterVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        if (name.equals("injectInit")) {
+        if (name == "injectInit") {
             MethodVisitor methodVisitor = super.visitMethod(access, name, desc, signature, exceptions)
             MethodVisitor mv = new MethodVisitor(Opcodes.ASM5, methodVisitor) {
-                @Override
+            /*    @Override
                 void visitCode() {
                     super.visitCode()
                     methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false)
                     methodVisitor.visitVarInsn(Opcodes.LSTORE, 1)
-                }
+                }*/
 
                 @Override
                 void visitInsn(int opcode) {
@@ -31,7 +31,7 @@ class ClassFilterVisitor extends ClassVisitor {
                         classItems.each { String input ->
                             input = input.replace(".class", "")
                             Log.info("item:" + input)
-                            //   methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V;", false)
+                            methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V;", false)
                         }
                     }
                     methodVisitor.visitInsn(opcode)

@@ -11,22 +11,13 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.TextUtils;
-
 import com.kronos.router.exception.ContextNotProvided;
-import com.kronos.router.exception.NotInitException;
-import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.interceptor.RealCall;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterOptions;
 import com.kronos.router.model.RouterParams;
-import com.kronos.router.utils.RouterUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,7 +38,7 @@ public class Router {
     }
 
 
-    private Application _context;
+    private Application application;
     private final Map<String, HostParams> hosts = new HashMap<>();
     private RouterLoader loader;
     private RealCall realCall;
@@ -58,7 +49,8 @@ public class Router {
     }
 
     public void attachApplication(Application context) {
-        this._context = context;
+        loader.attach();
+        this.application = context;
     }
 
     public static void map(String url, RouterCallback callback) {
@@ -102,7 +94,7 @@ public class Router {
 
 
     public void openExternal(String url) {
-        this.openExternal(url, this._context);
+        this.openExternal(url, this.application);
     }
 
 
@@ -111,7 +103,7 @@ public class Router {
     }
 
     public void openExternal(String url, Bundle extras) {
-        this.openExternal(url, extras, this._context);
+        this.openExternal(url, extras, this.application);
     }
 
 
@@ -129,11 +121,11 @@ public class Router {
     }
 
     public void open(String url) {
-        this.open(url, this._context);
+        this.open(url, this.application);
     }
 
     public void open(String url, Bundle extras) {
-        this.open(url, extras, this._context);
+        this.open(url, extras, this.application);
     }
 
     public void open(String url, Context context) {
@@ -170,7 +162,7 @@ public class Router {
     }
 
     private void addFlagsToIntent(Intent intent, Context context) {
-        if (context == this._context) {
+        if (context == this.application) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
     }

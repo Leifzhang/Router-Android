@@ -26,7 +26,7 @@ class InjectHelper {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS)
         ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, classItems)
         ClassReader cr = new ClassReader(srcClass)
-        cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG)
+        cr.accept(methodFilterCV, ClassReader.EXPAND_FRAMES)
         return classWriter.toByteArray()
     }
 
@@ -39,8 +39,8 @@ class InjectHelper {
         /**
          * 读取原jar
          */
-        def file = new JarFile(jarFile);
-        Enumeration enumeration = file.entries();
+        def file = new JarFile(jarFile)
+        Enumeration enumeration = file.entries()
         while (enumeration.hasMoreElements()) {
             JarEntry jarEntry = (JarEntry) enumeration.nextElement()
             InputStream inputStream = file.getInputStream(jarEntry)
