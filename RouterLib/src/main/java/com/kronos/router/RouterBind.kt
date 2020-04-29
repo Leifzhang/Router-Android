@@ -6,14 +6,5 @@ package com.kronos.router
  */
 
 object RouterBind {
-    fun bind(className: String) {
-        try {
-            val routerInit = Class.forName(className)
-            val method = routerInit.getMethod("init")
-            method.invoke(null)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
 
-    }
 }

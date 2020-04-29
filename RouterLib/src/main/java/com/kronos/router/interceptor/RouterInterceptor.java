@@ -51,7 +51,9 @@ public class RouterInterceptor implements Interceptor {
                 Collections.sort(params, new Comparator<RouterParams>() {
                     @Override
                     public int compare(RouterParams o1, RouterParams o2) {
-                        return o1.getWeight().compareTo(o2.getWeight());
+                        Integer o1Weight = o1.getWeight();
+                        Integer o2Weight = o2.getWeight();
+                        return o1Weight.compareTo(o2Weight);
                     }
                 });
                 routerParams = params.get(0);

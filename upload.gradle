@@ -12,7 +12,7 @@ afterEvaluate { project ->
 
                 pom.groupId = PROJ_GROUP
                 pom.artifactId = POM_ARTIFACT_ID
-                pom.version = PROJ_VERSION
+                pom.version = PROJ_VERSION + "-SNAPSHOT"
 
                 repository(url: sonatypeRepositoryUrl) {
                     try {

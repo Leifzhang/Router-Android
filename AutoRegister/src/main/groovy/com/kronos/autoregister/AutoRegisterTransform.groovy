@@ -36,7 +36,7 @@ class AutoRegisterTransform extends Transform {
 
     @Override
     boolean isIncremental() {
-        return true
+        return false
     }
 
     @Override
@@ -45,7 +45,6 @@ class AutoRegisterTransform extends Transform {
         def inputs = transformInvocation.getInputs()
         def outputProvider = transformInvocation.outputProvider
         def context = transformInvocation.context
-        def jarFile
         HashSet<String> items = new HashSet<>()
         inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->
@@ -61,7 +60,8 @@ class AutoRegisterTransform extends Transform {
                         directoryInput.file.eachFileRecurse {
                             dir.traverse(type: FileType.FILES, nameFilter: ~/.*\.class/) {
                                 File classFile ->
-                                    String absolutePath = classFile.absolutePath.replace(dir.absolutePath + File.separator, "")
+                                    String absolutePath = classFile.absolutePath.replace(dir.absolutePath + File.separator,
+                                            "")
                                     String className = path2Classname(absolutePath)
                                     if (checkClassName(className)) {
                                         //key为相对路径
@@ -124,8 +124,7 @@ class AutoRegisterTransform extends Transform {
      * @param jarFile
      * @return
      */
-    static boolean addJarInitList(File jarFile, HashSet<String> items) {
-        boolean modified = false
+    static void addJarInitList(File jarFile, HashSet<String> items) {
         if (jarFile) {
             /**
              * 读取原jar
@@ -139,18 +138,16 @@ class AutoRegisterTransform extends Transform {
                 if (entryName.endsWith(".class")) {
                     className = entryName.replace("/", ".").replace(".class", "")
                     if (!checkPackage(className)) {
-                        return false
+                        return
                     }
                     if (checkClassName(className)) {
                         items.add(entryName)
-                        modified = true
                         break
                     }
                 }
             }
             file.close()
         }
-        return modified
     }
 
     /**
@@ -174,6 +171,7 @@ class AutoRegisterTransform extends Transform {
                     className = entryName.replace("/", ".")
                             .replace(".class", "")
                     if (!checkPackage(className)) {
+                        file.close()
                         return false
                     }
                     if (checkRouterInitClassName(className)) {

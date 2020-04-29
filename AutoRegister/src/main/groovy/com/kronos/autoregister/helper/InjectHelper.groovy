@@ -21,12 +21,15 @@ class InjectHelper {
         this.classItems = classItems
     }
 
+    void setClassItems(classItems) {
+        this.classItems = classItems
+    }
 
     private byte[] modifyClass(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS)
         ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, classItems)
         ClassReader cr = new ClassReader(srcClass)
-        cr.accept(methodFilterCV, ClassReader.EXPAND_FRAMES)
+        cr.accept(methodFilterCV, 0)
         return classWriter.toByteArray()
     }
 
@@ -58,6 +61,7 @@ class InjectHelper {
                 className = AutoRegisterTransform.path2Classname(entryName)
                 if (checkRouterInitClassName(className)) {
                     try {
+                        Log.info("modifyClass $entryName")
                         modifiedClassBytes = modifyClass(sourceClassBytes)
                     } catch (Exception e) {
                         e.printStackTrace()
@@ -67,7 +71,6 @@ class InjectHelper {
             if (modifiedClassBytes == null) {
                 jarOutputStream.write(sourceClassBytes)
             } else {
-                Log.info("modify:RouterLoader")
                 jarOutputStream.write(modifiedClassBytes)
             }
             jarOutputStream.closeEntry()
@@ -79,6 +82,6 @@ class InjectHelper {
 
     static boolean checkRouterInitClassName(String className) {
         String dexClassName = "com.kronos.router.RouterLoader"
-        return dexClassName.equals(className)
+        return dexClassName == className
     }
 }
