@@ -124,7 +124,7 @@ class AutoRegisterTransform extends Transform {
      * @param jarFile
      * @return
      */
-    static void addJarInitList(File jarFile, HashSet<String> items) {
+    static void /**/addJarInitList(File jarFile, HashSet<String> items) {
         if (jarFile) {
             /**
              * 读取原jar

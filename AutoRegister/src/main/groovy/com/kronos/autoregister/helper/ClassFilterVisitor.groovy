@@ -30,7 +30,7 @@ class ClassFilterVisitor extends ClassVisitor {
                     classItems.each { String input ->
                         input = input.replace(".class", "")
                         Log.info("item:" + input)
-                       // mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V;", false)
+                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false)
                     }
                     super.visitCode()
                 }

@@ -27,6 +27,7 @@ class InjectHelper {
 
     private byte[] modifyClass(byte[] srcClass) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS)
+        Log.info("item:" + classItems)
         ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, classItems)
         ClassReader cr = new ClassReader(srcClass)
         cr.accept(methodFilterCV, 0)

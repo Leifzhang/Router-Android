@@ -1,16 +1,13 @@
 apply plugin: 'groovy'
 
-dependencies {
-    implementation gradleApi()
-    implementation localGroovy()
-}
-
 repositories {
     mavenCentral()
 }
 dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
     implementation 'com.android.tools.build:gradle:3.3.1'
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.6'
     implementation 'org.javassist:javassist:3.20.0-GA'
 }
 apply from: '../upload.gradle'
