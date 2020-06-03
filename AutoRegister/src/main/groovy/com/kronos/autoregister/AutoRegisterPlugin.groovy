@@ -8,7 +8,6 @@ class AutoRegisterPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-
-        project.android.registerTransform(new AutoRegisterTransform(project))
+        project.android.registerTransform(new NewAutoRegisterTransform())
     }
 }

@@ -9,7 +9,6 @@ buildscript {
         maven {
             url 'https://dl.bintray.com/leifzhang/maven'
         }
-
         jcenter()
         google()
     }
@@ -18,7 +17,7 @@ buildscript {
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.github.leifzhang:route-register:0.4.8.61-SNAPSHOT'
+        classpath 'com.kronos.plugin:AutoRegister:0.4.9-SNAPSHOT'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here;elong
         // in the individual module build.gradle files

@@ -1,6 +1,6 @@
 package com.kronos.autoregister.helper
 
-import com.kronos.autoregister.AutoRegisterTransform
+
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.compress.utils.IOUtils
 import org.objectweb.asm.ClassReader

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.kronos.router.exception.ContextNotProvided;
 import com.kronos.router.interceptor.RealCall;
+import com.kronos.router.loader.RouterRegistry;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterOptions;
 import com.kronos.router.model.RouterParams;
@@ -40,16 +41,14 @@ public class Router {
 
     private Application application;
     private final Map<String, HostParams> hosts = new HashMap<>();
-    private RouterLoader loader;
     private RealCall realCall;
 
     private Router() {
-        loader = new RouterLoader();
         realCall = new RealCall(hosts);
     }
 
     public void attachApplication(Application context) {
-        loader.attach();
+        RouterRegistry.register();
         this.application = context;
     }
 
@@ -205,9 +204,5 @@ public class Router {
         return intent;
     }
 
-
-    public boolean isLoadingFinish() {
-        return loader.isLoadingFinish();
-    }
 
 }

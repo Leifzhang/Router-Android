@@ -2,13 +2,28 @@
 It's an Android Route Library. You can just add some Annotation to add you router path.
 ## Usage
 Add this line to your `build.gradle` file under your module directory.
-
-```
-dependencies {
-    compile 'com.github.leifzhang:routerLib:0.4.1'
-    annotationProcessor "com.github.leifzhang:compiler:0.4.1"
+```kotlin
+buildscript {
+    repositories {
+        maven {
+            url 'https://dl.bintray.com/leifzhang/maven'
+        }
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.kronos.plugin:AutoRegister:0.4.9'
+    }
 }
 ```
+```
+apply plugin: 'router-register'
+dependencies {
+    compile 'com.github.leifzhang:routerLib:0.4.1'
+    kapt "com.github.leifzhang:compiler:0.4.1"
+}
+```
+
 # First Step
 You should create you activity which need add router.Then just add like this.
 ```java 

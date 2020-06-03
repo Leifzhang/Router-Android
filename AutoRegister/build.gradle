@@ -1,4 +1,6 @@
 apply plugin: 'groovy'
+apply from: '../upload.gradle'
+//apply from: '../upload_bintray.gradle'
 
 repositories {
     mavenCentral()
@@ -6,8 +8,8 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
+    implementation 'com.kronos.plugin:BasePlugin:0.1.4'
     implementation 'com.android.tools.build:gradle:3.3.1'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.javassist:javassist:3.20.0-GA'
 }
-apply from: '../upload.gradle'

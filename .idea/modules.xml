@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidRouter.iml" filepath="$PROJECT_DIR$/AndroidRouter.iml" group="AndroidRouter" />
       <module fileurl="file://$PROJECT_DIR$/AutoRegister/AutoRegister.iml" filepath="$PROJECT_DIR$/AutoRegister/AutoRegister.iml" group="AndroidRouter/AutoRegister" />
+      <module fileurl="file://$PROJECT_DIR$/EmptyLoader/EmptyLoader.iml" filepath="$PROJECT_DIR$/EmptyLoader/EmptyLoader.iml" group="Router-Android/EmptyLoader" />
       <module fileurl="file://$PROJECT_DIR$/Router-Android.iml" filepath="$PROJECT_DIR$/Router-Android.iml" group="Router-Android" />
       <module fileurl="file://$PROJECT_DIR$/AutoRegister/Router-Android-AutoRegister.iml" filepath="$PROJECT_DIR$/AutoRegister/Router-Android-AutoRegister.iml" group="Router-Android/AutoRegister" />
       <module fileurl="file://$PROJECT_DIR$/RouterAnnotation/Router-Android-RouterAnnotation.iml" filepath="$PROJECT_DIR$/RouterAnnotation/Router-Android-RouterAnnotation.iml" group="Router-Android/RouterAnnotation" />
