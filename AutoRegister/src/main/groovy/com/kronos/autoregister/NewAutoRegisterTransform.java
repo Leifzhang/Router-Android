@@ -5,27 +5,31 @@ import com.android.build.api.transform.Format;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Transform;
 import com.android.build.api.transform.TransformException;
-import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.google.common.collect.ImmutableSet;
+import com.kronos.autoregister.helper.ClassFilterVisitor;
 import com.kronos.autoregister.helper.Log;
+import com.kronos.autoregister.helper.TryCatchMethodVisitor;
 import com.kronos.plugin.base.BaseTransform;
 import com.kronos.plugin.base.ClassUtils;
 import com.kronos.plugin.base.TransformCallBack;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import org.apache.commons.compress.utils.IOUtils;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NewAutoRegisterTransform extends Transform {
     @Override
@@ -45,7 +49,7 @@ public class NewAutoRegisterTransform extends Transform {
 
     @Override
     public boolean isIncremental() {
-        return false;
+        return true;
     }
 
     @Override
@@ -61,11 +65,9 @@ public class NewAutoRegisterTransform extends Transform {
                 }
                 return null;
             }
-
         });
         baseTransform.startTransform();
         TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
-        Collection<TransformInput> inputs = transformInvocation.getInputs();
         File dest = outputProvider.getContentLocation("kronos_router", TransformManager.CONTENT_CLASS,
                 ImmutableSet.of(QualifiedContent.Scope.PROJECT), Format.DIRECTORY);
         generateInitClass(dest.getAbsolutePath(), items);
@@ -79,7 +81,7 @@ public class NewAutoRegisterTransform extends Transform {
         return className.contains(packageList);
     }
 
-    public void generateInitClass(String directory, HashSet<String> items) {
+    private void generateInitClass(String directory, HashSet<String> items) {
         String className = Constant.REGISTER_CLASS_CONST.replace('.', '/');
         File dest = new File(directory, className + SdkConstants.DOT_CLASS);
         if (!dest.exists()) {
@@ -88,8 +90,8 @@ public class NewAutoRegisterTransform extends Transform {
                 ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
                 };
                 cv.visit(50, Opcodes.ACC_PUBLIC, className, null, "java/lang/Object", null);
-                MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
-                        Constant.REGISTER_FUNCTION_NAME_CONST, "()V", null, null);
+                MethodVisitor mv = new TryCatchMethodVisitor(cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+                        Constant.REGISTER_FUNCTION_NAME_CONST, "()V", null, null));
                 mv.visitCode();
                 for (String clazz : items) {
                     String input = clazz.replace(".class", "");
@@ -97,15 +99,45 @@ public class NewAutoRegisterTransform extends Transform {
                     Log.info("item:" + input);
                     mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
                 }
-                mv.visitMaxs(0, 0);
+                Log.info("end insert");
+               // mv.visitMaxs(0, 0);
+                Log.info("maxs");
                 mv.visitInsn(Opcodes.RETURN);
+                Log.info("return");
                 mv.visitEnd();
                 cv.visitEnd();
                 dest.getParentFile().mkdirs();
                 new FileOutputStream(dest).write(writer.toByteArray());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                modifyClass(dest, items);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    private void modifyClass(File file, HashSet<String> items) throws IOException {
+        InputStream inputStream = new FileInputStream(file);
+        byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
+
+        byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items);
+        if (modifiedClassBytes != null) {
+            ClassUtils.saveFile(file, modifiedClassBytes);
+        }
+
+    }
+
+    byte[] modifyClass(byte[] srcClass, HashSet<String> items) throws IOException {
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        Log.info("item:" + items);
+        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, items);
+        ClassReader cr = new ClassReader(srcClass);
+        cr.accept(methodFilterCV, 0);
+        return classWriter.toByteArray();
+    }
+
 }

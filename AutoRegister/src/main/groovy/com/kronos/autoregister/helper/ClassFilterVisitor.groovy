@@ -4,8 +4,6 @@ import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
-import java.awt.Label
-
 class ClassFilterVisitor extends ClassVisitor {
     private HashSet<String> classItems
 
@@ -23,12 +21,12 @@ class ClassFilterVisitor extends ClassVisitor {
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         Log.info("name:$name  desc:$desc ")
         if (name == "injectInit" && desc == "()V") {
-            MethodVisitor methodVisitor = super.visitMethod(access, name, desc, signature, exceptions)
-            MethodVisitor mv = new MethodVisitor(Opcodes.ASM5, methodVisitor) {
+            MethodVisitor mv = new TryCatchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions)) {
                 @Override
                 void visitCode() {
                     classItems.each { String input ->
                         input = input.replace(".class", "")
+                        input = input.replace(".", "/");
                         Log.info("item:" + input)
                         mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false)
                     }
@@ -40,4 +38,5 @@ class ClassFilterVisitor extends ClassVisitor {
         }
         return super.visitMethod(access, name, desc, signature, exceptions)
     }
+
 }

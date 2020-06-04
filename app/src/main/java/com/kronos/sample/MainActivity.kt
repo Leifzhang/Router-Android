@@ -15,7 +15,11 @@ class MainActivity : AppCompatActivity() {
             Router.sharedRouter().open("https://www.baidu.com/test", this)
         }
         routerBaidu.setOnClickListener {
-            Router.sharedRouter().open("https://www.baidu.com/test/12345", this)
+            try {
+                Router.sharedRouter().open("https://www.baidu.com/test/12345", this)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
