@@ -9,28 +9,25 @@ import com.kronos.router.RouterCallback
  * Created by zhangyang on 16/7/16.
  */
 class RouterOptions {
+
     var openClass: Class<out Activity>? = null
     var callback: RouterCallback? = null
-    private var _defaultParams: Bundle? = null
+    private val _defaultParams: Bundle by lazy {
+        Bundle()
+    }
     var weight = 0
 
     var defaultParams: Bundle?
         get() = this._defaultParams
         set(defaultParams) {
-            if (_defaultParams == null) {
-                _defaultParams = Bundle()
-            }
-            if (defaultParams != null) {
-                _defaultParams!!.putAll(defaultParams)
-            }
+
+            _defaultParams.putAll(defaultParams)
+
         }
 
     constructor() {
-        if (_defaultParams == null) {
-            _defaultParams = Bundle()
-        }
-    }
 
+    }
 
     constructor(defaultParams: Bundle) {
         this.defaultParams = defaultParams
@@ -38,6 +35,6 @@ class RouterOptions {
 
 
     fun putParams(key: String, value: String) {
-        _defaultParams!!.putString(key, value)
+        _defaultParams.putString(key, value)
     }
 }

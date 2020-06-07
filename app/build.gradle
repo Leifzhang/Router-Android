@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'router-register'
 
 android {
     compileSdkVersion 28
@@ -31,12 +32,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':secondmoudle')
-    testImplementation 'junit:junit:4.12'
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
-    implementation 'com.jakewharton:butterknife:10.0.0'
+    testImplementation 'junit:junit:4.13'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
+    implementation 'com.jakewharton:butterknife:10.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha06"
+    implementation "androidx.recyclerview:recyclerview:1.2.0-alpha03"
     implementation project(':RouterLib')
     kapt project(':compiler')
-    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 }

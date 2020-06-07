@@ -10,16 +10,13 @@ import java.util.Map;
 public class RealInterceptorChain implements Interceptor.Chain {
     private final List<Interceptor> interceptors;
     private final String url;
-    private final Map<String, RouterParams> cachedRoutes;
     private final Map<String, HostParams> hostMap;
     private final int index;
 
-
-    RealInterceptorChain(List<Interceptor> interceptors, String url, Map<String, RouterParams> cachedRoutes,
+    RealInterceptorChain(List<Interceptor> interceptors, String url,
                          Map<String, HostParams> hosts, int index) {
         this.interceptors = interceptors;
         this.url = url;
-        this.cachedRoutes = cachedRoutes;
         this.hostMap = hosts;
         this.index = index;
     }
@@ -29,10 +26,6 @@ public class RealInterceptorChain implements Interceptor.Chain {
         return url;
     }
 
-    @Override
-    public Map<String, RouterParams> getCacheRouter() {
-        return cachedRoutes;
-    }
 
     @Override
     public Map<String, HostParams> getHostParams() {
@@ -48,17 +41,16 @@ public class RealInterceptorChain implements Interceptor.Chain {
         if (index >= interceptors.size()) throw new AssertionError();
 
         // Call the next intercept in the chain.
-        RealInterceptorChain next = new RealInterceptorChain(interceptors, request, cachedRoutes, hostMap,
+        RealInterceptorChain next = new RealInterceptorChain(interceptors, request, hostMap,
                 index + 1);
         Interceptor interceptor = interceptors.get(index);
-        RouterParams response = interceptor.intercept(next);
-
+        RouterParams routerParams = interceptor.intercept(next);
 
         // Confirm that the intercepted response isn't null.
-        if (response == null) {
+        if (routerParams == null) {
             throw new RouteNotFoundException("No route found for url " + url);
         }
 
-        return response;
+        return routerParams;
     }
 }
