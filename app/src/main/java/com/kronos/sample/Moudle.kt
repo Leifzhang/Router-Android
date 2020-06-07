@@ -22,5 +22,6 @@ object Moudle {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+       // RouterInit_second.init()
     }
 }

@@ -14,20 +14,24 @@ import com.kronos.autoregister.helper.Log;
 import com.kronos.autoregister.helper.TryCatchMethodVisitor;
 import com.kronos.plugin.base.BaseTransform;
 import com.kronos.plugin.base.ClassUtils;
+import com.kronos.plugin.base.DeleteCallBack;
 import com.kronos.plugin.base.TransformCallBack;
 
 import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.CheckClassAdapter;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,6 +59,7 @@ public class NewAutoRegisterTransform extends Transform {
     @Override
     public void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         HashSet<String> items = new HashSet<>();
+        HashSet<String> deleteItems = new HashSet<>();
         BaseTransform baseTransform = new BaseTransform(transformInvocation, new TransformCallBack() {
 
             @Override
@@ -66,11 +71,21 @@ public class NewAutoRegisterTransform extends Transform {
                 return null;
             }
         });
+        baseTransform.setDeleteCallBack(new DeleteCallBack() {
+            @Override
+            public void delete(String s, byte[] bytes) {
+                String checkClassName = ClassUtils.path2Classname(s);
+                if (checkClassName(checkClassName)) {
+                    deleteItems.add(s);
+                }
+            }
+        });
         baseTransform.startTransform();
+        Log.info("deleteItems:" + deleteItems);
         TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
         File dest = outputProvider.getContentLocation("kronos_router", TransformManager.CONTENT_CLASS,
                 ImmutableSet.of(QualifiedContent.Scope.PROJECT), Format.DIRECTORY);
-        generateInitClass(dest.getAbsolutePath(), items);
+        generateInitClass(dest.getAbsolutePath(), items, deleteItems);
     }
 
     static boolean checkClassName(String className) {
@@ -81,29 +96,25 @@ public class NewAutoRegisterTransform extends Transform {
         return className.contains(packageList);
     }
 
-    private void generateInitClass(String directory, HashSet<String> items) {
+    private void generateInitClass(String directory, HashSet<String> items, HashSet<String> deleteItems) {
         String className = Constant.REGISTER_CLASS_CONST.replace('.', '/');
         File dest = new File(directory, className + SdkConstants.DOT_CLASS);
         if (!dest.exists()) {
             try {
                 ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-                ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, writer) {
+                ClassVisitor cv = new ClassVisitor(Opcodes.ASM6, writer) {
                 };
                 cv.visit(50, Opcodes.ACC_PUBLIC, className, null, "java/lang/Object", null);
-                MethodVisitor mv = new TryCatchMethodVisitor(cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
-                        Constant.REGISTER_FUNCTION_NAME_CONST, "()V", null, null));
+                TryCatchMethodVisitor mv = new TryCatchMethodVisitor(cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+                        Constant.REGISTER_FUNCTION_NAME_CONST, "()V", null, null), null, deleteItems);
                 mv.visitCode();
                 for (String clazz : items) {
                     String input = clazz.replace(".class", "");
                     input = input.replace(".", "/");
                     Log.info("item:" + input);
-                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
+                    mv.addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
                 }
-                Log.info("end insert");
-               // mv.visitMaxs(0, 0);
-                Log.info("maxs");
                 mv.visitInsn(Opcodes.RETURN);
-                Log.info("return");
                 mv.visitEnd();
                 cv.visitEnd();
                 dest.getParentFile().mkdirs();
@@ -113,30 +124,34 @@ public class NewAutoRegisterTransform extends Transform {
             }
         } else {
             try {
-                modifyClass(dest, items);
+                modifyClass(dest, items, deleteItems);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void modifyClass(File file, HashSet<String> items) throws IOException {
-        InputStream inputStream = new FileInputStream(file);
-        byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
-
-        byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items);
-        if (modifiedClassBytes != null) {
-            ClassUtils.saveFile(file, modifiedClassBytes);
+    private void modifyClass(File file, HashSet<String> items, HashSet<String> deleteItems) throws IOException {
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
+            byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items, deleteItems);
+            Log.info("modifiedClassBytes");
+            if (modifiedClassBytes != null) {
+                File modified = ClassUtils.saveFile(file, modifiedClassBytes);
+                Log.info("changeFile :" + modified.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
-    byte[] modifyClass(byte[] srcClass, HashSet<String> items) throws IOException {
+    byte[] modifyClass(byte[] srcClass, HashSet<String> items, HashSet<String> deleteItems) throws IOException {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        Log.info("item:" + items);
-        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, items);
+        ClassVisitor methodFilterCV = new ClassFilterVisitor(classWriter, items, deleteItems);
         ClassReader cr = new ClassReader(srcClass);
-        cr.accept(methodFilterCV, 0);
+        cr.accept(methodFilterCV, ClassReader.SKIP_DEBUG);
         return classWriter.toByteArray();
     }
 

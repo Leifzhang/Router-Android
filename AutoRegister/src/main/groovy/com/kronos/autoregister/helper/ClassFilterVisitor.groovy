@@ -6,35 +6,20 @@ import org.objectweb.asm.Opcodes
 
 class ClassFilterVisitor extends ClassVisitor {
     private HashSet<String> classItems
+    private HashSet<String> deleteItems
 
-    ClassFilterVisitor(ClassVisitor classVisitor, HashSet<String> classItems) {
-        super(Opcodes.ASM5, classVisitor)
+    ClassFilterVisitor(ClassVisitor classVisitor, HashSet<String> classItems, HashSet<String> deleteItems) {
+        super(Opcodes.ASM6, classVisitor)
         this.classItems = classItems
-    }
-
-    @Override
-    void visitEnd() {
-        super.visitEnd()
+        this.deleteItems = deleteItems
     }
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        Log.info("name:$name  desc:$desc ")
-        if (name == "injectInit" && desc == "()V") {
-            MethodVisitor mv = new TryCatchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions)) {
-                @Override
-                void visitCode() {
-                    classItems.each { String input ->
-                        input = input.replace(".class", "")
-                        input = input.replace(".", "/");
-                        Log.info("item:" + input)
-                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false)
-                    }
-                    super.visitCode()
-                }
-            }
-            return mv
-
+        if (name == "register" && desc == "()V") {
+            TryCatchMethodVisitor methodVisitor = new TryCatchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions),
+                    classItems, deleteItems)
+            return methodVisitor
         }
         return super.visitMethod(access, name, desc, signature, exceptions)
     }
