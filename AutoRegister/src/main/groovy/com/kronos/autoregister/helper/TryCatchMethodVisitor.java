@@ -1,5 +1,7 @@
 package com.kronos.autoregister.helper;
 
+import com.kronos.autoregister.Constant;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -20,12 +22,10 @@ public class TryCatchMethodVisitor extends MethodVisitor {
         if (this.deleteItems == null) {
             this.deleteItems = new HashSet<>();
         }
-        Log.info("deleteItems:" + deleteItems);
     }
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-        Log.info("visit owner : " + owner);
         String className = owner + ".class";
         if (!deleteItems.contains(className)) {
             super.visitMethodInsn(opcode, owner, name, desc, itf);
@@ -39,10 +39,8 @@ public class TryCatchMethodVisitor extends MethodVisitor {
             input = input.replace(".class", "");
             input = input.replace(".", "/");
             deleteItems.add(input + ".class");
-            addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
-            Log.info("visitInsn");
+            addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, Constant.REGISTER_CLASS_FUNCTION_CONST, "()V", false);
         }
-        Log.info("onCodeInsert");
     }
 
 

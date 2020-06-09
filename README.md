@@ -12,12 +12,13 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.kronos.plugin:AutoRegister:0.4.9'
+        classpath 'com.kronos.plugin:AutoRegister:0.5.1'
     }
 }
 ```
 ```
 apply plugin: 'router-register'
+
 dependencies {
     compile 'com.github.leifzhang:routerLib:0.4.1'
     kapt "com.github.leifzhang:compiler:0.4.1"

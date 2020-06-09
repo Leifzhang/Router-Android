@@ -1,5 +1,6 @@
 package com.kronos.autoregister.helper
 
+import com.kronos.autoregister.Constant
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
@@ -16,7 +17,7 @@ class ClassFilterVisitor extends ClassVisitor {
 
     @Override
     MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        if (name == "register" && desc == "()V") {
+        if (name == Constant.REGISTER_FUNCTION_NAME_CONST && desc == "()V") {
             TryCatchMethodVisitor methodVisitor = new TryCatchMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions),
                     classItems, deleteItems)
             return methodVisitor

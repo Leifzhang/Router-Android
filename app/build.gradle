@@ -41,3 +41,10 @@ dependencies {
     kapt project(':compiler')
     kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 }
+
+AutoRegister {
+    REGISTER_PACKAGE_NAME = "com.kronos.router.init"
+    REGISTER_CLASS_NAME = "com.kronos.router.loader.RouterRegistry"
+    REGISTER_FUNCTION_NAME = "register"
+    REGISTER_CLASS_FUNCTION_NAME = "init"
+}
