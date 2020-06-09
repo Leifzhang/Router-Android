@@ -75,6 +75,7 @@ public class NewAutoRegisterTransform extends Transform {
                 }
             }
         });
+        baseTransform.openSimpleScan();
         baseTransform.startTransform();
         TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
         File dest = outputProvider.getContentLocation("kronos_router", TransformManager.CONTENT_CLASS,

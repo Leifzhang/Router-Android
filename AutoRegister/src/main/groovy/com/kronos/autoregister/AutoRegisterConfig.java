@@ -5,6 +5,7 @@ public class AutoRegisterConfig {
     public String REGISTER_CLASS_NAME = "";
     public String REGISTER_FUNCTION_NAME = "";
     public String REGISTER_CLASS_FUNCTION_NAME = "";
+    public String REGISTER_CUSTOM_CLASS_NAME = "";
 
     public void transform() {
         if (REGISTER_CLASS_NAME != null && !REGISTER_CLASS_NAME.isEmpty()) {
