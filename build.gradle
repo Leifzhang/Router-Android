@@ -17,7 +17,7 @@ buildscript {
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.kronos.plugin:AutoRegister:0.5.1'
+        classpath 'com.kronos.plugin:AutoRegister:0.5.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here;elong
         // in the individual module build.gradle files

@@ -1,5 +1,8 @@
 package com.kronos.router.interceptor;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterParams;
@@ -7,14 +10,19 @@ import com.kronos.router.model.RouterParams;
 import java.util.Map;
 
 public interface Interceptor {
-    RouterParams intercept(Chain chain) throws RouteNotFoundException;
+    void intercept(Chain chain) throws RouteNotFoundException;
 
     interface Chain {
+
         String url();
 
-        RouterParams proceed(String url) throws RouteNotFoundException;
+        Context getContext();
 
+        Bundle getBundle();
 
         Map<String, HostParams> getHostParams();
+
+        void proceed() throws RouteNotFoundException;
+
     }
 }

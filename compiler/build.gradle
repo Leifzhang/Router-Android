@@ -5,11 +5,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 dependencies {
-    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation 'com.google.auto.service:auto-service:1.0-rc5'
     implementation 'com.squareup:javapoet:1.10.0'
     implementation 'com.github.leifzhang:RouterAnnotation:0.4.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    kapt "com.google.auto.service:auto-service:1.0-rc4"
+    kapt "com.google.auto.service:auto-service:1.0-rc5"
 }
 
 sourceCompatibility = 1.8

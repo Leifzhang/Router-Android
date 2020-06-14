@@ -135,29 +135,7 @@ public class Router {
         if (context == null) {
             throw new ContextNotProvided("You need to supply a context for Router " + this.toString());
         }
-        RouterParams params = realCall.open(url);
-        RouterOptions options = params.getRouterOptions();
-        if (options.getCallback() != null) {
-            RouterContext routeContext = new RouterContext(params.getOpenParams(), extras, context);
-            options.getCallback().run(routeContext);
-            return;
-        }
-
-        Intent intent = this.intentFor(context, params);
-        if (intent == null) {
-            // Means the options weren't opening a new activity
-            return;
-        }
-        if (extras != null) {
-            intent.putExtras(extras);
-        } else {
-            Bundle bundle = new Bundle();
-            intent.putExtras(bundle);
-        }
-        if (!(context instanceof Activity)) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        context.startActivity(intent);
+        realCall.open(url, context, extras);
     }
 
     private void addFlagsToIntent(Intent intent, Context context) {
@@ -179,18 +157,6 @@ public class Router {
         return intent;
     }
 
-
-    public boolean isCallbackUrl(String url) {
-        RouterParams params = realCall.open(url);
-        RouterOptions options = params.getRouterOptions();
-        return options.getCallback() != null;
-    }
-
-
-    public Intent intentFor(Context context, String url) {
-        RouterParams params = realCall.open(url);
-        return intentFor(context, params);
-    }
 
     private Intent intentFor(Context context, RouterParams params) {
         RouterOptions options = params.getRouterOptions();

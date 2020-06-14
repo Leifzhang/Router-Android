@@ -1,5 +1,8 @@
 package com.kronos.router.interceptor;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterParams;
@@ -18,17 +21,17 @@ public class RealCall {
         this.hostMap = hostMap;
     }
 
-    public RouterParams open(String url) throws RouteNotFoundException {
-        return getParamsWithInterceptorChain(url);
+    public void open(String url, Context context, Bundle bundle) throws RouteNotFoundException {
+         getParamsWithInterceptorChain(url, context, bundle);
     }
 
-    private RouterParams getParamsWithInterceptorChain(String url) throws RouteNotFoundException {
+    private void getParamsWithInterceptorChain(String url, Context context, Bundle bundle) throws RouteNotFoundException {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(new TestInterceptor());
         interceptors.add(new CacheInterceptor(cachedRoutes));
         interceptors.add(new RouterInterceptor());
-        Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, hostMap, 0);
-        return chain.proceed(url);
+        Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, hostMap, 0, context, bundle);
+        chain.proceed();
     }
 
 }

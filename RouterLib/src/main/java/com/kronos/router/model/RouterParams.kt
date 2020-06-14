@@ -7,7 +7,7 @@ class RouterParams {
     var url: String? = null
     var weight: Int = 0
     var routerOptions: RouterOptions? = null
-    var openParams: Map<String, String>? = null
+    var openParams: HashMap<String, String> = hashMapOf()
 
     val realPath: String
         get() {
@@ -19,4 +19,9 @@ class RouterParams {
             return ""
         }
 
+    fun put(key: String, value: String?) {
+        value?.apply {
+            openParams[key] = this
+        }
+    }
 }

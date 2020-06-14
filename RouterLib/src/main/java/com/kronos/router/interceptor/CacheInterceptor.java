@@ -15,14 +15,15 @@ public class CacheInterceptor implements Interceptor {
     }
 
     @Override
-    public RouterParams intercept(Chain chain) throws RouteNotFoundException {
+    public void intercept(Chain chain) throws RouteNotFoundException {
         String url = chain.url();
-        Log.i("TestInterceptor", "缓存池");
         if (cachedRoutes.get(url) != null) {
-            return cachedRoutes.get(url);
+           // return cachedRoutes.get(url);
         }
-        RouterParams routerParams = chain.proceed(url);
-        cachedRoutes.put(url, routerParams);
-        return routerParams;
+
+        chain.proceed();
+      //  cachedRoutes.put(url, routerParams);
+
     }
+
 }
