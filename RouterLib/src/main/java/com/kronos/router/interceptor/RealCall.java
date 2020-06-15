@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class RealCall {
 
-    private Map<String, RouterParams> cachedRoutes = new HashMap<>();
     private final Map<String, HostParams> hostMap;
 
     public RealCall(Map<String, HostParams> hostMap) {
@@ -22,14 +21,14 @@ public class RealCall {
     }
 
     public void open(String url, Context context, Bundle bundle) throws RouteNotFoundException {
-         getParamsWithInterceptorChain(url, context, bundle);
+        getParamsWithInterceptorChain(url, context, bundle);
     }
 
     private void getParamsWithInterceptorChain(String url, Context context, Bundle bundle) throws RouteNotFoundException {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(new TestInterceptor());
-        interceptors.add(new CacheInterceptor(cachedRoutes));
-        interceptors.add(new RouterInterceptor());
+        interceptors.add(new CacheInterceptor());
+        interceptors.add(new RouterInterceptor(interceptors));
         Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, hostMap, 0, context, bundle);
         chain.proceed();
     }

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.kronos.router.exception.ContextNotProvided;
+import com.kronos.router.interceptor.Interceptor;
 import com.kronos.router.interceptor.RealCall;
 import com.kronos.router.loader.RouterRegistry;
 import com.kronos.router.model.HostParams;
@@ -71,6 +72,12 @@ public class Router {
         RouterOptions options = new RouterOptions(bundle);
         assert targetFragment != null;
         options.putParams("target", targetFragment.getName());
+        map(url, mClass, options);
+    }
+
+    public static void map(String url, Class<? extends Activity> mClass, Bundle bundle, Interceptor... interceptors) {
+        RouterOptions options = new RouterOptions(bundle);
+        options.addInterceptors(interceptors);
         map(url, mClass, options);
     }
 

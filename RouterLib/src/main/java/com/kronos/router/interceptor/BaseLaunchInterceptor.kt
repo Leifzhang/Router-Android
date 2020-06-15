@@ -17,7 +17,6 @@ import java.util.*
 
 abstract class BaseLaunchInterceptor : Interceptor {
 
-
     @Throws(RouteNotFoundException::class)
     fun getParams(url: String, hosts: Map<String, HostParams>): RouterParams? {
         val parsedUri = Uri.parse(url)
@@ -59,7 +58,7 @@ abstract class BaseLaunchInterceptor : Interceptor {
         return routerParams
     }
 
-    fun getRouterParams(entry: Map.Entry<String, RouterOptions>, givenParts: Array<String>): RouterParams? {
+    private fun getRouterParams(entry: Map.Entry<String, RouterOptions>, givenParts: Array<String>): RouterParams? {
         val routerParams = RouterParams()
         val routerUrl = cleanUrl(entry.key)
         val routerOptions = entry.value
@@ -81,22 +80,21 @@ abstract class BaseLaunchInterceptor : Interceptor {
         givenParams.forEach { entry ->
             routerParams.put(entry.key, entry.value)
         }
+        routerParams.interceptors.addAll(routerOptions.interceptors)
         routerParams.routerOptions = routerOptions
         return routerParams
     }
 
-    fun cleanUrl(url: String): String {
+    private fun cleanUrl(url: String): String {
         return if (url.startsWith("/")) {
             url.substring(1)
         } else url
     }
 
-    fun launch(params: RouterParams, extras: Bundle, context: Context) {
+    fun launch(params: RouterParams, extras: Bundle?, context: Context) {
         val options = params.routerOptions
         if (options?.callback != null) {
-            params.openParams?.let {
-                RouterContext(it, extras, context)
-            }?.apply {
+            RouterContext(params.openParams, extras, context).apply {
                 options.callback?.run(this)
             }
             return
@@ -104,7 +102,7 @@ abstract class BaseLaunchInterceptor : Interceptor {
         val intent: Intent = IntentUtils.intentFor(context, params)
                 ?: // Means the options weren't opening a new activity
                 return
-        intent.putExtras(extras)
+        extras?.apply { intent.putExtras(this) }
         context.startActivity(intent)
     }
 }

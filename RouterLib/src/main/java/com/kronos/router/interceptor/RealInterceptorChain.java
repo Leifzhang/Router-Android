@@ -57,7 +57,9 @@ public class RealInterceptorChain implements Interceptor.Chain {
 
 
     public void proceed(String request) throws RouteNotFoundException {
-        if (index >= interceptors.size()) throw new AssertionError();
+        if (index >= interceptors.size()) {
+            return;
+        }
 
         // Call the next intercept in the chain.
         RealInterceptorChain next = new RealInterceptorChain(interceptors, request, hostMap,

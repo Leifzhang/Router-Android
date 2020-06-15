@@ -16,7 +16,7 @@ object IntentUtils {
         options?.defaultParams?.apply {
             intent.putExtras(this)
         }
-        params.openParams?.forEach() {
+        params.openParams.forEach() {
             intent.putExtra(it.key, it.value)
         }
         return intent

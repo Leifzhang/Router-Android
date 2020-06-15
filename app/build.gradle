@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.recyclerview:recyclerview:1.2.0-alpha03"
+
     implementation project(':RouterLib')
     kapt project(':compiler')
     kapt 'com.jakewharton:butterknife-compiler:10.2.0'

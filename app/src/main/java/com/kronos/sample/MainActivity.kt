@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Router.sharedRouter().attachApplication(application)
+        Router.map("https://www.baidu.com/test", TestActivity::class.java, Bundle(), LogInterceptor())
         routerTesting.setOnClickListener {
             Router.sharedRouter().open("https://www.baidu.com/test", this)
         }
