@@ -34,27 +34,27 @@ public class TryCatchMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitCode() {
-        super.visitCode();
         for (String input : addItems) {
             input = input.replace(".class", "");
             input = input.replace(".", "/");
             deleteItems.add(input + ".class");
             addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, Constant.REGISTER_CLASS_FUNCTION_CONST, "()V", false);
         }
+        super.visitCode();
     }
 
 
     public void addTryCatchMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-   /*     Label l0 = new Label();
+        Label l0 = new Label();
         Label l1 = new Label();
         Label l2 = new Label();
-        mv.visitTryCatchBlock(l0, l1, l2, "java/lang/Exception");*/
+        mv.visitTryCatchBlock(l0, l1, l2, "java/lang/Exception");
         mv.visitMethodInsn(opcode, owner, name, desc, itf);
-       /* mv.visitLabel(l1);
+        mv.visitLabel(l1);
         Label l3 = new Label();
         mv.visitJumpInsn(Opcodes.GOTO, l3);
         mv.visitLabel(l2);
         mv.visitVarInsn(Opcodes.ASTORE, 1);
-        mv.visitLabel(l3);*/
+        mv.visitLabel(l3);
     }
 }

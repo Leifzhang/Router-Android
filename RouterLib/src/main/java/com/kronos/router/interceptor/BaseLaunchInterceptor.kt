@@ -20,8 +20,8 @@ abstract class BaseLaunchInterceptor : Interceptor {
     @Throws(RouteNotFoundException::class)
     fun getParams(url: String, hosts: Map<String, HostParams>): RouterParams? {
         val parsedUri = Uri.parse(url)
-        val urlPath = if (TextUtils.isEmpty(parsedUri.path)) "" else parsedUri.path.substring(1)
-        val givenParts = urlPath.split("/".toRegex()).toTypedArray()
+        val urlPath = if (TextUtils.isEmpty(parsedUri.path)) "" else parsedUri.path?.substring(1)
+        val givenParts = urlPath?.split("/".toRegex())?.toTypedArray() ?: arrayOf()
         val params: MutableList<RouterParams> = ArrayList()
         val hostParams = hosts[parsedUri.host]
                 ?: throw RouteNotFoundException("No host found for url $url")

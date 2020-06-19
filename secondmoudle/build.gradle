@@ -4,12 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -21,6 +21,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+kapt {
+    arguments {
+        arg("ROUTER_MODULE_NAME", project.getName())
     }
 }
 

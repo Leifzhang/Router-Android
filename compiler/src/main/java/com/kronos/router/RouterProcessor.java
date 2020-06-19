@@ -2,14 +2,20 @@ package com.kronos.router;
 
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
+import com.kronos.router.utils.Const;
 import com.kronos.router.utils.Logger;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -30,6 +36,7 @@ import javax.lang.model.element.TypeElement;
 public class RouterProcessor extends AbstractProcessor {
     private Filer filer;
     private Logger logger;
+    private String moduleName;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -37,7 +44,17 @@ public class RouterProcessor extends AbstractProcessor {
         Messager messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
         logger = new Logger(messager);
-        logger.info("start processor");
+        Map<String, String> options = processingEnv.getOptions();
+        if (MapUtils.isNotEmpty(options)) {
+            moduleName = options.get(Const.KEY_MODULE_NAME);
+            if (StringUtils.isNotEmpty(moduleName)) {
+                moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
+            } else {
+                moduleName = Const.DEFAULT_APP_MODULE;
+            }
+            logger.info("The user has configuration the module name, it was [" + moduleName + "]");
+        }
+
     }
 
 
@@ -45,14 +62,12 @@ public class RouterProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> ret = new HashSet<>();
         ret.add(BindRouter.class.getCanonicalName());
-        ret.add(BindModule.class.getCanonicalName());
         return ret;
     }
 
     @Override
     public Set<String> getSupportedOptions() {
-        return ImmutableSet.of("com.kronos.router.BindRouter",
-                "com.kronos.router.BindModule");
+        return ImmutableSet.of(Const.KEY_MODULE_NAME);
     }
 
     @Override
@@ -60,24 +75,22 @@ public class RouterProcessor extends AbstractProcessor {
         return SourceVersion.latestSupported();
     }
 
-
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindModule.class);
-        String name;
-        for (Element e : elements) {
-            BindModule annotation = e.getAnnotation(BindModule.class);
-            name = annotation.value();
-            logger.info("BindModule:" + name);
-            initRouter(name, roundEnv);
+        if (CollectionUtils.isNotEmpty(annotations)) {
+            initRouter(moduleName, roundEnv);
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void initRouter(String name, RoundEnvironment roundEnv) {
+        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindRouter.class);
+        if (elements.isEmpty()) {
+            return;
+        }
         MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
-        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindRouter.class);
         //一、收集信息
         int count = 0;
         for (Element element : elements) {
@@ -129,8 +142,8 @@ public class RouterProcessor extends AbstractProcessor {
             JavaFile.builder("com.kronos.router.init", routerMapping)
                     .build()
                     .writeTo(filer);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
         }
     }
 }
