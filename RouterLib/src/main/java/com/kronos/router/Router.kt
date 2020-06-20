@@ -14,13 +14,15 @@ import com.kronos.router.loader.RouterRegistry
 import com.kronos.router.model.HostParams
 import com.kronos.router.model.RouterOptions
 import com.kronos.router.model.RouterParams
+import com.kronos.router.utils.RouteConfiguration
 import java.util.*
 
 class Router private constructor() {
 
     private var application: Application? = null
-    private val hosts: MutableMap<String?, HostParams> = HashMap()
-    private val realCall: RealCall = RealCall(hosts)
+    private val hosts: MutableMap<String, HostParams> = HashMap()
+    private val config = RouteConfiguration()
+    private val realCall: RealCall = RealCall(hosts, config)
 
     fun attachApplication(context: Application?) {
         RouterRegistry.register()
@@ -147,7 +149,10 @@ class Router private constructor() {
                     }
                 }
             }
+        }
 
+        fun addGlobalInterceptor(interceptor: Interceptor) {
+            router.config.addInterceptor(interceptor)
         }
     }
 
