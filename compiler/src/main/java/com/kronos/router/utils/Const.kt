@@ -12,6 +12,7 @@ object Const {
     const val SERVICE = "android.app.Service"
     const val PARCELABLE = "android.os.Parcelable"
     const val RUNNABLE = "com.kronos.router.RouterCallback"
+    const val INTERCEPTOR_CLASS = "com.kronos.router.interceptor.Interceptor"
 
     // Java type
     private const val LANG = "java.lang"

@@ -108,6 +108,16 @@ class Router private constructor() {
             map(url, null, options)
         }
 
+        @JvmStatic
+        fun map(url: String, callback: RouterCallback, vararg interceptors: Interceptor) {
+            val options = RouterOptions()
+            interceptors.forEach {
+                options.addInterceptor(it)
+            }
+            options.callback = callback
+            map(url, null, options)
+        }
+
         @JvmOverloads
         fun map(url: String, mClass: Class<out Activity>, targetFragment: Class<out Fragment>,
                 bundle: Bundle? = null) {
@@ -116,17 +126,22 @@ class Router private constructor() {
             map(url, mClass, options)
         }
 
+
         @JvmStatic
-        fun map(url: String, mClass: Class<out Activity>, interceptor: Interceptor) {
+        fun map(url: String, mClass: Class<out Activity>, vararg interceptors: Interceptor) {
             val options = RouterOptions()
-            options.addInterceptor(interceptor)
+            interceptors.forEach {
+                options.addInterceptor(it)
+            }
             map(url, mClass, options)
         }
 
         @JvmStatic
-        fun map(url: String, mClass: Class<out Activity>, interceptor: Array<Interceptor>) {
-            val options = RouterOptions()
-            options.addInterceptors(interceptor)
+        fun map(url: String, mClass: Class<out Activity>?, options: RouterOptions = RouterOptions(),
+                vararg interceptors: Interceptor) {
+            interceptors.forEach {
+                options.addInterceptor(it)
+            }
             map(url, mClass, options)
         }
 
@@ -150,6 +165,7 @@ class Router private constructor() {
                 }
             }
         }
+
 
         fun addGlobalInterceptor(interceptor: Interceptor) {
             router.config.addInterceptor(interceptor)

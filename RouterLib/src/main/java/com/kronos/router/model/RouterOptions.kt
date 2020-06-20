@@ -44,7 +44,7 @@ class RouterOptions {
         interceptors.add(interceptor)
     }
 
-    fun addInterceptors(interceptor: Array<Interceptor>) {
+    fun addInterceptors(interceptor: List<Interceptor>) {
         interceptors.addAll(interceptor)
     }
 }
