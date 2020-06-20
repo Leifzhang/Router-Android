@@ -7,6 +7,8 @@ import com.kronos.router.exception.RouteNotFoundException;
 import com.kronos.router.model.HostParams;
 import com.kronos.router.model.RouterParams;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +31,6 @@ public class RealInterceptorChain implements Interceptor.Chain {
         this.mBundle = bundle;
     }
 
-    @Override
-    public String url() {
-        return url;
-    }
 
     @Override
     public Context getContext() {
@@ -61,10 +59,15 @@ public class RealInterceptorChain implements Interceptor.Chain {
             return;
         }
 
-        // Call the next intercept in the chain.
         RealInterceptorChain next = new RealInterceptorChain(interceptors, request, hostMap,
                 index + 1, mContext, mBundle);
         Interceptor interceptor = interceptors.get(index);
         interceptor.intercept(next);
+    }
+
+    @NotNull
+    @Override
+    public String getUrl() {
+        return url;
     }
 }

@@ -3,13 +3,15 @@ package com.kronos.secondmoudle;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.kronos.router.BindRouter;
 
 /**
  * Created by zhangyang on 16/7/16.
  */
 @BindRouter(urls = {"https://www.baidu.com/:id{string}/:nid{long}"})
-public class TestActivity extends Activity {
+public class TestActivity extends AppCompatActivity {
     //  TextView testTv;
 
     @Override

@@ -1,29 +1,23 @@
 package com.kronos.router.interceptor
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import com.kronos.router.RouterContext
 import com.kronos.router.exception.RouteNotFoundException
 import com.kronos.router.model.HostParams
 import com.kronos.router.model.RouterOptions
 import com.kronos.router.model.RouterParams
-import com.kronos.router.utils.IntentUtils
 import com.kronos.router.utils.RouterUtils
 import java.util.*
 
-abstract class BaseLaunchInterceptor : Interceptor {
+abstract class BaseInterceptor : Interceptor {
 
     @Throws(RouteNotFoundException::class)
-    fun getParams(url: String, hosts: Map<String, HostParams>): RouterParams? {
+    fun getParams(url: String, hosts: Map<String, HostParams>?): RouterParams? {
         val parsedUri = Uri.parse(url)
         val urlPath = if (TextUtils.isEmpty(parsedUri.path)) "" else parsedUri.path?.substring(1)
         val givenParts = urlPath?.split("/".toRegex())?.toTypedArray() ?: arrayOf()
         val params: MutableList<RouterParams> = ArrayList()
-        val hostParams = hosts[parsedUri.host]
+        val hostParams = hosts?.get(parsedUri.host)
                 ?: throw RouteNotFoundException("No host found for url $url")
         for (entry in hostParams.routes.entries) {
             val routerParams = getRouterParams(entry, givenParts)
@@ -91,18 +85,15 @@ abstract class BaseLaunchInterceptor : Interceptor {
         } else url
     }
 
-    fun launch(params: RouterParams, extras: Bundle?, context: Context) {
-        val options = params.routerOptions
-        if (options?.callback != null) {
-            RouterContext(params.openParams, extras, context).apply {
-                options.callback?.run(this)
-            }
-            return
+
+    fun pathInterceptor(params: RouterParams, chain: Interceptor.Chain) {
+        val interceptors: MutableList<Interceptor> = ArrayList()
+        if (params.interceptors.isNotEmpty()) {
+            interceptors.addAll(params.interceptors)
         }
-        val intent: Intent = IntentUtils.intentFor(context, params)
-                ?: // Means the options weren't opening a new activity
-                return
-        extras?.apply { intent.putExtras(this) }
-        context.startActivity(intent)
+        interceptors.add(LaunchInterceptor(params))
+        val childChain: Interceptor.Chain = RealInterceptorChain(interceptors, chain.url, chain.hostParams,
+                0, chain.context, chain.bundle)
+        childChain.proceed()
     }
 }

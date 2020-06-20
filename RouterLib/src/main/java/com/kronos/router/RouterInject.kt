@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
  * Created by zhangyang on 16/7/18.
  */
 object RouterInject {
+
     fun inject(activity: FragmentActivity, intent: Intent) {
         val bundle = intent.extras
         val target = bundle?.getString("target")

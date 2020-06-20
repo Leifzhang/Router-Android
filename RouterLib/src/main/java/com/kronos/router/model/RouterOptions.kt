@@ -24,16 +24,14 @@ class RouterOptions {
     var defaultParams: Bundle?
         get() = this._defaultParams
         set(defaultParams) {
-
             _defaultParams.putAll(defaultParams)
-
         }
 
     constructor() {
 
     }
 
-    constructor(defaultParams: Bundle) {
+    constructor(defaultParams: Bundle?) {
         this.defaultParams = defaultParams
     }
 
@@ -46,7 +44,7 @@ class RouterOptions {
         interceptors.add(interceptor)
     }
 
-    fun addInterceptors(interceptorArray: Array<Interceptor>) {
-        interceptors.addAll(interceptorArray)
+    fun addInterceptors(interceptor: Array<Interceptor>) {
+        interceptors.addAll(interceptor)
     }
 }

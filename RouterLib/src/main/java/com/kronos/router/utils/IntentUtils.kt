@@ -1,11 +1,8 @@
 package com.kronos.router.utils
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import com.kronos.router.RouterContext
 import com.kronos.router.model.RouterParams
 
 object IntentUtils {
@@ -25,11 +22,11 @@ object IntentUtils {
 
     internal fun intentFor(context: Context, params: RouterParams): Intent? {
         val options = params.routerOptions
-        if (options!!.callback != null) {
+        if (options?.callback != null) {
             return null
         }
         val intent = intentFor(params)
-        options.openClass?.apply {
+        options?.openClass?.apply {
             intent.setClass(context, this)
         }
         this.addFlagsToIntent(intent, context)

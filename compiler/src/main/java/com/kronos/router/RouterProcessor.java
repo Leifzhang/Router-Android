@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
 import com.kronos.router.utils.Const;
 import com.kronos.router.utils.Logger;
+import com.kronos.router.utils.TypeUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -28,8 +29,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 @AutoService(Processor.class)
 @SuppressWarnings("NullAway")
@@ -37,6 +40,8 @@ public class RouterProcessor extends AbstractProcessor {
     private Filer filer;
     private Logger logger;
     private String moduleName;
+    private Elements elementUtils;
+    private Types types;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -44,6 +49,9 @@ public class RouterProcessor extends AbstractProcessor {
         Messager messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
         logger = new Logger(messager);
+        types = processingEnv.getTypeUtils();
+        elementUtils = processingEnv.getElementUtils();
+        TypeUtils typeUtils = new TypeUtils(types, elementUtils);
         Map<String, String> options = processingEnv.getOptions();
         if (MapUtils.isNotEmpty(options)) {
             moduleName = options.get(Const.KEY_MODULE_NAME);
@@ -91,6 +99,9 @@ public class RouterProcessor extends AbstractProcessor {
         }
         MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
+        TypeMirror type_Activity = elementUtils.getTypeElement(Const.ACTIVITY).asType();
+        TypeMirror fragmentTm = elementUtils.getTypeElement(Const.FRAGMENT).asType();
+        TypeMirror callBackTm = elementUtils.getTypeElement(Const.RUNNABLE).asType();
         //一、收集信息
         int count = 0;
         for (Element element : elements) {
@@ -98,12 +109,10 @@ public class RouterProcessor extends AbstractProcessor {
             //field type
             BindRouter router = element.getAnnotation(BindRouter.class);
             ClassName className;
-            Name methodName = null;
             if (element.getKind() == ElementKind.CLASS) {
                 className = ClassName.get((TypeElement) element);
             } else if (element.getKind() == ElementKind.METHOD) {
                 className = ClassName.get((TypeElement) element.getEnclosingElement());
-                methodName = element.getSimpleName();
             } else {
                 throw new IllegalArgumentException("unknow type");
             }
@@ -111,13 +120,15 @@ public class RouterProcessor extends AbstractProcessor {
             String[] id = router.urls();
             for (String format : id) {
                 int weight = router.weight();
-                if (router.isRunnable()) {
+                TypeMirror type = element.asType();
+                if (types.isSubtype(type, callBackTm)) {
                     String callbackName = "callBack" + count;
                     initMethod.addStatement(className + " " + callbackName + "=new " + className + "()");
                     initMethod.addStatement("com.kronos.router.Router.map($S, " + callbackName + ")", format);
                     count++;
                     continue;
                 }
+                //   if (types.isSubtype(type_Activity, type)) {
                 if (weight > 0) {
                     String bundleName = "bundle" + count;
                     initMethod.addStatement("android.os.Bundle " + bundleName + "=new android.os.Bundle();");
@@ -130,8 +141,9 @@ public class RouterProcessor extends AbstractProcessor {
                 } else {
                     initMethod.addStatement("com.kronos.router.Router.map($S,$T.class)", format, className);
                 }
-                count++;
             }
+            count++;
+            // }
         }
         String moduleName = "RouterInit_" + name;
         TypeSpec routerMapping = TypeSpec.classBuilder(moduleName)
@@ -143,7 +155,7 @@ public class RouterProcessor extends AbstractProcessor {
                     .build()
                     .writeTo(filer);
         } catch (IOException ignored) {
-            ignored.printStackTrace();
+
         }
     }
 }

@@ -5,6 +5,6 @@ package com.kronos.router.exception
  */
 class ContextNotProvided(message: String) : RuntimeException(message) {
     companion object {
-        private val serialVersionUID = -1381427067387547157L
+        private const val serialVersionUID = -1381427067387547157L
     }
 }

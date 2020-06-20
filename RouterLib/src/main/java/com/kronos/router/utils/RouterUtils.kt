@@ -9,6 +9,7 @@ import java.util.regex.Pattern
  * Created by zhangyang on 16/7/16.
  */
 object RouterUtils {
+
     @Throws(Exception::class)
     fun urlToParamsMap(givenUrlSegments: Array<String>, routerUrlSegments: Array<String>): Map<String, String>? {
         val formatParams: MutableMap<String, String> = HashMap()
@@ -22,7 +23,6 @@ object RouterUtils {
                 var key = routerPart.substring(1, routerPart.length)
                 val parser = parseUnit(key)
                 key = key.replace(parser, "")
-                Log.i("RouterUtils", parser)
                 if (TextUtils.equals("{string}", parser)) {
                     formatParams[key] = givenPart
                     continue

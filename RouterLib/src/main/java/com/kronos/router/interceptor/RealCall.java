@@ -28,7 +28,7 @@ public class RealCall {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(new TestInterceptor());
         interceptors.add(new CacheInterceptor());
-        interceptors.add(new RouterInterceptor(interceptors));
+        interceptors.add(new RouterInterceptor());
         Interceptor.Chain chain = new RealInterceptorChain(interceptors, url, hostMap, 0, context, bundle);
         chain.proceed();
     }
