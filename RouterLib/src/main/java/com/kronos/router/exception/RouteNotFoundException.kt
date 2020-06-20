@@ -5,6 +5,6 @@ package com.kronos.router.exception
  */
 class RouteNotFoundException(message: String) : RuntimeException(message) {
     companion object {
-        private val serialVersionUID = -2278644339983544651L
+        private const val serialVersionUID = -2278644339983544651L
     }
 }

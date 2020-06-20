@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 
 import com.kronos.router.RouterCallback
+import com.kronos.router.interceptor.Interceptor
 
 /**
  * Created by zhangyang on 16/7/16.
@@ -16,25 +17,34 @@ class RouterOptions {
         Bundle()
     }
     var weight = 0
+    val interceptors by lazy {
+        mutableListOf<Interceptor>()
+    }
 
     var defaultParams: Bundle?
         get() = this._defaultParams
         set(defaultParams) {
-
             _defaultParams.putAll(defaultParams)
-
         }
 
     constructor() {
 
     }
 
-    constructor(defaultParams: Bundle) {
+    constructor(defaultParams: Bundle?) {
         this.defaultParams = defaultParams
     }
 
 
     fun putParams(key: String, value: String) {
         _defaultParams.putString(key, value)
+    }
+
+    fun addInterceptor(interceptor: Interceptor) {
+        interceptors.add(interceptor)
+    }
+
+    fun addInterceptors(interceptor: List<Interceptor>) {
+        interceptors.addAll(interceptor)
     }
 }

@@ -2,25 +2,23 @@
 It's an Android Route Library. You can just add some Annotation to add you router path.
 ## Usage
 Add this line to your `build.gradle` file under your module directory.
-```kotlin
+```gradle
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leifzhang/maven'
-        }
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.kronos.plugin:AutoRegister:0.4.9'
+        classpath 'com.kronos.plugin:AutoRegister:0.5.4'
     }
 }
 ```
 ```
 apply plugin: 'router-register'
+
 dependencies {
-    compile 'com.github.leifzhang:routerLib:0.4.1'
-    kapt "com.github.leifzhang:compiler:0.4.1"
+    compile 'com.github.leifzhang:routerLib:0.5.1'
+    kapt "com.github.leifzhang:compiler:0.5.1"
 }
 ```
 
@@ -41,7 +39,7 @@ If you need just urls and add some params.You can  just  add like this.
 ```
 Also maybe some callback not an activity. You can do like this.
 ```java
-@BindRouter(urls = {"https://wwww.baidu.com"}, isRunnable = true)
+@BindRouter(urls = {"https://wwww.baidu.com/toast"})
 public class SimpleCallBack implements RouterCallback {
     @Override
     public void run(RouterContext context) {
@@ -51,10 +49,11 @@ public class SimpleCallBack implements RouterCallback {
 ```
 # Second Step
 Each module need a Annotation just call `BindModule`
-```java
-@BindModule("app")
-public class Module {
-
+```kotlin
+kapt {
+    arguments {
+        arg("ROUTER_MODULE_NAME", project.getName())
+    }
 }
 ```
 

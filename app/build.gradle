@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'router-register'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "com.kronos.router"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true
@@ -38,6 +38,14 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.recyclerview:recyclerview:1.2.0-alpha03"
     implementation project(':RouterLib')
+    implementation 'com.github.leifzhang:RouterAnnotation:0.5.0'
     kapt project(':compiler')
     kapt 'com.jakewharton:butterknife-compiler:10.2.0'
+}
+
+AutoRegister {
+    REGISTER_PACKAGE_NAME = "com.kronos.router.init"
+    REGISTER_CLASS_NAME = "com.kronos.router.loader.RouterRegistry"
+    REGISTER_FUNCTION_NAME = "register"
+    REGISTER_CLASS_FUNCTION_NAME = "init"
 }

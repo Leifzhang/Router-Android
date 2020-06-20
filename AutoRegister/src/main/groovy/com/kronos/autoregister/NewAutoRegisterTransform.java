@@ -10,7 +10,6 @@ import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.google.common.collect.ImmutableSet;
 import com.kronos.autoregister.helper.ClassFilterVisitor;
-import com.kronos.autoregister.helper.Log;
 import com.kronos.autoregister.helper.TryCatchMethodVisitor;
 import com.kronos.plugin.base.BaseTransform;
 import com.kronos.plugin.base.ClassUtils;
@@ -18,20 +17,16 @@ import com.kronos.plugin.base.DeleteCallBack;
 import com.kronos.plugin.base.TransformCallBack;
 
 import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.util.CheckClassAdapter;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -80,8 +75,8 @@ public class NewAutoRegisterTransform extends Transform {
                 }
             }
         });
+        baseTransform.openSimpleScan();
         baseTransform.startTransform();
-        Log.info("deleteItems:" + deleteItems);
         TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
         File dest = outputProvider.getContentLocation("kronos_router", TransformManager.CONTENT_CLASS,
                 ImmutableSet.of(QualifiedContent.Scope.PROJECT), Format.DIRECTORY);
@@ -92,7 +87,7 @@ public class NewAutoRegisterTransform extends Transform {
         if (className.contains("R\\$") || className.endsWith("R") || className.endsWith("BuildConfig")) {
             return false;
         }
-        String packageList = "com.kronos.router.init";
+        String packageList = Constant.REGISTER_PACKAGE_CONST;
         return className.contains(packageList);
     }
 
@@ -111,8 +106,7 @@ public class NewAutoRegisterTransform extends Transform {
                 for (String clazz : items) {
                     String input = clazz.replace(".class", "");
                     input = input.replace(".", "/");
-                    Log.info("item:" + input);
-                    mv.addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
+                    mv.addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, Constant.REGISTER_CLASS_FUNCTION_CONST, "()V", false);
                 }
                 mv.visitInsn(Opcodes.RETURN);
                 mv.visitEnd();
@@ -136,10 +130,8 @@ public class NewAutoRegisterTransform extends Transform {
             InputStream inputStream = new FileInputStream(file);
             byte[] sourceClassBytes = IOUtils.toByteArray(inputStream);
             byte[] modifiedClassBytes = modifyClass(sourceClassBytes, items, deleteItems);
-            Log.info("modifiedClassBytes");
             if (modifiedClassBytes != null) {
-                File modified = ClassUtils.saveFile(file, modifiedClassBytes);
-                Log.info("changeFile :" + modified.getAbsolutePath());
+                ClassUtils.saveFile(file, modifiedClassBytes);
             }
         } catch (Exception e) {
             e.printStackTrace();

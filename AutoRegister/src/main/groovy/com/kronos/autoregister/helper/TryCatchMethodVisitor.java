@@ -1,5 +1,7 @@
 package com.kronos.autoregister.helper;
 
+import com.kronos.autoregister.Constant;
+
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -20,12 +22,10 @@ public class TryCatchMethodVisitor extends MethodVisitor {
         if (this.deleteItems == null) {
             this.deleteItems = new HashSet<>();
         }
-        Log.info("deleteItems:" + deleteItems);
     }
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-        Log.info("visit owner : " + owner);
         String className = owner + ".class";
         if (!deleteItems.contains(className)) {
             super.visitMethodInsn(opcode, owner, name, desc, itf);
@@ -34,29 +34,27 @@ public class TryCatchMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitCode() {
-        super.visitCode();
         for (String input : addItems) {
             input = input.replace(".class", "");
             input = input.replace(".", "/");
             deleteItems.add(input + ".class");
-            addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, "init", "()V", false);
-            Log.info("visitInsn");
+            addTryCatchMethodInsn(Opcodes.INVOKESTATIC, input, Constant.REGISTER_CLASS_FUNCTION_CONST, "()V", false);
         }
-        Log.info("onCodeInsert");
+        super.visitCode();
     }
 
 
     public void addTryCatchMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-   /*     Label l0 = new Label();
+        Label l0 = new Label();
         Label l1 = new Label();
         Label l2 = new Label();
-        mv.visitTryCatchBlock(l0, l1, l2, "java/lang/Exception");*/
+        mv.visitTryCatchBlock(l0, l1, l2, "java/lang/Exception");
         mv.visitMethodInsn(opcode, owner, name, desc, itf);
-       /* mv.visitLabel(l1);
+        mv.visitLabel(l1);
         Label l3 = new Label();
         mv.visitJumpInsn(Opcodes.GOTO, l3);
         mv.visitLabel(l2);
         mv.visitVarInsn(Opcodes.ASTORE, 1);
-        mv.visitLabel(l3);*/
+        mv.visitLabel(l3);
     }
 }

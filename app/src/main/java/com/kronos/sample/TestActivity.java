@@ -21,7 +21,7 @@ public class TestActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.second_activity_test);
+        setContentView(R.layout.new_activity);
         ButterKnife.bind(this);
         try {
             String name = getIntent().getStringExtra("string");
