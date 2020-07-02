@@ -2,6 +2,7 @@ package com.kronos.router.interceptor
 
 import android.content.Context
 import android.os.Bundle
+import com.kronos.router.KRequest
 import com.kronos.router.exception.RouteNotFoundException
 import com.kronos.router.model.HostParams
 
@@ -11,11 +12,9 @@ interface Interceptor {
 
     interface Chain {
 
-        val url: String
+        val url: KRequest
 
         val context: Context
-
-        val bundle: Bundle?
 
         val hostParams: Map<String, HostParams>?
 

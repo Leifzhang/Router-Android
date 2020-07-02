@@ -1,12 +1,10 @@
 package com.kronos.secondmoudle;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kronos.router.BindRouter;
-import com.kronos.router.interceptor.TestInterceptor;
 
 /**
  * Created by zhangyang on 16/7/16.

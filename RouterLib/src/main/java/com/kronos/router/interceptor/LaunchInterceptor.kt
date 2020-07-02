@@ -9,7 +9,8 @@ import com.kronos.router.utils.IntentUtils
 
 class LaunchInterceptor(private val params: RouterParams) : Interceptor {
     override fun intercept(chain: Interceptor.Chain) {
-        process(chain.bundle, chain.context)
+        val request = chain.url
+        process(request.bundle, chain.context)
     }
 
     private fun process(extras: Bundle?, context: Context) {
