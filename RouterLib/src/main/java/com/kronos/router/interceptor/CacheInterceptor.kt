@@ -8,11 +8,11 @@ class CacheInterceptor internal constructor(private val cachedRoutes: HashMap<St
 
     @Throws(RouteNotFoundException::class)
     override fun intercept(chain: Interceptor.Chain) {
-        val url = chain.url
+        val url = chain.url.url
         if (cachedRoutes[url] != null) {
             val params = cachedRoutes[url]
             params?.apply {
-                cachedRoutes[chain.url] = params
+                cachedRoutes[chain.url.url] = params
                 pathInterceptor(this, chain)
             }
             return

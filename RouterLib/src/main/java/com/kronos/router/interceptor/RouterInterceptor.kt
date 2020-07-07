@@ -9,7 +9,7 @@ class RouterInterceptor(private val cachedRoutes: HashMap<String, RouterParams>)
     override fun intercept(chain: Interceptor.Chain) {
         val params = getParams(chain.url, chain.hostParams)
         params?.apply {
-            cachedRoutes[chain.url] = params
+            cachedRoutes[chain.url.url] = params
             pathInterceptor(this, chain)
         }
     }

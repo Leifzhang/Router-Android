@@ -2,6 +2,7 @@ package com.kronos.router.interceptor
 
 import android.net.Uri
 import android.text.TextUtils
+import com.kronos.router.KRequest
 import com.kronos.router.exception.RouteNotFoundException
 import com.kronos.router.model.HostParams
 import com.kronos.router.model.RouterOptions
@@ -12,7 +13,8 @@ import java.util.*
 abstract class BaseInterceptor : Interceptor {
 
     @Throws(RouteNotFoundException::class)
-    fun getParams(url: String, hosts: Map<String, HostParams>?): RouterParams? {
+    fun getParams(request: KRequest, hosts: Map<String, HostParams>?): RouterParams? {
+        val url = request.url
         val parsedUri = Uri.parse(url)
         val urlPath = if (TextUtils.isEmpty(parsedUri.path)) "" else parsedUri.path?.substring(1)
         val givenParts = urlPath?.split("/".toRegex())?.toTypedArray() ?: arrayOf()
@@ -43,7 +45,8 @@ abstract class BaseInterceptor : Interceptor {
             }
         }
         if (routerParams == null) {
-            throw RouteNotFoundException("No params found for url $url")
+            request.onFail.invoke(RouteNotFoundException("No params found for url $url"))
+            return null
         }
         for (key in parsedUri.queryParameterNames) {
             routerParams.put(key, parsedUri.getQueryParameter(key))
@@ -93,7 +96,7 @@ abstract class BaseInterceptor : Interceptor {
         }
         interceptors.add(LaunchInterceptor(params))
         val childChain: Interceptor.Chain = RealInterceptorChain(interceptors, chain.url, chain.hostParams,
-                0, chain.context, chain.bundle)
+                0, chain.context)
         childChain.proceed()
     }
 }

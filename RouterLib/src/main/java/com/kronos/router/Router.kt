@@ -48,6 +48,7 @@ class Router private constructor() {
         context.startActivity(intent)
     }
 
+
     @JvmOverloads
     fun open(url: String, context: Context? = application) {
         this.open(url, null, context)
@@ -58,7 +59,15 @@ class Router private constructor() {
         if (context == null) {
             throw ContextNotProvided("You need to supply a context for Router $this")
         }
-        realCall.open(url, context, extras)
+        val request = KRequest(url, extras)
+        realCall.open(request, context)
+    }
+
+    fun open(request: KRequest, context: Context? = application) {
+        if (context == null) {
+            throw ContextNotProvided("You need to supply a context for Router $this")
+        }
+        realCall.open(request, context)
     }
 
     private fun addFlagsToIntent(intent: Intent, context: Context) {
