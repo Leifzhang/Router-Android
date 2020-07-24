@@ -1,7 +1,17 @@
-# AndroidRouter
-It's an Android Route Library. You can just add some Annotation to add you router path.
-## Usage
-Add this line to your `build.gradle` file under your module directory.
+# 祖传路由项目
+
+简单的说功能大部分和阿里美团的路由都半斤八两吧，以前公司拿来做组件化拆分的，支持编译时注册以及增量编译等等，整体kt重构过一次。
+
+
+支持参数跳转，以及startActivityForResult操作，并提供成功失败回掉监听等。
+
+
+同时项目升级了kapt版本，已经支持kapt的增量编译了。
+
+## 使用大法
+
+1. 根目录 `build.gradle` 添加
+
 ```gradle
 buildscript {
     repositories {
@@ -13,6 +23,8 @@ buildscript {
     }
 }
 ```
+2. 项目目录增加路由注册插件
+
 ```
 apply plugin: 'router-register'
 
@@ -22,33 +34,56 @@ dependencies {
 }
 ```
 
-# First Step
-You should create you activity which need add router.Then just add like this.
+3. 给`Activity`或`RouterCallback`添加注解
+
 ```java 
 @BindRouter(urls = {"https://wwww.github.com"})
 public class TestActivity extends Activity {
 
 }
 ```
-If you need just urls and add some params.You can  just  add like this.
-```java
- @BindRouter(urls = { "https://github.com/leifzhang"}, weight=10)
- public class TestActivity extends Activity {
 
- }
-```
-Also maybe some callback not an activity. You can do like this.
-```java
-@BindRouter(urls = {"https://wwww.baidu.com/toast"})
+```java 
+@BindRouter(urls = {"https://wwww.baidu.com"}, interceptors = {TestInterceptor.class})
 public class SimpleCallBack implements RouterCallback {
     @Override
     public void run(RouterContext context) {
         Toast.makeText(context.getContext(), "testing", Toast.LENGTH_SHORT).show();
     }
 }
+
 ```
-# Second Step
-Each module need a Annotation just call `BindModule`
+
+4. 万一有高仿的路由出现，可以这样
+
+```java
+ @BindRouter(urls = { "https://github.com/leifzhang"}, weight=10)
+ public class TestActivity extends Activity {
+
+ }
+```
+
+5.  启动一个路由跳转
+
+直接启动可以用这个:
+
+```java
+    Router.sharedRouter().open("https://github.com/leifzhang", this);
+```
+复杂的多参数传递可以用这个:
+
+```kotlin
+  val request = KRequest("https://www.baidu.com/test", onSuccess = {
+                    Log.i("KRequest", "onSuccess")
+                }, onFail = {
+                    Log.i("KRequest", "onFail")
+                }).apply {
+                    activityResultCode = 12345
+                }.start(this)
+```
+
+## 如果是Module的特别注意
+
 ```kotlin
 kapt {
     arguments {
@@ -57,9 +92,7 @@ kapt {
 }
 ```
 
-# Last Step
-You just should easy use you code just like this.
-```java
-    Router.sharedRouter().open("https://github.com/leifzhang", this);
-```
 
+## 有事？
+
+可以qq找我 454327998
