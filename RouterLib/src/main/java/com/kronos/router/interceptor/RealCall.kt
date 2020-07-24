@@ -21,6 +21,7 @@ class RealCall(private val hostMap: Map<String, HostParams>, private val config:
     @Throws(RouteNotFoundException::class)
     private fun getParamsWithInterceptorChain(request: KRequest, context: Context, bundle: Bundle?) {
         val interceptors: MutableList<Interceptor> = ArrayList()
+        interceptors.add(LazyInitInterceptor())
         interceptors.addAll(config.interceptors)
         interceptors.add(CacheInterceptor(cachedRoutes))
         interceptors.add(RouterInterceptor(cachedRoutes))

@@ -25,7 +25,6 @@ class Router private constructor() {
     private val realCall: RealCall = RealCall(hosts, config)
 
     fun attachApplication(context: Application?) {
-        RouterRegistry.register()
         application = context
     }
 

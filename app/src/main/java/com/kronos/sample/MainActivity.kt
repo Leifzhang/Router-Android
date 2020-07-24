@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         routerTesting.setOnClickListener {
             Router.sharedRouter().open("https://www.baidu.com/test/123", this)
         }
+
         routerBaidu.setOnClickListener {
             try {
                 val request = KRequest("https://www.baidu.com/test", onSuccess = {
@@ -33,5 +34,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
 }
