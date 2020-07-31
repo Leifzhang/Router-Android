@@ -8,6 +8,28 @@
 
 同时项目升级了kapt版本，已经支持kapt的增量编译了。
 
+
+## wmrouter 增量编译
+
+如果使用wmrouter的各位，可以直接用我的插件替换工程内的路由初始化，应该能解决项目编译的问题。基本测试都通过了。
+
+~~~
+buildscript {
+    dependencies {
+        classpath 'com.kronos.plugin:AutoRegister:0.5.5'
+          }
+}
+~~~
+~~~
+apply plugin: 'router-register'
+AutoRegister {
+    REGISTER_PACKAGE_NAME = "com.sankuai.waimai.router.generated.service"
+    REGISTER_CLASS_NAME = "com.sankuai.waimai.router.generated.ServiceLoaderInit"
+    REGISTER_FUNCTION_NAME = "init"
+    REGISTER_CLASS_FUNCTION_NAME = "init"
+}
+~~~
+
 ## 使用大法
 
 1. 根目录 `build.gradle` 添加
