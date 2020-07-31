@@ -56,6 +56,16 @@ dependencies {
 }
 ```
 
+    万一你不想用plugin了，我给你准备了一个慢一点的还在方式，以前偷的arouter的类反射机制的。
+
+```gradle
+dependencies {
+    // 如果你不要用transform
+    implementation project(':EmptyLoader')
+}
+```
+
+    
 3. 给`Activity`或`RouterCallback`添加注解
 
 ```java 
