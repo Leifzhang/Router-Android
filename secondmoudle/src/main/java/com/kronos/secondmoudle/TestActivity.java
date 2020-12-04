@@ -12,7 +12,7 @@ import com.kronos.router.BindRouter;
 @BindRouter(urls = {"https://www.baidu.com/:id{string}/:nid{long}"}, weight = 2, interceptors = {TestInterceptor.class})
 public class TestActivity extends AppCompatActivity {
     //  TextView testTv;
-
+    @Deprecated
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

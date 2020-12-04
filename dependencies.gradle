@@ -1,0 +1,9 @@
+ext {
+    def version = "0.5.2"
+    router = [
+            "compiler": "com.github.leifzhang:compiler:$version",
+            "annotation" : "com.github.leifzhang:RouterAnnotation:$version",
+            "routerLib"   : "com.github.leifzhang:RouterLib:$version",
+    ]
+
+}

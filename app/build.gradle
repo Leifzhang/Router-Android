@@ -33,14 +33,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':secondmoudle')
     testImplementation 'junit:junit:4.13'
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
     implementation 'com.jakewharton:butterknife:10.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.recyclerview:recyclerview:1.2.0-alpha05"
-    implementation project(':RouterLib')
+    implementation "androidx.recyclerview:recyclerview:1.2.0-alpha06"
     // 如果你不要用transform
     //implementation project(':EmptyLoader')
-    implementation 'com.github.leifzhang:RouterAnnotation:0.5.0'
-    kapt project(':compiler')
+    implementation router.annotation
+    implementation router.routerLib
+    kapt router.compiler
     kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 }
