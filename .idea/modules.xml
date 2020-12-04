@@ -2,21 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidRouter.iml" filepath="$PROJECT_DIR$/AndroidRouter.iml" group="AndroidRouter" />
-      <module fileurl="file://$PROJECT_DIR$/AutoRegister/AutoRegister.iml" filepath="$PROJECT_DIR$/AutoRegister/AutoRegister.iml" group="AndroidRouter/AutoRegister" />
-      <module fileurl="file://$PROJECT_DIR$/EmptyLoader/EmptyLoader.iml" filepath="$PROJECT_DIR$/EmptyLoader/EmptyLoader.iml" group="Router-Android/EmptyLoader" />
-      <module fileurl="file://$PROJECT_DIR$/Router-Android.iml" filepath="$PROJECT_DIR$/Router-Android.iml" group="Router-Android" />
-      <module fileurl="file://$PROJECT_DIR$/AutoRegister/Router-Android-AutoRegister.iml" filepath="$PROJECT_DIR$/AutoRegister/Router-Android-AutoRegister.iml" group="Router-Android/AutoRegister" />
-      <module fileurl="file://$PROJECT_DIR$/RouterAnnotation/Router-Android-RouterAnnotation.iml" filepath="$PROJECT_DIR$/RouterAnnotation/Router-Android-RouterAnnotation.iml" group="Router-Android/RouterAnnotation" />
-      <module fileurl="file://$PROJECT_DIR$/RouterLib/Router-Android-RouterLib.iml" filepath="$PROJECT_DIR$/RouterLib/Router-Android-RouterLib.iml" group="Router-Android/RouterLib" />
-      <module fileurl="file://$PROJECT_DIR$/app/Router-Android-app.iml" filepath="$PROJECT_DIR$/app/Router-Android-app.iml" group="Router-Android/app" />
-      <module fileurl="file://$PROJECT_DIR$/compiler/Router-Android-compiler.iml" filepath="$PROJECT_DIR$/compiler/Router-Android-compiler.iml" group="Router-Android/compiler" />
-      <module fileurl="file://$PROJECT_DIR$/secondmoudle/Router-Android-secondmoudle.iml" filepath="$PROJECT_DIR$/secondmoudle/Router-Android-secondmoudle.iml" group="Router-Android/secondmoudle" />
-      <module fileurl="file://$PROJECT_DIR$/RouterAnnotation/RouterAnnotation.iml" filepath="$PROJECT_DIR$/RouterAnnotation/RouterAnnotation.iml" group="AndroidRouter/RouterAnnotation" />
-      <module fileurl="file://$PROJECT_DIR$/RouterLib/RouterLib.iml" filepath="$PROJECT_DIR$/RouterLib/RouterLib.iml" group="AndroidRouter/RouterLib" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AndroidRouter/app" />
-      <module fileurl="file://$PROJECT_DIR$/compiler/compiler.iml" filepath="$PROJECT_DIR$/compiler/compiler.iml" group="AndroidRouter/compiler" />
-      <module fileurl="file://$PROJECT_DIR$/secondmoudle/secondmoudle.iml" filepath="$PROJECT_DIR$/secondmoudle/secondmoudle.iml" group="AndroidRouter/secondmoudle" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidRouter.iml" filepath="$PROJECT_DIR$/AndroidRouter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutoRegister/AndroidRouter.AutoRegister.iml" filepath="$PROJECT_DIR$/.idea/modules/AutoRegister/AndroidRouter.AutoRegister.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EmptyLoader/AndroidRouter.EmptyLoader.iml" filepath="$PROJECT_DIR$/.idea/modules/EmptyLoader/AndroidRouter.EmptyLoader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RouterAnnotation/AndroidRouter.RouterAnnotation.iml" filepath="$PROJECT_DIR$/.idea/modules/RouterAnnotation/AndroidRouter.RouterAnnotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RouterLib/AndroidRouter.RouterLib.iml" filepath="$PROJECT_DIR$/.idea/modules/RouterLib/AndroidRouter.RouterLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidRouter.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidRouter.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compiler/AndroidRouter.compiler.iml" filepath="$PROJECT_DIR$/.idea/modules/compiler/AndroidRouter.compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/secondmoudle/AndroidRouter.secondmoudle.iml" filepath="$PROJECT_DIR$/.idea/modules/secondmoudle/AndroidRouter.secondmoudle.iml" />
     </modules>
   </component>
 </project>

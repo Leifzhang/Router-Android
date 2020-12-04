@@ -81,7 +81,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "routerLib"    //发布到JCenter上的项目名字
+        name = "RouterLib"    //发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
