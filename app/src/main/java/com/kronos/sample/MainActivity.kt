@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kronos.router.KRequest
 import com.kronos.router.Router
 import com.kronos.router.coroutine.await
+import com.kronos.router.coroutine.dispatcher
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity() {
                 val request = KRequest("https://www.baidu.com/test").apply {
                     activityResultCode = 12345
                     addValue("1234", "1234")
-                }.await(this@MainActivity)
+                }.dispatcher(this@MainActivity)
+                Log.i("", "")
             }
         }
 
