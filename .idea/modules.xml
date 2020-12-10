@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidRouter.iml" filepath="$PROJECT_DIR$/AndroidRouter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutoRegister/AndroidRouter.AutoRegister.iml" filepath="$PROJECT_DIR$/.idea/modules/AutoRegister/AndroidRouter.AutoRegister.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CoroutineSupport/AndroidRouter.CoroutineSupport.iml" filepath="$PROJECT_DIR$/.idea/modules/CoroutineSupport/AndroidRouter.CoroutineSupport.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/EmptyLoader/AndroidRouter.EmptyLoader.iml" filepath="$PROJECT_DIR$/.idea/modules/EmptyLoader/AndroidRouter.EmptyLoader.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RouterAnnotation/AndroidRouter.RouterAnnotation.iml" filepath="$PROJECT_DIR$/.idea/modules/RouterAnnotation/AndroidRouter.RouterAnnotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RouterLib/AndroidRouter.RouterLib.iml" filepath="$PROJECT_DIR$/.idea/modules/RouterLib/AndroidRouter.RouterLib.iml" />

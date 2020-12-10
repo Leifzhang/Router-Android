@@ -9,6 +9,7 @@ import com.kronos.router.RouterContext
 import com.kronos.router.model.RouterParams
 import com.kronos.router.utils.FragmentForResult
 import com.kronos.router.utils.IntentUtils
+import com.kronos.router.utils.startForResult
 import java.lang.NullPointerException
 
 class LaunchInterceptor(private val params: RouterParams) : Interceptor {
@@ -35,11 +36,10 @@ class LaunchInterceptor(private val params: RouterParams) : Interceptor {
         } else {
             val activity = context as AppCompatActivity
             options?.openClass?.apply {
-                FragmentForResult.startActivityForResult(request.activityResultCode, this, activity, extras,
+                activity.startForResult(request.activityResultCode, this, extras,
                         onSuccess = request.onSuccess, onFail = {
                     request.onFail.invoke(NullPointerException(""))
-                }
-                )
+                })
             }
 
 

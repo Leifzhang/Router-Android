@@ -35,23 +35,30 @@ class FragmentForResult : Fragment() {
         }
     }
 
-    companion object {
-        fun startActivityForResult(code: Int, clazz: Class<out Any>, activity: AppCompatActivity, bundle: Bundle? = null,
-                                   onSuccess: () -> Unit = {},
-                                   onFail: () -> Unit = {}) {
-            val fragment = FragmentForResult()
-            fragment.onSuccess = onSuccess
-            fragment.onFail = onFail
-            fragment.clazz = clazz
-            val mBundle = Bundle()
-            bundle?.apply {
-                mBundle.putAll(this)
-            }
-            mBundle.putInt("requestCode", code)
-            fragment.arguments = bundle
-            activity.supportFragmentManager.beginTransaction().add(fragment, "FragmentForResult").commit()
-        }
-    }
 }
 
+fun AppCompatActivity.startForResult(code: Int, clazz: Class<out Any>, bundle: Bundle? = null,
+                                     onSuccess: () -> Unit = {}, onFail: () -> Unit = {}) {
 
+    var fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as FragmentForResult?
+    if (fragment == null) {
+        fragment = FragmentForResult()
+    }
+    fragment.onSuccess = onSuccess
+    fragment.onFail = onFail
+    fragment.clazz = clazz
+    val mBundle = Bundle()
+    bundle?.apply {
+        mBundle.putAll(this)
+    }
+    mBundle.putInt("requestCode", code)
+    fragment.arguments = bundle
+    supportFragmentManager.beginTransaction().apply {
+        if (fragment.isAdded) {
+            remove(fragment)
+        }
+        add(fragment, FRAGMENT_TAG)
+    }.commitNowAllowingStateLoss()
+}
+
+private const val FRAGMENT_TAG = "FragmentForResult"
