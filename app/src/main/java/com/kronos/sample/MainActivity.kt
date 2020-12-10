@@ -5,7 +5,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.kronos.router.KRequest
 import com.kronos.router.Router
+import com.kronos.router.coroutine.await
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,18 +21,12 @@ class MainActivity : AppCompatActivity() {
         routerTesting.setOnClickListener {
             Router.sharedRouter().open("https://www.baidu.com/test/123", this)
         }
-
         routerBaidu.setOnClickListener {
-            try {
-                val request = KRequest("https://www.baidu.com/test", onSuccess = {
-                    Log.i("KRequest", "onSuccess")
-                }, onFail = {
-                    Log.i("KRequest", "onFail")
-                }).apply {
+            GlobalScope.launch {
+                val request = KRequest("https://www.baidu.com/test").apply {
                     activityResultCode = 12345
-                }.start(this)
-            } catch (e: Exception) {
-                e.printStackTrace()
+                    addValue("1234", "1234")
+                }.await(this@MainActivity)
             }
         }
 
