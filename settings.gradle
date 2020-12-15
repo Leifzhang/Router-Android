@@ -1,3 +1,4 @@
+includeBuild('./AutoRegister')
 include ':CoroutineSupport'
-include ':app', ':RouterLib', ':RouterAnnotation', ':compiler', ':secondmoudle', ':AutoRegister'
+include ':app', ':RouterLib', ':RouterAnnotation', ':compiler', ':secondmoudle'
 include ':EmptyLoader'

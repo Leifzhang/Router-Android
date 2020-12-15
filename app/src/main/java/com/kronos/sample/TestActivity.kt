@@ -2,9 +2,6 @@ package com.kronos.sample
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.kronos.router.BindRouter
 import kotlinx.android.synthetic.main.new_activity.*
 
@@ -13,6 +10,7 @@ import kotlinx.android.synthetic.main.new_activity.*
  */
 @BindRouter(urls = ["https://www.baidu.com/test"], weight = 10)
 class TestActivity : Activity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_activity)

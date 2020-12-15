@@ -34,7 +34,6 @@ dependencies {
     api project(':secondmoudle')
     testImplementation 'junit:junit:4.13.1'
     implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
-    implementation 'com.jakewharton:butterknife:10.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
     // 如果你不要用transform
@@ -43,5 +42,4 @@ dependencies {
     implementation router.routerCoroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0'
     kapt router.compiler
-    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 }
