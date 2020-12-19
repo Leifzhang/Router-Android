@@ -12,9 +12,8 @@ class AutoRegisterPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        boolean isApp = project.getPlugins().hasPlugin(AppPlugin.class)
         project.getExtensions().create(EXT_NAME, AutoRegisterConfig.class);
-        if (isApp) {
+        if (project.plugins.hasPlugin('com.android.application')) {
             project.android.registerTransform(new NewAutoRegisterTransform())
             project.afterEvaluate(new Action<Project>() {
                 @Override
@@ -25,7 +24,21 @@ class AutoRegisterPlugin implements Plugin<Project> {
                     }
                     config.transform()
                 }
-            });
+            })
+        }
+        project.afterEvaluate {
+            if (project.plugins.hasPlugin('com.android.library')) {
+                def android = project.extensions.getByName('android')
+                android.defaultConfig.javaCompileOptions.annotationProcessorOptions {
+                    arguments = [ROUTER_MODULE_NAME: project.getName()]
+                }
+                if (project.plugins.hasPlugin('kotlin-kapt')) {
+                    def kapt = project.extensions.getByName('kapt')
+                    kapt.arguments {
+                        arg("ROUTER_MODULE_NAME", project.getName())
+                    }
+                }
+            }
         }
     }
 }

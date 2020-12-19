@@ -1,7 +1,6 @@
 package com.kronos.router.interceptor
 
 import android.content.Context
-import android.os.Bundle
 import com.kronos.router.KRequest
 import com.kronos.router.exception.RouteNotFoundException
 import com.kronos.router.model.HostParams
@@ -15,11 +14,11 @@ class RealCall(private val hostMap: Map<String, HostParams>, private val config:
 
     @Throws(RouteNotFoundException::class)
     fun open(request: KRequest, context: Context) {
-        getParamsWithInterceptorChain(request, context, request.bundle)
+        getParamsWithInterceptorChain(request, context)
     }
 
     @Throws(RouteNotFoundException::class)
-    private fun getParamsWithInterceptorChain(request: KRequest, context: Context, bundle: Bundle?) {
+    private fun getParamsWithInterceptorChain(request: KRequest, context: Context) {
         val interceptors: MutableList<Interceptor> = ArrayList()
         if (config.lazyInitializer) {
             interceptors.add(LazyInitInterceptor())
