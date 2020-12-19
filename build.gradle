@@ -55,21 +55,6 @@ allprojects {
         }
     }
 
-    afterEvaluate {
-        if (project.plugins.hasPlugin('com.android.library')) {
-            def android = project.extensions.getByName('android')
-            android.defaultConfig.javaCompileOptions.annotationProcessorOptions {
-                arguments = [ROUTER_MODULE_NAME: project.getName()]
-            }
-                if (project.plugins.hasPlugin('kotlin-kapt')) {
-                def kapt = project.extensions.getByName('kapt')
-                kapt.arguments {
-                    arg("ROUTER_MODULE_NAME", project.getName())
-                }
-            }
-        }
-    }
-
 }
 
 
