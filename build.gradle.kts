@@ -33,9 +33,8 @@ allprojects {
         jcenter()
         google()
     }
-
-    configurations.forEach { c ->
-        c.resolutionStrategy.dependencySubstitution.all {
+    configurations.all {
+        resolutionStrategy.dependencySubstitution.all {
             if (requested is ModuleComponentSelector) {
                 val moduleRequested = requested as ModuleComponentSelector
                 val p = rootProject.allprojects.find { p ->
@@ -47,7 +46,9 @@ allprojects {
 
             }
         }
+        null
     }
+
     allprojects.forEach {
         val depFile = "$rootDir/dependencies.gradle"
         val bintray = "$rootDir/upload_bintray.gradle"
