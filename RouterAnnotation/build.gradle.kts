@@ -1,38 +1,21 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-Properties config = new Properties()
-Properties gradlePro = new Properties()
-gradlePro.load(rootProject.file("gradle.properties").newDataInputStream())
-def nexus_groupId = gradlePro.getProperty("PROJ_GROUP")
-def nexus_versionName = gradlePro.getProperty("PROJ_VERSION")
-group = nexus_groupId
-version = nexus_versionName
-
-try {
-    config.load(project.file("nexus.properties").newDataInputStream())
-} catch (Exception e) {
-    return
+plugins {
+    id("java-library")
+    id("kotlin")
+    id("com.github.dcendents.android-maven")
+    id("com.jfrog.bintray")
 }
-def nexus_artifactId = config.getProperty('nexus_artifactId')
-def nexus_description = config.getProperty('nexus_description')
-def nexus_fileName = config.getProperty('nexus_fileName')
-def nexus_url = config.getProperty('nexus_url')
 
-def siteUrl = nexus_url// 项目的主页
-def gitUrl = nexus_url// Git仓库的url
-
-
-/*task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}*/
-
-/*artifacts {
-    archives sourcesJar
-}*/
+dependencies {
+    //  implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
 /*
 
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+def siteUrl = 'https://github.com/Leifzhang/AndroidRouter' // 项目的主页
+def gitUrl = 'https://github.com/Leifzhang/AndroidRouter.git' // Git仓库的url
+group = PROJ_GROUP // Maven Group ID for the artifact，一般填你唯一的包名
+version = PROJ_VERSION
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
@@ -40,7 +23,7 @@ install {
             project {
                 packaging 'aar'
                 // Add your description here
-                name nexus_description //项目描述
+                name 'An Android Router Lib annotation' //项目描述
                 url siteUrl
                 // Set your license
                 licenses {
@@ -52,7 +35,7 @@ install {
                 developers {
                     developer {
                         id 'LeifZhang'    //填写的一些基本信息
-                        name nexus_fileName
+                        name '肉老师'
                         email 'leifzhanggithub@gmail.com'
                     }
                 }
@@ -65,6 +48,19 @@ install {
         }
     }
 }
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
@@ -73,10 +69,11 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = nexus_artifactId   //发布到JCenter上的项目名字
+        name = "routerLib-annotation"    //发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
         publish = true
     }
-}*/
+}
+*/

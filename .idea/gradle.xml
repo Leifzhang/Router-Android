@@ -30,6 +30,7 @@
             <option value="$PROJECT_DIR$/RouterLib" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/compiler" />
+            <option value="$PROJECT_DIR$/kspCompiler" />
             <option value="$PROJECT_DIR$/secondmoudle" />
           </set>
         </option>
