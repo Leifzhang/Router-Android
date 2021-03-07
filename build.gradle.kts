@@ -46,7 +46,6 @@ allprojects {
 
             }
         }
-        null
     }
 
     allprojects.forEach {
