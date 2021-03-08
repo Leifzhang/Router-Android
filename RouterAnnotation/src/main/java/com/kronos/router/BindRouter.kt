@@ -10,6 +10,4 @@ import kotlin.reflect.KClass
  */
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
 @Retention(RetentionPolicy.CLASS)
-annotation class BindRouter(val urls: Array<String>, val weight: Int = 0, val interceptors: Array<KClass<*>> = []) {
-
-}
+annotation class BindRouter(val urls: Array<String>, val weight: Int = 0, val interceptors: Array<KClass<*>> = [])

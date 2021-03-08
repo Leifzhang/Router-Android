@@ -14,8 +14,8 @@ import com.google.devtools.ksp.symbol.Visibility.LOCAL
 import com.google.devtools.ksp.symbol.Visibility.PRIVATE
 import com.google.devtools.ksp.symbol.Visibility.PROTECTED
 import com.google.devtools.ksp.symbol.Visibility.PUBLIC
-import com.squareup.javapoet.ClassName
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 

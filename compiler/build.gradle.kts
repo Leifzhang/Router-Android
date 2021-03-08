@@ -14,7 +14,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.9")
     implementation("org.apache.commons:commons-collections4:4.1")
     implementation("com.github.leifzhang:RouterAnnotation:0.5.0")
-    compileOnly(files(org.gradle.internal.jvm.Jvm.current().toolsJar))
+    implementation(files(org.gradle.internal.jvm.Jvm.current().toolsJar))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
     kapt("com.google.auto.service:auto-service:1.0-rc7")
 }

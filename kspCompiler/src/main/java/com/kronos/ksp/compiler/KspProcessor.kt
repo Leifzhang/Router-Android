@@ -36,7 +36,6 @@ class KspProcessor : SymbolProcessor {
         list.asSequence().forEach {
             add(it)
         }
-        //     val list = resolver.getSymbolsWithAnnotation(BindRouter)
         return emptyList()
     }
 
@@ -47,12 +46,16 @@ class KspProcessor : SymbolProcessor {
         if (type !is KSClassDeclaration) return
         val routerAnnotation = type.findAnnotationWithType(routerBindType) ?: return
 
-        val urls = routerAnnotation.getMember<Array<String>>("urls")
+        val urls = routerAnnotation.getMember<ArrayList<String>>("urls")
         if (urls.isEmpty()) {
             return
         }
         val weight = routerAnnotation.getMember<Int>("weight")
-        val interceptors = routerAnnotation.getMember<Array<Class<Any>>>("interceptors")
+        val interceptors = try {
+            routerAnnotation.getMember<ArrayList<Class<Any>>>("interceptors")
+        } catch (e: Exception) {
+            null
+        }
         //class type
         //      val id: Array<String> = routerAnnotation.urls()
     }
