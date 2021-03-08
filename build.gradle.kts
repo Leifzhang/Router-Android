@@ -49,12 +49,10 @@ allprojects {
     }
 
     allprojects.forEach {
-        val depFile = "$rootDir/dependencies.gradle"
+        val depFile = "$rootDir/dependenciesKt.gradle.kts"
         val bintray = "$rootDir/upload_bintray.gradle"
         it.apply(from = depFile)
         it.apply(from = bintray)
     }
 
 }
-apply(from = "./dependencies.gradle")
-apply(from = "./dependenciesKt.gradle.kts")

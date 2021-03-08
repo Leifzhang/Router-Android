@@ -1,7 +1,3 @@
 ext {
-    def version = "0.5.2"
-    putAt("compiler", "com.github.leifzhang:compiler:$version")
-    putAt("annotation", "com.github.leifzhang:RouterAnnotation:$version")
-    putAt("routerLib", "com.github.leifzhang:RouterLib:$version")
-    putAt("routerCoroutine", "com.github.leifzhang:CoroutineSupport:$version")
+
 }
