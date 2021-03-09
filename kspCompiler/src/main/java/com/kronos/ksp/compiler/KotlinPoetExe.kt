@@ -4,23 +4,13 @@ package com.kronos.ksp.compiler
 import com.google.devtools.ksp.isLocal
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.KSTypeAlias
-import com.google.devtools.ksp.symbol.KSTypeArgument
-import com.google.devtools.ksp.symbol.KSTypeParameter
-import com.google.devtools.ksp.symbol.KSTypeReference
+import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.symbol.Variance.CONTRAVARIANT
 import com.google.devtools.ksp.symbol.Variance.COVARIANT
 import com.google.devtools.ksp.symbol.Variance.INVARIANT
 import com.google.devtools.ksp.symbol.Variance.STAR
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeVariableName
-import com.squareup.kotlinpoet.WildcardTypeName
 import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets.UTF_8
 import com.squareup.kotlinpoet.STAR as KpStar
@@ -139,7 +129,6 @@ internal fun KSTypeReference.toTypeName(typeParamResolver: TypeParameterResolver
     return type.toTypeName(typeParamResolver)
 }
 
-/*
 internal fun FileSpec.writeTo(codeGenerator: CodeGenerator) {
     val dependencies = Dependencies(false, *originatingKSFiles().toTypedArray())
     val file = codeGenerator.createNewFile(dependencies, packageName, name)
@@ -147,4 +136,3 @@ internal fun FileSpec.writeTo(codeGenerator: CodeGenerator) {
     OutputStreamWriter(file, UTF_8)
             .use(::writeTo)
 }
-*/

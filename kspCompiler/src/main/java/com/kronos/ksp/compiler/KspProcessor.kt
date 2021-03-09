@@ -1,7 +1,6 @@
 package com.kronos.ksp.compiler
 
 import com.google.auto.service.AutoService
-import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
@@ -11,6 +10,8 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Origin
 import com.kronos.router.BindRouter
+import com.squareup.kotlinpoet.FileSpec
+import java.io.IOException
 
 @AutoService(SymbolProcessor::class)
 class KspProcessor : SymbolProcessor {
@@ -18,6 +19,8 @@ class KspProcessor : SymbolProcessor {
     private lateinit var logger: KSPLogger
     private lateinit var codeGenerator: CodeGenerator
     private lateinit var routerBindType: KSType
+
+    private lateinit var moduleName: String
     private val ktGenerate by lazy {
         KtGenerate(logger)
     }
@@ -27,6 +30,7 @@ class KspProcessor : SymbolProcessor {
 
         this.codeGenerator = codeGenerator
         this.logger = logger
+        moduleName = options[Const.KEY_MODULE_NAME] ?: Const.DEFAULT_APP_MODULE
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -39,6 +43,14 @@ class KspProcessor : SymbolProcessor {
         }
         list.asSequence().forEach {
             add(it)
+        }
+        val moduleName = "RouterInit_$moduleName"
+        try {
+            val builder = FileSpec.builder("com.kronos.router.init", moduleName)
+                    .build()
+            builder.writeTo(codeGenerator)
+            //  builder.writeTo(codeGenerator.generatedFile)
+        } catch (ignored: IOException) {
         }
         return emptyList()
     }

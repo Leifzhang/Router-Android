@@ -3,9 +3,13 @@ import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 plugins {
     kotlin("jvm")
     id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
-    id("java-library")
-    id("kotlin")
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${getKotlinPluginVersion()}")

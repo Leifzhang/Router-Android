@@ -47,12 +47,33 @@ allprojects {
             }
         }
     }
+    afterEvaluate {
+        allprojects.forEach {
+            val depFile = "$rootDir/dependenciesKt.gradle.kts"
+            val bintray = "$rootDir/upload_bintray.gradle"
+            it.apply(from = depFile)
+            it.apply(from = bintray)
 
-    allprojects.forEach {
-        val depFile = "$rootDir/dependenciesKt.gradle.kts"
-        val bintray = "$rootDir/upload_bintray.gradle"
-        it.apply(from = depFile)
-        it.apply(from = bintray)
+
+        }
     }
 
+}
+subprojects {
+    val pluginManager = pluginManager
+    val toolChainVersion = project.findProperty("moshix.javaLanguageVersion")?.toString() ?: "8"
+    //if (pluginManager.hasPlugin("java")) {
+    pluginManager.withPlugin("java-library") {
+        configure<JavaPluginExtension> {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+
+        }
+    }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+        }
+    }
 }
