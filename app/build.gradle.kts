@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    api(project(":secondmoudle"))
+    implementation(project(":secondmoudle"))
     testImplementation("junit:junit:4.13.2")
     implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")

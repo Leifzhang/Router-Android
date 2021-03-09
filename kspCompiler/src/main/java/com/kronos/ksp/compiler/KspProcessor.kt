@@ -1,6 +1,7 @@
 package com.kronos.ksp.compiler
 
 import com.google.auto.service.AutoService
+import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
@@ -17,6 +18,9 @@ class KspProcessor : SymbolProcessor {
     private lateinit var logger: KSPLogger
     private lateinit var codeGenerator: CodeGenerator
     private lateinit var routerBindType: KSType
+    private val ktGenerate by lazy {
+        KtGenerate(logger)
+    }
 
     override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion,
                       codeGenerator: CodeGenerator, logger: KSPLogger) {
@@ -44,19 +48,13 @@ class KspProcessor : SymbolProcessor {
             "@JsonClass can't be applied to $type: must be a Kotlin class"
         }
         if (type !is KSClassDeclaration) return
-        val routerAnnotation = type.findAnnotationWithType(routerBindType) ?: return
 
-        val urls = routerAnnotation.getMember<ArrayList<String>>("urls")
-        if (urls.isEmpty()) {
-            return
-        }
-        val weight = routerAnnotation.getMember<Int>("weight")
-        val interceptors = try {
-            routerAnnotation.getMember<ArrayList<Class<Any>>>("interceptors")
-        } catch (e: Exception) {
-            null
-        }
+        ktGenerate.addStatement(type, routerBindType)
         //class type
         //      val id: Array<String> = routerAnnotation.urls()
+    }
+
+    companion object {
+
     }
 }
