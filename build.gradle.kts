@@ -50,15 +50,17 @@ allprojects {
     afterEvaluate {
         allprojects.forEach {
             val depFile = "$rootDir/dependenciesKt.gradle.kts"
-            val bintray = "$rootDir/upload_bintray.gradle"
             it.apply(from = depFile)
-            it.apply(from = bintray)
-
-
         }
     }
 
 }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 subprojects {
     val pluginManager = pluginManager
     val toolChainVersion = project.findProperty("moshix.javaLanguageVersion")?.toString() ?: "8"
@@ -70,10 +72,15 @@ subprojects {
 
         }
     }
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
+    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                @Suppress("SuspiciousCollectionReassignment")
+                freeCompilerArgs += listOf("-Xjsr305=strict", "-progressive")
+            }
         }
     }
+    group = rootProject.properties["PROJ_GROUP"] ?: ""
+    version = rootProject.properties["PROJ_VERSION"] ?: ""
 }
