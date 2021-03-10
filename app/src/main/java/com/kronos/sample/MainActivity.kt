@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
         routerBaidu.setOnClickListener {
             GlobalScope.launch {
-                val request = KRequest("https://www.baidu.com/test").apply {
+                KRequest("https://www.baidu.com/test").apply {
                     activityResultCode = 12345
                     addValue("1234", "1234")
                 }.dispatcher(this@MainActivity)

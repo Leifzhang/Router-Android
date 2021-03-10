@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kronos.router.KRequest
 import com.kronos.router.RouterContext
 import com.kronos.router.model.RouterParams
-import com.kronos.router.utils.FragmentForResult
 import com.kronos.router.utils.IntentUtils
 import com.kronos.router.utils.startForResult
 import java.lang.NullPointerException
@@ -34,9 +33,8 @@ class LaunchInterceptor(private val params: RouterParams) : Interceptor {
             context.startActivity(intent)
             request.onSuccess.invoke()
         } else {
-            val activity = context as AppCompatActivity
             options?.openClass?.apply {
-                activity.startForResult(request.activityResultCode, this, extras,
+                context.startForResult(request.activityResultCode, this, extras,
                         onSuccess = request.onSuccess, onFail = {
                     request.onFail.invoke(NullPointerException(""))
                 })

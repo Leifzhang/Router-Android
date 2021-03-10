@@ -2,27 +2,37 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 Properties config = new Properties()
-config.load(project.file("nexus.properties").newDataInputStream())
-def nexus_versionName = config.getProperty('nexus_versionName')
+Properties gradlePro = new Properties()
+gradlePro.load(rootProject.file("gradle.properties").newDataInputStream())
+def nexus_groupId = gradlePro.getProperty("PROJ_GROUP")
+def nexus_versionName = gradlePro.getProperty("PROJ_VERSION")
+group = nexus_groupId
+version = nexus_versionName
+
+try {
+    config.load(project.file("nexus.properties").newDataInputStream())
+} catch (Exception e) {
+    return
+}
 def nexus_artifactId = config.getProperty('nexus_artifactId')
-def nexus_groupId = config.getProperty('nexus_groupId')
 def nexus_description = config.getProperty('nexus_description')
 def nexus_fileName = config.getProperty('nexus_fileName')
 def nexus_url = config.getProperty('nexus_url')
 
 def siteUrl = nexus_url// 项目的主页
 def gitUrl = nexus_url// Git仓库的url
-group = nexus_groupId
-version = nexus_versionName
 
-task sourcesJar(type: Jar) {
+
+/*task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'sources'
-}
+}*/
 
-artifacts {
+/*artifacts {
     archives sourcesJar
-}
+}*/
+/*
+
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
@@ -69,4 +79,4 @@ bintray {
         licenses = ["Apache-2.0"]
         publish = true
     }
-}
+}*/
