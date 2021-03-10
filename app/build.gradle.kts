@@ -7,7 +7,7 @@ plugins {
     id("kotlin-android-extensions")
     //id("kotlin-kapt")
     id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
-    // id("router-register")
+    id("router-register")
 }
 
 android {

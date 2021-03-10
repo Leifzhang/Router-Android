@@ -5,7 +5,7 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    // id("kotlin-kapt")
+    id("kotlin-kapt")
     id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
 }
 
@@ -38,4 +38,7 @@ dependencies {
     implementation(project(":CoroutineSupport"))
     ksp(project(":kspCompiler"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
+}
+ksp {
+    arg("ROUTER_MODULE_NAME", project.name)
 }

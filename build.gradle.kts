@@ -63,7 +63,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 subprojects {
     val pluginManager = pluginManager
-    val toolChainVersion = project.findProperty("moshix.javaLanguageVersion")?.toString() ?: "8"
     //if (pluginManager.hasPlugin("java")) {
     pluginManager.withPlugin("java-library") {
         configure<JavaPluginExtension> {
@@ -75,11 +74,14 @@ subprojects {
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
             kotlinOptions {
-                jvmTarget = "1.8"
-                @Suppress("SuspiciousCollectionReassignment")
-                freeCompilerArgs += listOf("-Xjsr305=strict", "-progressive")
+                //   jvmTarget = "1.8"
+                //  @Suppress("SuspiciousCollectionReassignment")
+                //  freeCompilerArgs += listOf("-Xjsr305=strict", "-progressive")
             }
         }
+    }
+    pluginManager.withPlugin("com.google.devtools.ksp") {
+        this.name
     }
     group = rootProject.properties["PROJ_GROUP"] ?: ""
     version = rootProject.properties["PROJ_VERSION"] ?: ""

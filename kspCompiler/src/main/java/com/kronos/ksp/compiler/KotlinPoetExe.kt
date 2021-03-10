@@ -4,6 +4,7 @@ package com.kronos.ksp.compiler
 import com.google.devtools.ksp.isLocal
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.symbol.Variance.CONTRAVARIANT
 import com.google.devtools.ksp.symbol.Variance.COVARIANT
@@ -129,10 +130,10 @@ internal fun KSTypeReference.toTypeName(typeParamResolver: TypeParameterResolver
     return type.toTypeName(typeParamResolver)
 }
 
-internal fun FileSpec.writeTo(codeGenerator: CodeGenerator) {
-    val dependencies = Dependencies(false, *originatingKSFiles().toTypedArray())
-    val file = codeGenerator.createNewFile(dependencies, packageName, name)
+internal fun FileSpec.writeTo(codeGenerator: CodeGenerator, logger: KSPLogger) {
+    //  logger.warn("start dependencies")
+    // logger.error("dependencies:$dependencies")
+
     // Don't use writeTo(file) because that tries to handle directories under the hood
-    OutputStreamWriter(file, UTF_8)
-            .use(::writeTo)
+    logger.info("codeGenerator:${codeGenerator.generatedFile}")
 }

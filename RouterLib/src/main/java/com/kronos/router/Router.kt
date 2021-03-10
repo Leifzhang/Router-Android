@@ -126,6 +126,12 @@ class Router private constructor() {
             map(url, null, options)
         }
 
+
+        @JvmStatic
+        fun map(url: String, options: RouterOptions = RouterOptions()) {
+            map(url, null, options)
+        }
+
         @JvmOverloads
         fun map(url: String, mClass: Class<out Activity>, targetFragment: Class<out Fragment>,
                 bundle: Bundle? = null) {
