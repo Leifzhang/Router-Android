@@ -102,7 +102,7 @@ public class RouterProcessor extends AbstractProcessor {
         if (elements.isEmpty()) {
             return;
         }
-        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
+        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("register")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
         TypeMirror type_Activity = elementUtils.getTypeElement(Const.ACTIVITY).asType();
         TypeMirror fragmentTm = elementUtils.getTypeElement(Const.FRAGMENT).asType();
@@ -159,7 +159,7 @@ public class RouterProcessor extends AbstractProcessor {
                 .addMethod(initMethod.build())
                 .build();
         try {
-            JavaFile.builder("com.kronos.router.init", routerMapping)
+            JavaFile.builder("com.kronos.router.register", routerMapping)
                     .build()
                     .writeTo(filer);
         } catch (IOException ignored) {
