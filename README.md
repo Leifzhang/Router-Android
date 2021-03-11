@@ -1,5 +1,9 @@
 # 祖传路由项目
 
+[![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode)
+
+
+
 简单的说功能大部分和阿里美团的路由都半斤八两吧，以前公司拿来做组件化拆分的，支持编译时注册以及增量编译等等，整体kt重构过一次。
 
 
@@ -7,6 +11,10 @@
 
 
 同时项目升级了kapt版本，已经支持kapt的增量编译了。
+
+
+新增了ksp支持，速度可以比kapt更快，理论上优化25%以上的注解解释器速度，同时ksp由于已经支持增编以及编译缓存，所以性能更好更优异。
+
 
 
 ## wmrouter 增量编译
@@ -123,6 +131,29 @@ kapt {
     }
 }
 ```
+
+## 使用ksp
+
+这次新增的ksp可以完美和kapt进行支持，ksp compiler 暂时只支持全量kotlin
+
+```kotlin
+plugins {
+    // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts 文件内定义的id
+    id("com.android.library")
+    id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
+}
+
+dependencies {
+    // 使用ksp进行注解生成
+    ksp(project(":kspCompiler"))
+}
+
+// 子模块可以加上这个
+ksp {
+    arg("ROUTER_MODULE_NAME", project.name)
+}
+```
+
 
 
 ## 有事？
