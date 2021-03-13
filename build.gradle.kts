@@ -86,3 +86,48 @@ subprojects {
     group = rootProject.properties["PROJ_GROUP"] ?: ""
     version = rootProject.properties["PROJ_VERSION"] ?: ""
 }
+
+// 耗时统计kt化
+class TimingsListener : TaskExecutionListener, BuildListener {
+    private var startTime: Long = 0L
+    private var timings = linkedMapOf<String, Long>()
+
+
+    override fun beforeExecute(task: Task) {
+        startTime = System.nanoTime()
+    }
+
+    override fun afterExecute(task: Task, state: TaskState) {
+        val ms = TimeUnit.MILLISECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS)
+        task.path
+        timings[task.path] = ms
+        project.logger.warn("${task.path} took ${ms}ms")
+    }
+
+    override fun buildFinished(result: BuildResult) {
+        project.logger.warn("Task timings:")
+        timings.forEach {
+            if (it.value >= 50) {
+                project.logger.warn("${it.key} cos  ms  ${it.value}\n")
+            }
+        }
+    }
+
+    override fun buildStarted(gradle: Gradle) {
+
+    }
+
+    override fun settingsEvaluated(settings: Settings) {
+    }
+
+    override fun projectsLoaded(gradle: Gradle) {
+
+    }
+
+    override fun projectsEvaluated(gradle: Gradle) {
+
+    }
+
+}
+
+gradle.addListener(TimingsListener())

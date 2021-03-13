@@ -5,7 +5,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    //id("kotlin-kapt")
+    id("kotlin-kapt")
     id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
     id("router-register")
 }
@@ -46,6 +46,6 @@ dependencies {
     implementation(project(":RouterAnnotation"))
     implementation(project(":RouterLib"))
     implementation(project(":CoroutineSupport"))
-    // kapt(project(":compiler"))
-    ksp(project(":kspCompiler"))
+    kapt(project(":compiler"))
+    //  ksp(project(":kspCompiler"))
 }

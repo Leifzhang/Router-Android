@@ -36,9 +36,9 @@ dependencies {
     implementation(project(":RouterAnnotation"))
     implementation(project(":RouterLib"))
     implementation(project(":CoroutineSupport"))
-    // ksp(project(":kspCompiler"))
+    ksp(project(":kspCompiler"))
     kapt(project(":compiler"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
+    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
 }
 ksp {
     arg("ROUTER_MODULE_NAME", project.name)
