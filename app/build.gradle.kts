@@ -4,7 +4,6 @@ plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts.kts.kts 文件内定义的id
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
     id("router-register")
@@ -26,6 +25,10 @@ android {
             minifyEnabled(false)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     compileOptions {

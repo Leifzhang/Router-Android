@@ -28,6 +28,7 @@ buildscript {
           }
 }
 ~~~
+
 ~~~
 apply plugin: 'router-register'
 AutoRegister {
@@ -121,6 +122,44 @@ public class SimpleCallBack implements RouterCallback {
                     activityResultCode = 12345
                 }.start(this)
 ```
+DSL 版本
+```kotlin
+            request("https://www.baidu.com/test") {
+                activityResultCode = 12345
+                success {
+
+                }
+                fail {
+
+                }
+                bundle {
+                    putString("1234", "1234")
+                }
+            }.start(this)
+
+```
+通过dsl的形式也可以使用路由
+
+协程版本
+```kotlin
+    GlobalScope.launch {
+                  val result = request("https://www.baidu.com/test") {
+                      activityResultCode = 12345
+                      bundle {
+                          putString("1234", "1234")
+                      }
+                  }.dispatcher(this@MainActivity)
+                  delay(1000)
+                  withContext(Dispatchers.Main) {
+                      Toast.makeText(
+                          this@MainActivity,
+                          if (result) "成功了" else "失败了",
+                          Toast.LENGTH_SHORT
+                      ).show()
+                  }
+              }
+```
+可以通过协程的形式，挂起恢复的获取到返回值。
 
 ## 如果是Module的特别注意
 

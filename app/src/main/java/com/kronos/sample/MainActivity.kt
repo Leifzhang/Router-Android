@@ -1,34 +1,58 @@
 package com.kronos.sample
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.kronos.router.KRequest
 import com.kronos.router.Router
 import com.kronos.router.coroutine.await
 import com.kronos.router.coroutine.dispatcher
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.kronos.router.dsl.bundle
+import com.kronos.router.dsl.fail
+import com.kronos.router.dsl.request
+import com.kronos.router.dsl.success
+import com.kronos.sample.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         Router.sharedRouter().attachApplication(application)
         Router.addGlobalInterceptor(LogInterceptor())
         Router.map("https://www.baidu.com/test", TestActivity::class.java, LogInterceptor())
-        routerTesting.setOnClickListener {
-            Router.sharedRouter().open("https://www.baidu.com/test/123", this)
+        binding.routerTesting.setOnClickListener {
+            request("https://www.baidu.com/test") {
+                activityResultCode = 12345
+                success {
+
+                }
+                fail {
+
+                }
+                bundle {
+                    putString("1234", "1234")
+                }
+            }.start(this)
         }
-        routerBaidu.setOnClickListener {
+        binding.routerBaidu.setOnClickListener {
             GlobalScope.launch {
-                KRequest("https://www.baidu.com/test").apply {
+                val result = request("https://www.baidu.com/test") {
                     activityResultCode = 12345
-                    addValue("1234", "1234")
+                    bundle {
+                        putString("1234", "1234")
+                    }
                 }.dispatcher(this@MainActivity)
-                Log.i("", "")
+                delay(1000)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        if (result) "成功了" else "失败了",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 

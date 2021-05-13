@@ -3,7 +3,7 @@ package com.kronos.sample
 import android.app.Activity
 import android.os.Bundle
 import com.kronos.router.BindRouter
-import kotlinx.android.synthetic.main.new_activity.*
+import com.kronos.sample.databinding.NewActivityBinding
 
 /**
  * Created by zhangyang on 16/7/16.
@@ -13,10 +13,12 @@ class TestActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.new_activity)
+        val binding = NewActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         val name = intent.getStringExtra("string")
-        name?.apply { testTv.text = name }
-        resultBtn.setOnClickListener {
+        name?.apply { binding.testTv.text = name }
+        binding.resultBtn.setOnClickListener {
             setResult(RESULT_OK)
             finish()
         }
