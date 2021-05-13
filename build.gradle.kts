@@ -7,7 +7,6 @@ buildscript {
     repositories {
         maven { setUrl("https://maven.aliyun.com/repository/central/") }
         maven { setUrl("https://dl.bintray.com/leifzhang/maven") }
-        jcenter()
         google()
     }
     dependencies {
@@ -30,7 +29,6 @@ allprojects {
     repositories {
         maven { setUrl("https://maven.aliyun.com/repository/central/") }
         maven { setUrl("https://dl.bintray.com/leifzhang/maven") }
-        jcenter()
         google()
     }
     configurations.all {
