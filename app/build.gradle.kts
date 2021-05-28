@@ -46,6 +46,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
     implementation("androidx.recyclerview:recyclerview:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("androidx.activity:activity-ktx:1.2.3")
     implementation ("androidx.core:core-ktx:1.3.2")
     // 如果你不要用transform
     implementation(project(":RouterAnnotation"))

@@ -2,6 +2,7 @@ package com.kronos.sample
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.kronos.sample.viewbinding.ext.viewBinding
 import com.kronos.router.Router
@@ -16,6 +17,7 @@ import kotlinx.coroutines.*
 class MainActivity : AppCompatActivity() {
 
     val binding: ActivityMainBinding by viewBinding()
+    val viewModel :TestViewModel? by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
