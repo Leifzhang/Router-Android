@@ -3,8 +3,8 @@ package com.kronos.sample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.kronos.sample.viewbinding.ext.viewBinding
 import com.kronos.router.Router
-import com.kronos.router.coroutine.await
 import com.kronos.router.coroutine.dispatcher
 import com.kronos.router.dsl.bundle
 import com.kronos.router.dsl.fail
@@ -15,11 +15,10 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
+    val binding: ActivityMainBinding by viewBinding()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
         Router.sharedRouter().attachApplication(application)
         Router.addGlobalInterceptor(LogInterceptor())
         Router.map("https://www.baidu.com/test", TestActivity::class.java, LogInterceptor())

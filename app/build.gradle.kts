@@ -36,15 +36,17 @@ android {
         sourceCompatibility(1.8)
     }
 }
-
+println(project.android.javaClass.canonicalName)
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(":secondmoudle"))
     testImplementation("junit:junit:4.13.2")
-    implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-beta01")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+    implementation ("androidx.core:core-ktx:1.3.2")
     // 如果你不要用transform
     implementation(project(":RouterAnnotation"))
     implementation(project(":RouterLib"))
