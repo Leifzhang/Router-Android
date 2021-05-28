@@ -10,7 +10,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.0")
+        classpath("com.android.tools.build:gradle:4.1.1")
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
         classpath(kotlin("gradle-plugin", version = "1.4.30"))
@@ -69,13 +69,11 @@ subprojects {
 
         }
     }
-    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            kotlinOptions {
-                //   jvmTarget = "1.8"
-                //  @Suppress("SuspiciousCollectionReassignment")
-                //  freeCompilerArgs += listOf("-Xjsr305=strict", "-progressive")
-            }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            //  @Suppress("SuspiciousCollectionReassignment")
+            //  freeCompilerArgs += listOf("-Xjsr305=strict", "-progressive")
         }
     }
     pluginManager.withPlugin("com.google.devtools.ksp") {
