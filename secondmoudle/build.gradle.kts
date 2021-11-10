@@ -37,13 +37,14 @@ android {
 
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.3.0-alpha02")
+    implementation("androidx.appcompat:appcompat:1.3.0")
     testImplementation("junit:junit:4.13.2")
-    implementation(project(":RouterAnnotation"))
-    implementation(project(":RouterLib"))
-    implementation(project(":CoroutineSupport"))
+    val routerVersion = "0.5.1"
+    implementation("com.github.leifzhang:RouterAnnotation:$routerVersion")
+    implementation("com.github.leifzhang:RouterLib:$routerVersion")
+    implementation("com.github.leifzhang:CoroutineSupport:$routerVersion")
     ksp(project(":kspCompiler"))
-    kapt(project(":compiler"))
+    //kapt(project(":compiler"))
     //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
 }
 ksp {

@@ -1,12 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.CommandLineArgument.BinaryOutputPath.Companion.from
 import java.util.concurrent.TimeUnit
 import org.gradle.*
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
         maven { setUrl("https://maven.aliyun.com/repository/central/") }
-        maven { setUrl("https://dl.bintray.com/leifzhang/maven") }
         google()
     }
     dependencies {
@@ -24,11 +25,13 @@ plugins {
     kotlin("jvm") version "1.4.30" apply false
     id("router-register") apply false
 }
-
+ext {
+    val routerVersion = rootProject.properties["PROJ_VERSION"] ?: ""
+    set("routerVersion", routerVersion)
+}
 allprojects {
     repositories {
         maven { setUrl("https://maven.aliyun.com/repository/central/") }
-        maven { setUrl("https://dl.bintray.com/leifzhang/maven") }
         google()
     }
     configurations.all {
@@ -53,12 +56,6 @@ allprojects {
     }
 
 }
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 subprojects {
     val pluginManager = pluginManager
     //if (pluginManager.hasPlugin("java")) {
