@@ -102,6 +102,7 @@ public class RouterProcessor extends AbstractProcessor {
         if (elements.isEmpty()) {
             return;
         }
+
         MethodSpec.Builder initMethod = MethodSpec.methodBuilder("register")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
         TypeMirror type_Activity = elementUtils.getTypeElement(Const.ACTIVITY).asType();

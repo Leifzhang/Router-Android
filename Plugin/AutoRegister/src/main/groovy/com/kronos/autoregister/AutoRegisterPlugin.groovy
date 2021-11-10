@@ -20,7 +20,7 @@ class AutoRegisterPlugin implements Plugin<Project> {
                 void execute(Project newProject) {
                     AutoRegisterConfig config = (AutoRegisterConfig) newProject.getExtensions().findByName(EXT_NAME);
                     if (config == null) {
-                        config = new AutoRegisterConfig()
+                        config = new AutoRegisterConfig()   
                     }
                     config.transform()
                 }
