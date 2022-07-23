@@ -6,27 +6,23 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Origin
+import com.kronos.ksp.compiler.Const.KEY_MODULE_NAME
 import com.kronos.router.BindRouter
 
-@AutoService(SymbolProcessor::class)
-class KspProcessor : SymbolProcessor {
+class KspProcessor(
+    private val logger: KSPLogger,
+    private val codeGenerator: CodeGenerator,
 
-    private lateinit var logger: KSPLogger
-    private lateinit var codeGenerator: CodeGenerator
+    private val moduleName: String
+) : SymbolProcessor {
+
     private lateinit var routerBindType: KSType
     private var isload = false
 
-    private lateinit var moduleName: String
     private val ktGenerate by lazy {
         KtGenerate(logger, moduleName, codeGenerator)
     }
 
-    override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion,
-                      codeGenerator: CodeGenerator, logger: KSPLogger) {
-        moduleName = options[Const.KEY_MODULE_NAME] ?: Const.DEFAULT_APP_MODULE
-        this.codeGenerator = codeGenerator
-        this.logger = logger
-    }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         if (isload) {
@@ -34,7 +30,7 @@ class KspProcessor : SymbolProcessor {
         }
         val symbols = resolver.getSymbolsWithAnnotation(BindRouter::class.java.name)
         routerBindType = resolver.getClassDeclarationByName(
-                resolver.getKSNameFromString(BindRouter::class.java.name)
+            resolver.getKSNameFromString(BindRouter::class.java.name)
         )?.asType() ?: kotlin.run {
             logger.error("JsonClass type not found on the classpath.")
             return emptyList()
@@ -48,10 +44,10 @@ class KspProcessor : SymbolProcessor {
             isload = true
         } catch (e: Exception) {
             logger.error(
-                    "Error preparing :" + " ${e.stackTrace.joinToString("\n")}"
+                "Error preparing :" + " ${e.stackTrace.joinToString("\n")}"
             )
         }
-        return symbols
+        return symbols.toList()
     }
 
     private fun add(type: KSAnnotated) {
@@ -67,7 +63,16 @@ class KspProcessor : SymbolProcessor {
     }
 
 
-    companion object {
+}
 
+@AutoService(SymbolProcessorProvider::class)
+class RouterProcessorProvider : SymbolProcessorProvider {
+    override fun create(
+        environment: SymbolProcessorEnvironment
+    ): SymbolProcessor {
+        val moduleName = environment.options[KEY_MODULE_NAME] ?: Const.DEFAULT_APP_MODULE
+        val codeGenerator = environment.codeGenerator
+        val logger = environment.logger
+        return KspProcessor(logger, codeGenerator, moduleName)
     }
 }

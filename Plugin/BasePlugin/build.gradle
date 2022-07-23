@@ -1,6 +1,5 @@
 plugins {
     id("kotlin")
-    id("kotlin-kapt")
 }
 
 dependencies {

@@ -6,20 +6,15 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-    id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
+    id("com.google.devtools.ksp")
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.3")
+    compileSdkVersion(32)
 
     defaultConfig {
         minSdkVersion(15)
-        targetSdkVersion(29)
-        versionCode(1)
-        versionName("1.0")
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
-
+        targetSdkVersion(32)
     }
 
 
@@ -27,12 +22,6 @@ android {
         viewBinding = true
     }
 
-    buildTypes {
-        getByName("release") {
-            minifyEnabled(false)
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
-    }
 }
 
 

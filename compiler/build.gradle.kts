@@ -4,8 +4,6 @@ plugins {
     id("java-library")
     id("kotlin")
     id("kotlin-kapt")
-    id("com.github.dcendents.android-maven")
-    id("com.jfrog.bintray")
 }
 
 dependencies {

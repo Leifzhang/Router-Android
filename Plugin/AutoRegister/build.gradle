@@ -1,18 +1,5 @@
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
-//apply from: '../upload.gradle'
-//apply from: '../upload_bintray.gradle'
-
-repositories {
-    maven {
-        url 'https://maven.aliyun.com/repository/central/'
-    }
-    maven {
-        url 'https://dl.bintray.com/leifzhang/maven'
-    }
-    jcenter()
-    google()
-}
 
 dependencies {
     implementation gradleApi()

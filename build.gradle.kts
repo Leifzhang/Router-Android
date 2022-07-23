@@ -4,25 +4,15 @@ import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
-    repositories {
-        maven { setUrl("https://maven.aliyun.com/repository/central/") }
-        google()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.1.1")
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
-        classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
-        classpath(kotlin("gradle-plugin", version = "1.4.30"))
-        // NOTE: Do not place your application dependencies here;elong
-        // in the individual module build.gradle files
-    }
-}
 
 plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle 文件内定义的id
-    kotlin("jvm") version "1.4.30" apply false
-   // id("router-register") apply false
+    id("com.android.application") version ("7.1.1") apply (false)
+    id("com.android.library") version ("7.1.1") apply (false)
+    id("org.jetbrains.kotlin.android") version ("1.7.10") apply (false)
+    id("org.jetbrains.kotlin.jvm") version ("1.7.10") apply (false)
+    id("com.google.devtools.ksp") version ("1.7.10-1.0.6") apply (false)
+    id("router-register") apply false
 }
 ext {
     val routerVersion = rootProject.properties["PROJ_VERSION"] ?: ""
@@ -78,6 +68,7 @@ subprojects {
     group = rootProject.properties["PROJ_GROUP"] ?: ""
     version = rootProject.properties["PROJ_VERSION"] ?: ""
 }
+/*
 
 // 耗时统计kt化
 class TimingsListener : TaskExecutionListener, BuildListener {
@@ -123,3 +114,4 @@ class TimingsListener : TaskExecutionListener, BuildListener {
 }
 
 gradle.addListener(TimingsListener())
+*/
