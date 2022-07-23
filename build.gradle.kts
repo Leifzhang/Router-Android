@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.CommandLineArgument.BinaryOutputPath.Companion.from
 import java.util.concurrent.TimeUnit
 import org.gradle.*
 import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
@@ -11,7 +10,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.1")
+        classpath("com.android.tools.build:gradle:7.1.1")
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.1")
         classpath(kotlin("gradle-plugin", version = "1.4.30"))
@@ -23,7 +22,7 @@ buildscript {
 plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle 文件内定义的id
     kotlin("jvm") version "1.4.30" apply false
-    id("router-register") apply false
+   // id("router-register") apply false
 }
 ext {
     val routerVersion = rootProject.properties["PROJ_VERSION"] ?: ""

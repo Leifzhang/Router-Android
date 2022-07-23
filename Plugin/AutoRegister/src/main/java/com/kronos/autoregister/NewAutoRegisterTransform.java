@@ -1,6 +1,5 @@
 package com.kronos.autoregister;
 
-import com.android.SdkConstants;
 import com.android.build.api.transform.Format;
 import com.android.build.api.transform.QualifiedContent;
 import com.android.build.api.transform.Transform;
@@ -8,7 +7,6 @@ import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInvocation;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
-import com.google.common.collect.ImmutableSet;
 import com.kronos.autoregister.helper.ClassFilterVisitor;
 import com.kronos.autoregister.helper.TryCatchMethodVisitor;
 import com.kronos.plugin.base.BaseTransform;
@@ -16,7 +14,10 @@ import com.kronos.plugin.base.ClassUtils;
 import com.kronos.plugin.base.DeleteCallBack;
 import com.kronos.plugin.base.TransformCallBack;
 
-import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.io.IOUtils;
+import org.gradle.internal.impldep.com.google.common.collect.ImmutableSet;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -57,15 +58,18 @@ public class NewAutoRegisterTransform extends Transform {
         HashSet<String> deleteItems = new HashSet<>();
         BaseTransform baseTransform = new BaseTransform(transformInvocation, new TransformCallBack() {
 
+            @Nullable
             @Override
-            public byte[] process(String className, byte[] bytes, BaseTransform baseTransform) {
+            public byte[] process(@NotNull String className, @Nullable byte[] classBytes) {
                 String checkClassName = ClassUtils.path2Classname(className);
                 if (checkClassName(checkClassName)) {
                     items.add(className);
                 }
-                return null;
+                return new byte[0];
             }
-        });
+
+
+        }, false);
         baseTransform.setDeleteCallBack(new DeleteCallBack() {
             @Override
             public void delete(String s, byte[] bytes) {
@@ -93,7 +97,7 @@ public class NewAutoRegisterTransform extends Transform {
 
     private void generateInitClass(String directory, HashSet<String> items, HashSet<String> deleteItems) {
         String className = Constant.REGISTER_CLASS_CONST.replace('.', '/');
-        File dest = new File(directory, className + SdkConstants.DOT_CLASS);
+        File dest = new File(directory, className + ".class");
         if (!dest.exists()) {
             try {
                 ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);

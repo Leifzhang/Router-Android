@@ -1,2 +1,3 @@
 include ':AutoRegister'
+include ':BasePlugin'
 rootProject.name = "plugin"

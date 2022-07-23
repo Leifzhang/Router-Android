@@ -17,8 +17,8 @@ repositories {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.kronos.plugin:BasePlugin:0.2.0'
-    implementation 'com.android.tools.build:gradle:4.1.1'
+    implementation project(":BasePlugin")
+    implementation "com.android.tools.build:gradle:$apgVersion"
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.javassist:javassist:3.20.0-GA'
 }
