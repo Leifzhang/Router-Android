@@ -15,7 +15,6 @@ import com.kronos.plugin.base.DeleteCallBack;
 import com.kronos.plugin.base.TransformCallBack;
 
 import org.apache.commons.io.IOUtils;
-import org.gradle.internal.impldep.com.google.common.collect.ImmutableSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.ClassReader;
@@ -82,8 +81,10 @@ public class NewAutoRegisterTransform extends Transform {
         baseTransform.openSimpleScan();
         baseTransform.startTransform();
         TransformOutputProvider outputProvider = transformInvocation.getOutputProvider();
+        HashSet<QualifiedContent.Scope> set = new HashSet<>();
+        set.add(QualifiedContent.Scope.PROJECT);
         File dest = outputProvider.getContentLocation("kronos_router", TransformManager.CONTENT_CLASS,
-                ImmutableSet.of(QualifiedContent.Scope.PROJECT), Format.DIRECTORY);
+                set, Format.DIRECTORY);
         generateInitClass(dest.getAbsolutePath(), items, deleteItems);
     }
 

@@ -4,9 +4,8 @@ plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts.kts.kts 文件内定义的id
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("com.google.devtools.ksp")
-    // id("router-register")
+    id("router-register")
 }
 
 android {
@@ -19,7 +18,7 @@ android {
     }
     buildTypes {
         getByName("release") {
-           // minifyEnabled(false)
+            // minifyEnabled(false)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
@@ -49,7 +48,7 @@ dependencies {
 
     implementation("com.github.leifzhang:secondmoudle:$routerVersion")
     implementation("com.github.leifzhang:CoroutineSupport:$routerVersion")
-    kapt("com.github.leifzhang:compiler:$routerVersion")
+    // kapt("com.github.leifzhang:compiler:$routerVersion")
 
     val lifecycle_version = "2.3.1"
 
@@ -77,5 +76,5 @@ dependencies {
     // optional - ReactiveStreams support for LiveData
     implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
 
-    //  ksp(project(":kspCompiler"))
+    ksp(project(":kspCompiler"))
 }

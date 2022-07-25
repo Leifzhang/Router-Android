@@ -56,14 +56,14 @@ internal interface TypeParameterResolver {
 }
 
 internal fun List<KSTypeParameter>.toTypeParameterResolver(
-        fallback: TypeParameterResolver? = null,
-        sourceType: String? = null,
+    fallback: TypeParameterResolver? = null,
+    sourceType: String? = null,
 ): TypeParameterResolver {
     val parametersMap = LinkedHashMap<String, TypeVariableName>()
     val typeParamResolver = { id: String ->
         parametersMap[id]
-                ?: fallback?.get(id)
-                ?: throw IllegalStateException("No type argument found for $id! Anaylzing $sourceType")
+            ?: fallback?.get(id)
+            ?: throw IllegalStateException("No type argument found for $id! Anaylzing $sourceType")
     }
 
     val resolver = object : TypeParameterResolver {
@@ -93,7 +93,7 @@ internal fun KSClassDeclaration.toClassName(): ClassName {
     val typesString = qualifiedName!!.asString().removePrefix("$pkgName.")
 
     val simpleNames = typesString
-            .split(".")
+        .split(".")
     return ClassName(pkgName, simpleNames)
 }
 
@@ -103,7 +103,7 @@ internal fun KSTypeParameter.toTypeName(typeParamResolver: TypeParameterResolver
 }
 
 internal fun KSTypeParameter.toTypeVariableName(
-        typeParamResolver: TypeParameterResolver,
+    typeParamResolver: TypeParameterResolver,
 ): TypeVariableName {
     val typeVarName = name.getShortName()
     val typeVarBounds = bounds.map { it.toTypeName(typeParamResolver) }
@@ -112,7 +112,11 @@ internal fun KSTypeParameter.toTypeVariableName(
         CONTRAVARIANT -> KModifier.IN
         else -> null
     }
-    return TypeVariableName(typeVarName, bounds = typeVarBounds, variance = typeVarVariance)
+    return TypeVariableName(
+        typeVarName,
+        bounds = typeVarBounds.toList(),
+        variance = typeVarVariance
+    )
 }
 
 internal fun KSTypeArgument.toTypeName(typeParamResolver: TypeParameterResolver): TypeName {

@@ -1,12 +1,14 @@
-apply plugin: 'groovy'
-apply plugin: 'java-gradle-plugin'
-
+plugins {
+    id("kotlin")
+    id("groovy")
+    id("java-gradle-plugin")
+}
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation project(":BasePlugin")
     implementation "com.android.tools.build:gradle:$apgVersion"
-    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.javassist:javassist:3.20.0-GA'
 }
 

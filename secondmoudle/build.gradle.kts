@@ -4,7 +4,6 @@ plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts 文件内定义的id
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
 }
