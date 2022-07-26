@@ -4,25 +4,21 @@ plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts.kts.kts 文件内定义的id
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.google.devtools.ksp") version "1.4.30-1.0.0-alpha04"
-    //   id("router-register")
+    id("com.google.devtools.ksp")
+    id("router-register")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(32)
 
     defaultConfig {
-        applicationId("com.kronos.router")
+        //  applicationId("com.kronos.router")
         minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
         multiDexEnabled = true
     }
     buildTypes {
         getByName("release") {
-            minifyEnabled(false)
+            // minifyEnabled(false)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
@@ -32,7 +28,6 @@ android {
     }
 
 }
-println(project.android.javaClass.canonicalName)
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     testImplementation("junit:junit:4.13.2")
@@ -53,7 +48,7 @@ dependencies {
 
     implementation("com.github.leifzhang:secondmoudle:$routerVersion")
     implementation("com.github.leifzhang:CoroutineSupport:$routerVersion")
-    kapt("com.github.leifzhang:compiler:$routerVersion")
+    // kapt("com.github.leifzhang:compiler:$routerVersion")
 
     val lifecycle_version = "2.3.1"
 
@@ -81,5 +76,5 @@ dependencies {
     // optional - ReactiveStreams support for LiveData
     implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
 
-    //  ksp(project(":kspCompiler"))
+    ksp(project(":kspCompiler"))
 }

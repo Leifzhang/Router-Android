@@ -3,23 +3,14 @@ import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("com.github.dcendents.android-maven")
-    id("com.jfrog.bintray")
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(32)
 
     defaultConfig {
         minSdkVersion(15)
-        targetSdkVersion(30)
-    }
-
-    buildTypes {
-        getByName("release") {
-            minifyEnabled(false)
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
+        targetSdkVersion(32)
     }
 }
 
