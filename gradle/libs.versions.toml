@@ -1,0 +1,58 @@
+[versions]
+router_version = "0.5.2"
+lifecycle_version = "2.5.0"
+kotlin_version = "1.7.10"
+androidGradlePlugin = "7.2.2"
+minSdk = "21"
+compileSdk = "32"
+targetSdk="32"
+
+[libraries]
+# router
+compiler = { module = "com.github.leifzhang:compiler", version.ref = "router_version" }
+annotation = { module = "com.github.leifzhang:RouterAnnotation", version.ref = "router_version" }
+routerLib = { module = "com.github.leifzhang:RouterLib", version.ref = "router_version" }
+routerCoroutine = { module = "com.github.leifzhang:CoroutineSupport", version.ref = "router_version" }
+
+# thirtyparty
+retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
+fastjson = "com.alibaba:fastjson:1.1.72.android"
+
+# lifecycle
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle_version" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle_version" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle_version" }
+lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle_version" }
+lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycle_version" }
+lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle_version" }
+lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle_version" }
+lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycle_version" }
+lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "lifecycle_version" }
+
+# androidx
+core-ktx = "androidx.core:core-ktx:1.8.0"
+appcompat = "androidx.appcompat:appcompat:1.4.2"
+recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
+activity-ktx = "androidx.activity:activity-ktx:1.3.3"
+fragment-ktx = "androidx.fragment:fragment-ktx:1.3.3"
+
+#kotlin-coroutines
+kotlinx-coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin_version" }
+kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin_version" }
+
+#compiler
+auto-service = "com.google.auto.service:auto-service:1.0"
+commons-lang3 = "org.apache.commons:commons-lang3:3.12.0"
+commons-collections4 = "org.apache.commons:commons-collections4:4.1"
+javapoet = "com.squareup:javapoet:1.13.0"
+kotlinpoet = "com.squareup:kotlinpoet:1.11.0"
+
+[bundles]
+lifecycles = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-runtime-ktx", "lifecycle-viewmodel-savedstate",
+    "lifecycle-common-java8", "lifecycle-service", "lifecycle-process", "lifecycle-reactivestreams-ktx"]
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }

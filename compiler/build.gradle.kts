@@ -7,12 +7,12 @@ plugins {
 }
 
 dependencies {
-    implementation("com.google.auto.service:auto-service:1.0-rc7")
-    implementation("com.squareup:javapoet:1.13.0")
-    implementation("org.apache.commons:commons-lang3:3.9")
-    implementation("org.apache.commons:commons-collections4:4.1")
-    implementation(project(":RouterAnnotation"))
+    implementation(libs.auto.service)
+    implementation(libs.javapoet)
+    implementation(libs.commons.lang3)
+    implementation(libs.commons.collections4)
+    implementation(libs.annotation)
     implementation(files(org.gradle.internal.jvm.Jvm.current().toolsJar))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
-    kapt("com.google.auto.service:auto-service:1.0-rc7")
+    implementation(libs.kotlin.stdlib.jdk7)
+    kapt(libs.auto.service)
 }

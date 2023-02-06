@@ -6,22 +6,22 @@ plugins {
 }
 
 android {
-    compileSdkVersion(32)
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(32)
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("release") {
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_1_8)
         targetCompatibility(JavaVersion.VERSION_1_8)
@@ -32,15 +32,13 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${getKotlinPluginVersion()}")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.annotation)
+    implementation(libs.routerLib)
+    api(libs.kotlinx.coroutines.android)
     testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
-    implementation(project(":RouterAnnotation"))
-    implementation(project(":RouterLib"))
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
-//version = PROJ_VERSION
-//group = PROJ_GROUP // Maven Group ID for the artifact，一般填你唯一的包名

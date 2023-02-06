@@ -6,17 +6,17 @@ plugins {
 }
 
 android {
-    compileSdkVersion(32)
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdkVersion(15)
-        targetSdkVersion(32)
+        minSdk=libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
     }
 }
 
 dependencies {
-    compileOnly("androidx.appcompat:appcompat:1.3.0-alpha02")
+    compileOnly(libs.core.ktx)
     compileOnly(project(":EmptyLoader"))
-    implementation(project(":RouterAnnotation"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
+    implementation(libs.annotation)
+    implementation(libs.kotlin.stdlib.jdk7)
 }
