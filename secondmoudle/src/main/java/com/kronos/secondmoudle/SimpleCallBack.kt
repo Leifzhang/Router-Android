@@ -4,6 +4,7 @@ import android.widget.Toast
 import com.kronos.router.BindRouter
 import com.kronos.router.RouterCallback
 import com.kronos.router.RouterContext
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by Leif Zhang on 2016/12/6.

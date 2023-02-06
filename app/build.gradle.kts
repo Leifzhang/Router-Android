@@ -4,17 +4,23 @@ plugins {
     // 这个 id 就是在 versionPlugin 文件夹下 build.gradle.kts.kts.kts.kts 文件内定义的id
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
     id("com.google.devtools.ksp")
     id("router-register")
 }
+apply {
+    plugin("kotlin-android")
+}
 
 android {
-    compileSdkVersion(32)
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         //  applicationId("com.kronos.router")
-        minSdkVersion(21)
+        minSdk = libs.versions.minSdk.get().toInt()
         multiDexEnabled = true
+
     }
     buildTypes {
         getByName("release") {
@@ -22,59 +28,43 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
-
+    productFlavors {
+        create("flavor1") {
+            dimension = "type"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+        }
+        create("flavor2") {
+            dimension = "type"
+        }
+    }
     buildFeatures {
         viewBinding = true
     }
-
 }
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     testImplementation("junit:junit:4.13.2")
-    implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinPluginVersion()}")
-    implementation("androidx.recyclerview:recyclerview:1.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
-    implementation("androidx.activity:activity-ktx:1.2.3")
-    implementation("androidx.fragment:fragment-ktx:1.3.3")
-    implementation("com.alibaba:fastjson:1.1.72.android")
-    implementation("androidx.core:core-ktx:1.5.0")
+    implementation(libs.core.ktx)
+
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.recyclerview)
+    implementation(libs.kotlin.stdlib.jdk7)
+    implementation(libs.activity.ktx)
+    implementation(libs.fragment.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.fastjson)
     // 如果你不要用transform
     val routerVersion = "0.5.1"
-    implementation("com.github.leifzhang:RouterAnnotation:$routerVersion")
-    implementation("com.github.leifzhang:RouterLib:$routerVersion")
+    implementation(libs.annotation)
+    implementation(libs.routerLib)
 
-    implementation("com.github.leifzhang:secondmoudle:$routerVersion")
-    implementation("com.github.leifzhang:CoroutineSupport:$routerVersion")
-    // kapt("com.github.leifzhang:compiler:$routerVersion")
-
-    val lifecycle_version = "2.3.1"
+    implementation(project(":secondmoudle"))
+    implementation(libs.routerCoroutine)
+    // kapt("libs.compiler:$routerVersion")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    // Lifecycles only (without ViewModel or LiveData)
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
-
-    // Saved state module for ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
-
-    // Annotation processor
-    //   kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
-    // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
-
-    // optional - helpers for implementing LifecycleOwner in a Service
-    implementation("androidx.lifecycle:lifecycle-service:$lifecycle_version")
-
-    // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
-    implementation("androidx.lifecycle:lifecycle-process:$lifecycle_version")
-
-    // optional - ReactiveStreams support for LiveData
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
-
+    implementation(libs.bundles.lifecycles)
+    kapt(libs.lifecycle.compiler)
     ksp(project(":kspCompiler"))
 }

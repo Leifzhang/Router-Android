@@ -1,6 +1,7 @@
 package com.kronos.sample
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.os.Bundle
 import com.kronos.router.BindRouter
 import com.kronos.sample.databinding.NewActivityBinding
@@ -22,6 +23,6 @@ class TestActivity : Activity() {
             setResult(RESULT_OK)
             finish()
         }
-
+        SharedPreferences()
     }
 }
