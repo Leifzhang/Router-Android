@@ -98,6 +98,7 @@ public class RouterProcessor extends AbstractProcessor {
     }
 
     private void initRouter(String name, RoundEnvironment roundEnv) {
+
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(BindRouter.class);
         if (elements.isEmpty()) {
             return;
